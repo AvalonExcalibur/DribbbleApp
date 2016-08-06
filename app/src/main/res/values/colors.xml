@@ -3,4 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--Colors from dribbble -->
+    <color name="color_pink">#ea4c89</color>
+    <color name="color_charcoal">#333333</color>
+    <color name="color_link_blue">#3a8bbb</color>
+    <color name="color_pro">#66cccc</color>
+    <color name="color_job_hiring">#7bbb5e</color>
+    <color name="color_teams">#00b6e3</color>
+    <color name="color_play_book">#66cc99</color>
+    <color name="color_slate">#9da3a5</color>
 </resources>

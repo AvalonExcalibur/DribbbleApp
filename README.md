@@ -4,6 +4,10 @@
 
 使用Dribbble API 设计的一个Dribbble客户端
 
+### 日程
+
+- 2016-08-06 添加了模板代码和基本的 OAuth 2.0 WebFlow验证操作
+
 
 ### Licence
 

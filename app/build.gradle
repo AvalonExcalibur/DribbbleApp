@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 24
@@ -12,6 +13,30 @@ android {
         versionName "1.0"
 
         vectorDrawables.useSupportLibrary = true
+
+        if (project.hasProperty("client_id")) {
+            buildConfigField("String", "Client_ID", project.property("client_id"))
+        } else {
+            buildConfigField("String", "Client_ID", "zxcvbnmasdfghjkl")
+        }
+
+        if (project.hasProperty("client_secret")) {
+            buildConfigField("String", "Client_Secret", project.property("client_secret"))
+        } else {
+            buildConfigField("String", "Client_Secret", "zxcvbnmasdfghjkl")
+        }
+
+        if (project.hasProperty("client_access_token")) {
+            buildConfigField("String", "Client_Access_Token", project.property("client_access_token"))
+        } else {
+            buildConfigField("String", "Client_Access_Token", "zxcvbnmasdfghjkl")
+        }
+
+        if (project.hasProperty("callback_url")) {
+            buildConfigField("String", "Callback_URL", project.property("callback_url"))
+        } else {
+            buildConfigField("String", "Callback_URL", "http://www.example.com/")
+        }
     }
     buildTypes {
         release {
@@ -21,13 +46,26 @@ android {
     }
 
     lintOptions {
-        abortOnError = false
+        abortOnError false
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //Android Support Liraries
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'
+    //View 绑定
+    compile 'com.jakewharton:butterknife:8.2.1'
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    //Material Dialogs Support
+    compile 'com.afollestad.material-dialogs:core:0.8.6.2'
+    compile 'com.afollestad.material-dialogs:commons:0.8.6.2'
+    //OkHttp
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.okio:okio:1.9.0'
+    //模板代码
+    compile project(':boilerplate')
+    //单元测试
+    testCompile 'junit:junit:4.12'
 }
