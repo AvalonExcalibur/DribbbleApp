@@ -13,27 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble;
+package io.lhyz.android.dribbble.data;
 
-import android.app.Application;
-import android.content.Context;
+import io.lhyz.android.dribbble.data.model.User;
+import retrofit2.http.GET;
+import rx.Observable;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/6.
+ * Created by lhyz on 2016/8/7.
  */
-public class DribbbleApp extends Application {
+public interface DribbbleService {
 
-    private static DribbbleApp INSTANCE;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        INSTANCE = this;
-    }
-
-    public static Context getAppContext() {
-        return INSTANCE;
-    }
+    @GET("user")
+    Observable<User> getUser();
 }

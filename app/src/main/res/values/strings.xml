@@ -8,4 +8,6 @@
 
     <string name="progress_dialog">Prepare Authenticate</string>
     <string name="please_wait">Please Waiting…</string>
+
+    <string name="no_shots">No Shots</string>
 </resources>

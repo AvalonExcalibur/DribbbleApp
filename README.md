@@ -7,6 +7,7 @@
 ### 日程
 
 - 2016-08-06 添加了模板代码和基本的 OAuth 2.0 WebFlow验证操作
+- 2016-08-07 添加了对首页的简单MVP构架，并尝试调用Dribbble User API
 
 
 ### Licence

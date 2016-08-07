@@ -13,27 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble;
+package io.lhyz.android.dribbble.di.component;
 
-import android.app.Application;
-import android.content.Context;
+import dagger.Component;
+import io.lhyz.android.dribbble.di.annotation.ForApplication;
+import io.lhyz.android.dribbble.di.module.AppModule;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/6.
+ * Created by lhyz on 2016/8/7.
  */
-public class DribbbleApp extends Application {
+@Component(modules = {AppModule.class})
+@ForApplication
+public interface AppComponent {
 
-    private static DribbbleApp INSTANCE;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        INSTANCE = this;
-    }
-
-    public static Context getAppContext() {
-        return INSTANCE;
-    }
 }

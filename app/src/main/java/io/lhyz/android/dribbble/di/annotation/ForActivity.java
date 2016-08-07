@@ -13,27 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble;
+package io.lhyz.android.dribbble.di.annotation;
 
-import android.app.Application;
-import android.content.Context;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import javax.inject.Scope;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/6.
+ * Created by lhyz on 2016/8/7.
  */
-public class DribbbleApp extends Application {
-
-    private static DribbbleApp INSTANCE;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        INSTANCE = this;
-    }
-
-    public static Context getAppContext() {
-        return INSTANCE;
-    }
+@Scope
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ForActivity {
 }

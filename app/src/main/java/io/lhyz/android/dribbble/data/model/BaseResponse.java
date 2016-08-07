@@ -13,27 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble;
-
-import android.app.Application;
-import android.content.Context;
+package io.lhyz.android.dribbble.data.model;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/6.
+ * Created by lhyz on 2016/8/7.
  */
-public class DribbbleApp extends Application {
+public abstract class BaseResponse {
+    String error;
+    String message;
 
-    private static DribbbleApp INSTANCE;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        INSTANCE = this;
+    public String getError() {
+        return error;
     }
 
-    public static Context getAppContext() {
-        return INSTANCE;
+    public String getMessage() {
+        return message;
     }
 }
