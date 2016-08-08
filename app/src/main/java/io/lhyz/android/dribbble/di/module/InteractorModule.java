@@ -13,19 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.component;
+package io.lhyz.android.dribbble.di.module;
 
-import dagger.Component;
+import dagger.Module;
+import dagger.Provides;
+import io.lhyz.android.boilerplate.data.executor.JobExecutor;
+import io.lhyz.android.boilerplate.data.executor.UIThread;
+import io.lhyz.android.boilerplate.domain.executor.PostThreadExecutor;
+import io.lhyz.android.boilerplate.domain.executor.ThreadExecutor;
 import io.lhyz.android.dribbble.di.annotation.ForApplication;
-import io.lhyz.android.dribbble.di.module.DribbbleModule;
-import io.lhyz.android.dribbble.main.MainActivity;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/8.
  */
-@ForApplication
-@Component(modules = {DribbbleModule.class})
-public interface AppComponent {
-    void inject(MainActivity mainActivity);
+@Module
+public class InteractorModule {
+
+    @Provides
+    @ForApplication
+    PostThreadExecutor providePostThreadExecutor() {
+        return new UIThread();
+    }
+
+    @Provides
+    @ForApplication
+    ThreadExecutor provideThreadExecutor() {
+        return new JobExecutor();
+    }
 }

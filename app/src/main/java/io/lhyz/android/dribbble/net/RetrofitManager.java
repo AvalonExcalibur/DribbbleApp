@@ -30,15 +30,15 @@ public class RetrofitManager {
 
     private static final String DRIBBBLE_API = "https://api.dribbble.com/v1/";
 
-    private final CookieManager mCookieManager;
+    private final InterceptorManager mInterceptorManager;
 
-    public RetrofitManager(CookieManager cookieManager) {
-        mCookieManager = cookieManager;
+    public RetrofitManager(InterceptorManager cookieManager) {
+        mInterceptorManager = cookieManager;
     }
 
     public Retrofit buildRetrofit() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(mCookieManager)
+                .addInterceptor(mInterceptorManager)
                 .build();
         return new Retrofit.Builder()
                 .baseUrl(DRIBBBLE_API)

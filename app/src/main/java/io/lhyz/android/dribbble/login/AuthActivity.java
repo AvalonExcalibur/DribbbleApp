@@ -51,11 +51,13 @@ public class AuthActivity extends BaseActivity {
     @BindView(R.id.auth_view)
     WebView mWebView;
 
+    private MaterialDialog mDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final MaterialDialog dialog = new MaterialDialog.Builder(this)
+        mDialog = new MaterialDialog.Builder(this)
                 .title(R.string.progress_dialog)
                 .content(R.string.please_wait)
                 .progress(true, 0)
@@ -65,18 +67,18 @@ public class AuthActivity extends BaseActivity {
             @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                dialog.dismiss();
                 if (url.startsWith(BuildConfig.Callback_URL)) {
                     String code = url.substring(url.indexOf("=") + 1);
                     executeAuthenticate(code);
+                } else {
+                    mDialog.dismiss();
                 }
                 return super.shouldOverrideUrlLoading(view, url);
             }
         });
 
-
         mWebView.loadUrl("https://dribbble.com/oauth/authorize?client_id=" + BuildConfig.Client_ID);
-        dialog.show();
+        mDialog.show();
     }
 
     @Override
@@ -85,6 +87,7 @@ public class AuthActivity extends BaseActivity {
     }
 
     public void executeAuthenticate(String code) {
+        mDialog.show();
         OkHttpClient client = new OkHttpClient();
 
         FormBody requestBody = new FormBody.Builder()
@@ -102,6 +105,7 @@ public class AuthActivity extends BaseActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 setResult(RESULT_CANCELED);
+                mDialog.dismiss();
                 finish();
             }
 
@@ -114,10 +118,10 @@ public class AuthActivity extends BaseActivity {
                     Intent intent = new Intent();
                     intent.setData(data);
                     setResult(RESULT_OK, intent);
+                    mDialog.dismiss();
                     finish();
                 } catch (JSONException e) {
-                    setResult(RESULT_CANCELED);
-                    finish();
+                    onFailure(call, new IOException(e.getMessage()));
                 }
             }
         });

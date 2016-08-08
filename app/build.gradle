@@ -80,8 +80,12 @@ dependencies {
     //ImageLoader
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'jp.wasabeef:glide-transformations:2.0.1'
+    //Google Guava
+    compile 'com.google.guava:guava:19.0'
     //模板代码
     compile project(':boilerplate')
+    //Crash Report
+    compile 'com.tencent.bugly:crashreport:2.2.0'
     //单元测试
     testCompile 'junit:junit:4.12'
 }

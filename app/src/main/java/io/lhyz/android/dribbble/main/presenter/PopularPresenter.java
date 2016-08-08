@@ -13,23 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.boilerplate.util.check;
+package io.lhyz.android.dribbble.main.presenter;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/6.
+ * Created by lhyz on 2016/8/8.
  */
-public class Asserts {
-
-    public static <T> T checkNotNull(T object) {
-        return checkNotNull(object,
-                object.getClass().getSimpleName() + " should not be null");
-    }
-
-    public static <T> T checkNotNull(T object, String message) {
-        if (object == null) {
-            throw new NullPointerException(message);
-        }
-        return object;
-    }
+public class PopularPresenter {
 }

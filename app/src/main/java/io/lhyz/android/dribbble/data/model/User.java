@@ -28,6 +28,8 @@ public class User extends BaseResponse {
     @SerializedName("avatar_url")
     String avatarUrl;
     String location;
+    @SerializedName("html_url")
+    String host;
 
     @SerializedName("buckets_count")
     int buckets;
@@ -105,5 +107,9 @@ public class User extends BaseResponse {
 
     public String getShots_url() {
         return shots_url;
+    }
+
+    public String getHost() {
+        return host;
     }
 }

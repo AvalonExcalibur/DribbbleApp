@@ -1,57 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="@dimen/nav_header_height"
-             android:background="?attr/colorPrimaryDark"
-             android:gravity="bottom"
-             android:orientation="vertical"
-             android:padding="16dp"
-             android:theme="@style/ThemeOverlay.AppCompat.Dark">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="192dp"
+    android:background="?attr/colorPrimaryDark"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <io.lhyz.android.boilerplate.presentation.view.SquareImageView
+    <io.lhyz.android.boilerplate.view.SquareImageView
         android:id="@+id/img_avatar"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:contentDescription="@string/app_name"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:paddingTop="16dp"
         app:srcCompat="@drawable/logo"/>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_host"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_vertical"
-        android:orientation="horizontal">
+        android:layout_alignLeft="@id/img_avatar"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="#8affffff"
+        android:textSize="14sp"
+        tools:text="@string/app_name"/>
 
-        <TextView
-            android:id="@+id/tv_followers"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            tools:text="@string/app_name"/>
-
-        <TextView
-            android:id="@+id/tv_followings"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            tools:text="@string/app_name"/>
-
-        <TextView
-            android:id="@+id/tv_likes"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            tools:text="@string/app_name"/>
-
-    </LinearLayout>
-
-
-</FrameLayout>
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tv_host"
+        android:layout_alignLeft="@id/img_avatar"
+        android:layout_alignStart="@id/img_avatar"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingBottom="16dp"
+        android:singleLine="true"
+        android:textColor="#deffffff"
+        android:textSize="18sp"
+        tools:text="@string/app_name"/>
+</RelativeLayout>

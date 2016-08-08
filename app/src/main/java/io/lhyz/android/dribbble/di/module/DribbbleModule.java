@@ -16,11 +16,30 @@
 package io.lhyz.android.dribbble.di.module;
 
 import dagger.Module;
+import dagger.Provides;
+import io.lhyz.android.dribbble.data.DribbbleService;
+import io.lhyz.android.dribbble.di.annotation.ForApplication;
+import io.lhyz.android.dribbble.net.InterceptorManager;
+import io.lhyz.android.dribbble.net.RetrofitManager;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/7.
  */
 @Module
-public class AppModule {
+public class DribbbleModule {
+
+    private final String accessToken;
+
+    public DribbbleModule(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    @Provides
+    @ForApplication
+    DribbbleService proDribbbleService() {
+        InterceptorManager cookieManager = new InterceptorManager(accessToken);
+        RetrofitManager retrofitManager = new RetrofitManager(cookieManager);
+        return retrofitManager.buildRetrofit().create(DribbbleService.class);
+    }
 }

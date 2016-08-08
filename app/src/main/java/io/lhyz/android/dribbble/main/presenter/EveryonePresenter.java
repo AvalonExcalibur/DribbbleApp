@@ -13,17 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.boilerplate.data.cache;
+package io.lhyz.android.dribbble.main.presenter;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/6.
- * <p>
- * 缓存接口
+ * Created by lhyz on 2016/8/8.
  */
-public interface Cache<K, V> {
-
-    void put(K key, V value);
-
-    V get(K key);
+public class EveryonePresenter {
 }

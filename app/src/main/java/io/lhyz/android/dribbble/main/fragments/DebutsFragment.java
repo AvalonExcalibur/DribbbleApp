@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.component;
+package io.lhyz.android.dribbble.main.fragments;
 
-import dagger.Component;
-import io.lhyz.android.dribbble.di.annotation.ForApplication;
-import io.lhyz.android.dribbble.di.module.DribbbleModule;
-import io.lhyz.android.dribbble.main.MainActivity;
+import io.lhyz.android.dribbble.base.BaseFragment;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/8.
  */
-@ForApplication
-@Component(modules = {DribbbleModule.class})
-public interface AppComponent {
-    void inject(MainActivity mainActivity);
+public class DebutsFragment extends BaseFragment {
+    @Override
+    protected int getLayout() {
+        return 0;
+    }
 }

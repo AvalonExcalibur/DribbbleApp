@@ -18,6 +18,8 @@ package io.lhyz.android.dribbble;
 import android.app.Application;
 import android.content.Context;
 
+import com.tencent.bugly.crashreport.CrashReport;
+
 /**
  * hello,android
  * Created by lhyz on 2016/8/6.
@@ -29,8 +31,9 @@ public class DribbbleApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         INSTANCE = this;
+
+        CrashReport.initCrashReport(getApplicationContext(), "900046206", false);
     }
 
     public static Context getAppContext() {

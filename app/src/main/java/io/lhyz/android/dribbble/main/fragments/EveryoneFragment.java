@@ -13,12 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.boilerplate.data.repository;
+package io.lhyz.android.dribbble.main.fragments;
+
+import io.lhyz.android.dribbble.base.BaseFragment;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/6.
+ * Created by lhyz on 2016/8/8.
  */
-public interface Repository {
-
+public class EveryoneFragment extends BaseFragment {
+    @Override
+    protected int getLayout() {
+        return 0;
+    }
 }

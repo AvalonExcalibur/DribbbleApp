@@ -13,19 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.component;
-
-import dagger.Component;
-import io.lhyz.android.dribbble.di.annotation.ForApplication;
-import io.lhyz.android.dribbble.di.module.DribbbleModule;
-import io.lhyz.android.dribbble.main.MainActivity;
+package io.lhyz.android.dribbble.main.presenter;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/8.
  */
-@ForApplication
-@Component(modules = {DribbbleModule.class})
-public interface AppComponent {
-    void inject(MainActivity mainActivity);
+public class DebutsPresenter {
 }

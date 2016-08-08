@@ -27,11 +27,11 @@ import okhttp3.Response;
  * <p>
  * 构造请求header，并入OkHttpClient
  */
-public class CookieManager implements Interceptor {
+public class InterceptorManager implements Interceptor {
 
     private final String accessToken;
 
-    public CookieManager(String accessToken) {
+    public InterceptorManager(String accessToken) {
         this.accessToken = accessToken;
     }
 

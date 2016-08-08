@@ -18,18 +18,19 @@ package io.lhyz.android.boilerplate.data.executor;
 import android.support.annotation.NonNull;
 
 import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import io.lhyz.android.boilerplate.domain.executor.ThreadExecutor;
+
 /**
  * hello,android
  * Created by lhyz on 2016/8/6.
  */
-public class JobExecutor implements Executor {
+public class JobExecutor implements ThreadExecutor {
 
     private static final int INITIAL_POOL_SIZE = 3;
     private static final int MAX_POOL_SIZE = 5;

@@ -24,7 +24,9 @@ import android.content.SharedPreferences;
  */
 public class AppPreference {
     private static final String SHARED_NAME = "dribbble_app_conf";
+
     private static final String KEY_ACCESS_TOKEN = "access_token";
+    private static final String KEY_FIRST_START = "first_start";
 
     private SharedPreferences mSharedPreferences;
 
@@ -49,5 +51,15 @@ public class AppPreference {
 
     public String readToken() {
         return mSharedPreferences.getString(KEY_ACCESS_TOKEN, null);
+    }
+
+    public boolean isFirstStart() {
+        boolean isFirstStart = mSharedPreferences.getBoolean(KEY_FIRST_START, true);
+        if (isFirstStart) {
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putBoolean(KEY_FIRST_START, false);
+            editor.apply();
+        }
+        return isFirstStart;
     }
 }

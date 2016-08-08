@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.boilerplate.util.date;
+package io.lhyz.android.dribbble.main.fragments;
 
-import java.util.Date;
+import io.lhyz.android.dribbble.base.BaseFragment;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/6.
+ * Created by lhyz on 2016/8/8.
  */
-public class FormatTool {
-    public static String getGMT() {
-        return new Date().toString();
+public class PopularFragment extends BaseFragment {
+    @Override
+    protected int getLayout() {
+        return 0;
     }
 }

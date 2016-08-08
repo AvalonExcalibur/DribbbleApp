@@ -13,20 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.annotation;
+package io.lhyz.android.dribbble.main.fragments;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-import javax.inject.Scope;
+import io.lhyz.android.dribbble.base.BaseFragment;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/8.
  */
-@Scope
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ForActivity {
+public class FollowingsFragment extends BaseFragment {
+
+    @Override
+    protected int getLayout() {
+        return 0;
+    }
 }

@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.module;
-
-import dagger.Module;
+package io.lhyz.android.dribbble.main.presenter;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/8.
  */
-@Module
-public class RetrofitModule {
-
+public class FollowingsPresenter {
 }
