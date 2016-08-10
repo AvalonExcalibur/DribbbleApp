@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -15,18 +17,23 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import javax.inject.Inject;
+import java.util.ArrayList;
 
 import butterknife.BindView;
-import io.lhyz.android.boilerplate.domain.interactor.DefaultSubscriber;
+import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
 import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.AppStart;
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseActivity;
 import io.lhyz.android.dribbble.data.DribbbleService;
 import io.lhyz.android.dribbble.data.model.User;
-import io.lhyz.android.dribbble.di.component.DaggerAppComponent;
-import io.lhyz.android.dribbble.di.module.DribbbleModule;
+import io.lhyz.android.dribbble.main.debut.DebutFragment;
+import io.lhyz.android.dribbble.main.playoffs.PlayoffsFragment;
+import io.lhyz.android.dribbble.main.popular.PopularFragment;
+import io.lhyz.android.dribbble.main.popular.PopularPresenter;
+import io.lhyz.android.dribbble.main.recent.RecentFragment;
+import io.lhyz.android.dribbble.main.team.TeamFragment;
+import io.lhyz.android.dribbble.net.ServiceCreator;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -40,8 +47,11 @@ public class MainActivity extends BaseActivity
     DrawerLayout mDrawerLayout;
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
+    @BindView(R.id.tab_layout)
+    TabLayout mTabLayout;
+    @BindView(R.id.view_pager)
+    ViewPager mViewPager;
 
-    @Inject
     DribbbleService mDribbbleService;
 
     @Override
@@ -52,7 +62,7 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initInjector();
+        initData();
 
         setSupportActionBar(mToolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -60,6 +70,21 @@ public class MainActivity extends BaseActivity
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         mNavigationView.setNavigationItemSelectedListener(this);
+
+        ArrayList<TabInfo> tabInfoArrayList = new ArrayList<>();
+
+        PopularFragment popularFragment = PopularFragment.newInstance();
+        new PopularPresenter(popularFragment);
+        tabInfoArrayList.add(new TabInfo(popularFragment, "Popular"));
+
+        tabInfoArrayList.add(new TabInfo(RecentFragment.newInstance(), "Recent"));
+        tabInfoArrayList.add(new TabInfo(DebutFragment.newInstance(), "Debuts"));
+        tabInfoArrayList.add(new TabInfo(TeamFragment.newInstance(), "Teams"));
+        tabInfoArrayList.add(new TabInfo(PlayoffsFragment.newInstance(), "Playoffs"));
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), tabInfoArrayList);
+        mViewPager.setAdapter(adapter);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
@@ -83,16 +108,14 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    private void initInjector() {
+    private void initData() {
         final String token = AppPreference.getInstance().readToken();
+
         if (token == null) {
             startActivity(new Intent(this, AppStart.class));
             finish();
         } else {
-            DaggerAppComponent.builder()
-                    .dribbbleModule(new DribbbleModule(token))
-                    .build()
-                    .inject(this);
+            mDribbbleService = new ServiceCreator(token).createService();
         }
     }
 
@@ -133,6 +156,6 @@ public class MainActivity extends BaseActivity
     }
 
     private void showError(String message) {
-        Snackbar.make(findViewById(R.id.main_container), message, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(findViewById(R.id.view_pager), message, Snackbar.LENGTH_LONG).show();
     }
 }

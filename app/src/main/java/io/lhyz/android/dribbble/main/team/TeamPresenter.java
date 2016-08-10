@@ -13,21 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.component;
-
-import javax.inject.Singleton;
-
-import dagger.Component;
-import io.lhyz.android.dribbble.di.module.AppModule;
-import io.lhyz.android.dribbble.di.module.InteractorModule;
-import io.lhyz.android.dribbble.main.popular.PopularPresenter;
+package io.lhyz.android.dribbble.main.team;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/9.
  */
-@Singleton
-@Component(modules = {AppModule.class, InteractorModule.class})
-public interface AppComponent {
-    void inject(PopularPresenter presenter);
+public class TeamPresenter {
 }

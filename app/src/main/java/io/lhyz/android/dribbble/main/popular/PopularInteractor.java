@@ -13,33 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.module;
+package io.lhyz.android.dribbble.main.popular;
 
 import java.util.List;
 
-import javax.inject.Singleton;
+import javax.inject.Inject;
 
-import dagger.Module;
-import dagger.Provides;
 import io.lhyz.android.boilerplate.executor.PostThreadExecutor;
 import io.lhyz.android.boilerplate.executor.ThreadExecutor;
 import io.lhyz.android.boilerplate.interactor.Interactor;
+import io.lhyz.android.dribbble.AppPreference;
+import io.lhyz.android.dribbble.data.DribbbleService;
 import io.lhyz.android.dribbble.data.model.Shot;
-import io.lhyz.android.dribbble.di.annotation.Popular;
-import io.lhyz.android.dribbble.main.popular.PopularInteractor;
+import io.lhyz.android.dribbble.net.ServiceCreator;
+import rx.Observable;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/8.
+ * Created by lhyz on 2016/8/10.
  */
-@Module
-public class InteractorModule {
+public class PopularInteractor extends Interactor<List<Shot>> {
 
-    @Popular
-    @Singleton
-    @Provides
-    Interactor<List<Shot>> providePopularInteractor(PostThreadExecutor postThreadExecutor,
-                                                    ThreadExecutor threadExecutor) {
-        return new PopularInteractor(threadExecutor, postThreadExecutor);
+    DribbbleService mDribbbleService;
+
+    @Inject
+    public PopularInteractor(ThreadExecutor threadExecutor,
+                             PostThreadExecutor postThreadExecutor) {
+        super(threadExecutor, postThreadExecutor);
+
+        mDribbbleService = new ServiceCreator(AppPreference.getInstance().readToken())
+                .createService();
+    }
+
+    @Override
+    protected Observable<List<Shot>> buildObservable() {
+        return mDribbbleService.getPopular();
     }
 }

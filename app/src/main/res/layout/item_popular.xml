@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<io.lhyz.android.dribbble.view.FixedRatioCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/img_art"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/app_name"
+        app:srcCompat="@drawable/logo"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/color_charcoal">
+
+        <io.lhyz.android.boilerplate.view.SquareImageView
+            android:id="@+id/img_author"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"/>
+
+        <io.lhyz.android.boilerplate.view.RobotoTextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:layout_toStartOf="@id/img_author"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingLeft="8dp"
+            android:text="@string/app_name"
+            android:textAppearance="@style/NormalTextAppearance"/>
+    </RelativeLayout>
+
+</io.lhyz.android.dribbble.view.FixedRatioCardView>

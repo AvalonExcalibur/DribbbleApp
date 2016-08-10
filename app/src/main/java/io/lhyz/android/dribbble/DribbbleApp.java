@@ -18,7 +18,11 @@ package io.lhyz.android.dribbble;
 import android.app.Application;
 import android.content.Context;
 
+import com.bumptech.glide.request.target.ViewTarget;
 import com.tencent.bugly.crashreport.CrashReport;
+
+import io.lhyz.android.dribbble.di.component.AppComponent;
+import io.lhyz.android.dribbble.di.component.DaggerAppComponent;
 
 /**
  * hello,android
@@ -27,16 +31,28 @@ import com.tencent.bugly.crashreport.CrashReport;
 public class DribbbleApp extends Application {
 
     private static DribbbleApp INSTANCE;
+    private static AppComponent sAppComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        ViewTarget.setTagId(R.id.glide_tag);
+
         INSTANCE = this;
+        sAppComponent = DaggerAppComponent.create();
 
         CrashReport.initCrashReport(getApplicationContext(), "900046206", false);
     }
 
-    public static Context getAppContext() {
+    public static DribbbleApp getApp() {
         return INSTANCE;
+    }
+
+    public static Context getAppContext() {
+        return getApp();
+    }
+
+    public static AppComponent getAppComponent() {
+        return sAppComponent;
     }
 }

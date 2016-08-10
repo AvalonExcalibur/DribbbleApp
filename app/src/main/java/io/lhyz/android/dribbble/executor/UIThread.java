@@ -13,21 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.component;
+package io.lhyz.android.dribbble.executor;
 
-import javax.inject.Singleton;
+import javax.inject.Inject;
 
-import dagger.Component;
-import io.lhyz.android.dribbble.di.module.AppModule;
-import io.lhyz.android.dribbble.di.module.InteractorModule;
-import io.lhyz.android.dribbble.main.popular.PopularPresenter;
+import io.lhyz.android.boilerplate.executor.PostThreadExecutor;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/6.
  */
-@Singleton
-@Component(modules = {AppModule.class, InteractorModule.class})
-public interface AppComponent {
-    void inject(PopularPresenter presenter);
+public class UIThread implements PostThreadExecutor {
+
+    @Inject
+    public UIThread() {
+    }
+
+    @Override
+    public Scheduler getScheduler() {
+        return AndroidSchedulers.mainThread();
+    }
 }

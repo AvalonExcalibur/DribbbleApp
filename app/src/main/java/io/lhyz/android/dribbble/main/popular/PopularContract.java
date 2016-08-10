@@ -13,21 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.component;
+package io.lhyz.android.dribbble.main.popular;
 
-import javax.inject.Singleton;
+import java.util.List;
 
-import dagger.Component;
-import io.lhyz.android.dribbble.di.module.AppModule;
-import io.lhyz.android.dribbble.di.module.InteractorModule;
-import io.lhyz.android.dribbble.main.popular.PopularPresenter;
+import io.lhyz.android.dribbble.base.BasePresenter;
+import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.main.LoadView;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/10.
  */
-@Singleton
-@Component(modules = {AppModule.class, InteractorModule.class})
-public interface AppComponent {
-    void inject(PopularPresenter presenter);
+public class PopularContract {
+    interface View extends LoadView<Presenter> {
+        void showPopular(List<Shot> shots);
+    }
+
+    interface Presenter extends BasePresenter {
+        void loadPopular();
+    }
 }

@@ -13,21 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.component;
+package io.lhyz.android.dribbble.main;
 
-import javax.inject.Singleton;
-
-import dagger.Component;
-import io.lhyz.android.dribbble.di.module.AppModule;
-import io.lhyz.android.dribbble.di.module.InteractorModule;
-import io.lhyz.android.dribbble.main.popular.PopularPresenter;
+import io.lhyz.android.dribbble.base.BasePresenter;
+import io.lhyz.android.dribbble.base.BaseView;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/10.
  */
-@Singleton
-@Component(modules = {AppModule.class, InteractorModule.class})
-public interface AppComponent {
-    void inject(PopularPresenter presenter);
+public interface LoadView<T extends BasePresenter> extends BaseView<T> {
+
+    void showLoading();
+
+    void hideLoading();
+
+    void showEmptyView();
+
+    void showError(String message);
 }

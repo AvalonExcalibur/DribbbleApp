@@ -13,21 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.component;
+package io.lhyz.android.boilerplate.executor;
 
-import javax.inject.Singleton;
-
-import dagger.Component;
-import io.lhyz.android.dribbble.di.module.AppModule;
-import io.lhyz.android.dribbble.di.module.InteractorModule;
-import io.lhyz.android.dribbble.main.popular.PopularPresenter;
+import java.util.concurrent.Executor;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/6.
+ * <p/>
+ * 线程执行器，在后台线程（池）上操作
  */
-@Singleton
-@Component(modules = {AppModule.class, InteractorModule.class})
-public interface AppComponent {
-    void inject(PopularPresenter presenter);
+public interface ThreadExecutor extends Executor {
 }

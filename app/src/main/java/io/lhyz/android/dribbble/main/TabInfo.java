@@ -13,21 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.component;
+package io.lhyz.android.dribbble.main;
 
-import javax.inject.Singleton;
-
-import dagger.Component;
-import io.lhyz.android.dribbble.di.module.AppModule;
-import io.lhyz.android.dribbble.di.module.InteractorModule;
-import io.lhyz.android.dribbble.main.popular.PopularPresenter;
+import android.support.v4.app.Fragment;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/9.
  */
-@Singleton
-@Component(modules = {AppModule.class, InteractorModule.class})
-public interface AppComponent {
-    void inject(PopularPresenter presenter);
+public class TabInfo {
+    Fragment mFragment;
+    String mTitle;
+
+    public TabInfo(Fragment fragment, String title) {
+        mFragment = fragment;
+        mTitle = title;
+    }
+
+    public Fragment getFragment() {
+        return mFragment;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
 }

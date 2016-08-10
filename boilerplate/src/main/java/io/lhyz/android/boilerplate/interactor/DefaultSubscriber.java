@@ -13,21 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.component;
+package io.lhyz.android.boilerplate.interactor;
 
-import javax.inject.Singleton;
-
-import dagger.Component;
-import io.lhyz.android.dribbble.di.module.AppModule;
-import io.lhyz.android.dribbble.di.module.InteractorModule;
-import io.lhyz.android.dribbble.main.popular.PopularPresenter;
+import rx.Subscriber;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/6.
+ * <p/>
+ * 实现一个默认的Subscriber，并更名onNext为onSuccess
+ * <p/>
+ * TODO 可能有问题，暂时实现先如此
  */
-@Singleton
-@Component(modules = {AppModule.class, InteractorModule.class})
-public interface AppComponent {
-    void inject(PopularPresenter presenter);
+public class DefaultSubscriber<T> extends Subscriber<T> {
+    @Override
+    public void onCompleted() {
+        //Pass
+    }
+
+    @Override
+    public void onNext(T t) {
+        onSuccess(t);
+    }
+
+    @Override
+    public void onError(Throwable e) {
+
+    }
+
+    public void onSuccess(T result) {
+
+    }
 }

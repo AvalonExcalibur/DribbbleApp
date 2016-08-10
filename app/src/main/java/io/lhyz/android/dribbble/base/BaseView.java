@@ -19,6 +19,6 @@ package io.lhyz.android.dribbble.base;
  * hello,android
  * Created by lhyz on 2016/8/7.
  */
-public interface BaseView<T> {
+public interface BaseView<T extends BasePresenter> {
     void setPresenter(T presenter);
 }

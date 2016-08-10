@@ -15,6 +15,9 @@
  */
 package io.lhyz.android.dribbble.data;
 
+import java.util.List;
+
+import io.lhyz.android.dribbble.data.model.Shot;
 import io.lhyz.android.dribbble.data.model.User;
 import retrofit2.http.GET;
 import rx.Observable;
@@ -27,4 +30,24 @@ public interface DribbbleService {
 
     @GET("user")
     Observable<User> getUser();
+
+    //默认是popular
+    @GET("shots")
+    Observable<List<Shot>> getPopular();
+
+    //参数是sort=recent
+    @GET("shots?sort=recent")
+    Observable<List<Shot>> getRecent();
+
+    //参数list=debuts
+    @GET("shots?list=debuts")
+    Observable<List<Shot>> getDebuts();
+
+    //参数是sort=recent
+    @GET("shots?list=teams")
+    Observable<List<Shot>> getTeams();
+
+    //参数是sort=recent
+    @GET("shots?list=playoffs")
+    Observable<List<Shot>> getPlayoffs();
 }

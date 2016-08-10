@@ -15,31 +15,30 @@
  */
 package io.lhyz.android.dribbble.di.module;
 
-import java.util.List;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.lhyz.android.dribbble.executor.JobExecutor;
+import io.lhyz.android.dribbble.executor.UIThread;
 import io.lhyz.android.boilerplate.executor.PostThreadExecutor;
 import io.lhyz.android.boilerplate.executor.ThreadExecutor;
-import io.lhyz.android.boilerplate.interactor.Interactor;
-import io.lhyz.android.dribbble.data.model.Shot;
-import io.lhyz.android.dribbble.di.annotation.Popular;
-import io.lhyz.android.dribbble.main.popular.PopularInteractor;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/8.
+ * Created by lhyz on 2016/8/10.
  */
 @Module
-public class InteractorModule {
-
-    @Popular
-    @Singleton
+public class AppModule {
     @Provides
-    Interactor<List<Shot>> providePopularInteractor(PostThreadExecutor postThreadExecutor,
-                                                    ThreadExecutor threadExecutor) {
-        return new PopularInteractor(threadExecutor, postThreadExecutor);
+    @Singleton
+    PostThreadExecutor providePostThreadExecutor(UIThread uiThread) {
+        return uiThread;
+    }
+
+    @Provides
+    @Singleton
+    ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
+        return jobExecutor;
     }
 }

@@ -13,21 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.component;
+package io.lhyz.android.dribbble.net;
 
-import javax.inject.Singleton;
-
-import dagger.Component;
-import io.lhyz.android.dribbble.di.module.AppModule;
-import io.lhyz.android.dribbble.di.module.InteractorModule;
-import io.lhyz.android.dribbble.main.popular.PopularPresenter;
+import io.lhyz.android.dribbble.data.DribbbleService;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/10.
  */
-@Singleton
-@Component(modules = {AppModule.class, InteractorModule.class})
-public interface AppComponent {
-    void inject(PopularPresenter presenter);
+public class ServiceCreator {
+    final String token;
+
+    public ServiceCreator(String token) {
+        this.token = token;
+    }
+
+    public DribbbleService createService() {
+        InterceptorManager interceptorManager = new InterceptorManager(token);
+        RetrofitManager retrofitManager = new RetrofitManager(interceptorManager);
+        return retrofitManager.buildRetrofit().create(DribbbleService.class);
+    }
 }

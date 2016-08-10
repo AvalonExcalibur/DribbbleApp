@@ -8,6 +8,7 @@
 
 - 2016-08-06 添加了模板代码和基本的 OAuth 2.0 WebFlow验证操作
 - 2016-08-07 添加了对首页的简单MVP构架，并尝试调用Dribbble User API
+- 2016-08-10 重建MVP+Clean架构，引入Dagger2和Interactor（UseCase）并查询到部分API用法
 
 
 ### Licence
