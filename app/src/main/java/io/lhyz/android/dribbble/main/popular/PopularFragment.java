@@ -180,19 +180,14 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
             final int pos = holder.getAdapterPosition();
             final Shot shot = mShots.get(pos);
 
+            //Glide默认解决了列表重用下的ImageView设置混乱
             final ImageView imgArt = holder.imgArt;
-            imgArt.setTag(shot.getImages().getNormal());
-            if (imgArt.getTag() != null && imgArt.getTag().equals(shot.getImages().getNormal())) {
-                Glide.with(mContext).load(shot.getImages().getNormal()).into(imgArt);
-            }
+            Glide.with(mContext).load(shot.getImages().getNormal()).into(imgArt);
 
             final ImageView imgAuthor = holder.imgAuthor;
-            imgAuthor.setTag(shot.getUser().getAvatarUrl());
-            if (imgAuthor.getTag() != null && imgAuthor.getTag().equals(shot.getUser().getAvatarUrl())) {
-                Glide.with(mContext).load(shot.getUser().getAvatarUrl())
-                        .bitmapTransform(new CropCircleTransformation(mContext))
-                        .into(imgAuthor);
-            }
+            Glide.with(mContext).load(shot.getUser().getAvatarUrl())
+                    .bitmapTransform(new CropCircleTransformation(mContext))
+                    .into(imgAuthor);
 
             holder.tvName.setText(shot.getUser().getName());
 

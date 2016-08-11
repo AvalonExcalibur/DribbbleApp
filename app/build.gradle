@@ -26,27 +26,18 @@ android {
             buildConfigField("String", "Client_Secret", "zxcvbnmasdfghjkl")
         }
 
-        if (project.hasProperty("client_access_token")) {
-            buildConfigField("String", "Client_Access_Token", project.property("client_access_token"))
-        } else {
-            buildConfigField("String", "Client_Access_Token", "zxcvbnmasdfghjkl")
-        }
-
         if (project.hasProperty("callback_url")) {
             buildConfigField("String", "Callback_URL", project.property("callback_url"))
         } else {
-            buildConfigField("String", "Callback_URL", "http://www.example.com/")
+            buildConfigField("String", "Callback_URL", "https://www.example.com/")
         }
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    lintOptions {
-        abortOnError false
     }
 }
 
@@ -86,8 +77,6 @@ dependencies {
     compile 'com.google.guava:guava:19.0'
     //模板代码
     compile project(':boilerplate')
-    //Crash Report
-    compile 'com.tencent.bugly:crashreport:2.2.0'
     //单元测试
     testCompile 'junit:junit:4.12'
 }
