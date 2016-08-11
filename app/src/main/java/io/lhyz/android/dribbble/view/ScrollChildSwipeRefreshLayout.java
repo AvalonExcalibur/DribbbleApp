@@ -16,30 +16,36 @@
 package io.lhyz.android.dribbble.view;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
+import android.view.View;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/9.
+ * Created by lhyz on 2016/8/11.
  */
-public class FixedRatioCardView extends CardView {
+public class ScrollChildSwipeRefreshLayout extends SwipeRefreshLayout {
 
-    public FixedRatioCardView(Context context) {
+    private View mScrollUpChild;
+
+    public ScrollChildSwipeRefreshLayout(Context context) {
         super(context);
     }
 
-    public FixedRatioCardView(Context context, AttributeSet attrs) {
+    public ScrollChildSwipeRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public FixedRatioCardView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    @Override
+    public boolean canChildScrollUp() {
+        if (mScrollUpChild != null) {
+            return ViewCompat.canScrollVertically(mScrollUpChild, -1);
+        }
+        return super.canChildScrollUp();
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getMeasuredWidth(), getMeasuredWidth() * 3 / 4);
+    public void setScrollUpChild(View view) {
+        mScrollUpChild = view;
     }
 }

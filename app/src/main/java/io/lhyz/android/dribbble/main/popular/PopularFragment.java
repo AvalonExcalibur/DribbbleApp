@@ -40,7 +40,10 @@ import butterknife.BindView;
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseFragment;
 import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.view.ScrollChildSwipeRefreshLayout;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * hello,android
@@ -48,7 +51,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class PopularFragment extends BaseFragment implements PopularContract.View {
     @BindView(R.id.refresh_layout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    ScrollChildSwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycler_list)
     RecyclerView mRecyclerView;
     @BindView(R.id.no_items)
@@ -79,6 +82,8 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
         mAdapter = new PopularAdapter(getContext(), mShotItemListener);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
+
+        mSwipeRefreshLayout.setScrollUpChild(mRecyclerView);
     }
 
     @Override
@@ -127,7 +132,7 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
 
     @Override
     public void setPresenter(PopularContract.Presenter presenter) {
-        mPresenter = presenter;
+        mPresenter = checkNotNull(presenter);
     }
 
     private static class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.PopularViewHolder> {
@@ -147,11 +152,9 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
             ImageView imgArt;
             ImageView imgAuthor;
             TextView tvName;
-            View itemView;
 
             public PopularViewHolder(View itemView) {
                 super(itemView);
-                this.itemView = itemView;
                 imgArt = (ImageView) itemView.findViewById(R.id.img_art);
                 imgAuthor = (ImageView) itemView.findViewById(R.id.img_author);
                 tvName = (TextView) itemView.findViewById(R.id.tv_name);
@@ -178,9 +181,9 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
             final Shot shot = mShots.get(pos);
 
             final ImageView imgArt = holder.imgArt;
-            imgArt.setTag(shot.getImages().getTeaser());
-            if (imgArt.getTag() != null && imgArt.getTag().equals(shot.getImages().getTeaser())) {
-                Glide.with(mContext).load(shot.getImages().getTeaser()).into(imgArt);
+            imgArt.setTag(shot.getImages().getNormal());
+            if (imgArt.getTag() != null && imgArt.getTag().equals(shot.getImages().getNormal())) {
+                Glide.with(mContext).load(shot.getImages().getNormal()).into(imgArt);
             }
 
             final ImageView imgAuthor = holder.imgAuthor;
@@ -193,7 +196,7 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
 
             holder.tvName.setText(shot.getUser().getName());
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            imgArt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mShotItemListener.onShotClick(shot);

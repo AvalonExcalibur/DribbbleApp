@@ -45,6 +45,7 @@ public class PopularPresenter implements PopularContract.Presenter {
     @Override
     public void start() {
         initInjector();
+
         loadPopular();
     }
 
@@ -55,22 +56,18 @@ public class PopularPresenter implements PopularContract.Presenter {
     @Override
     public void loadPopular() {
         mView.showLoading();
-        mInteractor.execute(mPopularSubscriber);
+        mInteractor.execute(new DefaultSubscriber<List<Shot>>() {
+            @Override
+            public void onSuccess(List<Shot> result) {
+                mView.hideLoading();
+                mView.showPopular(result);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.hideLoading();
+                mView.showEmptyView();
+            }
+        });
     }
-
-    private final DefaultSubscriber<List<Shot>> mPopularSubscriber = new DefaultSubscriber<List<Shot>>() {
-        @Override
-        public void onSuccess(List<Shot> result) {
-            mView.hideLoading();
-            mView.showPopular(result);
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            mView.hideLoading();
-            mView.showEmptyView();
-            mView.showError(e.getMessage());
-        }
-    };
-
 }
