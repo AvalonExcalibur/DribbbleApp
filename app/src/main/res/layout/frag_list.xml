@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.lhyz.android.dribbble.view.ScrollChildSwipeRefreshLayout
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
@@ -39,4 +39,4 @@
         </LinearLayout>
     </RelativeLayout>
 
-</io.lhyz.android.dribbble.view.ScrollChildSwipeRefreshLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

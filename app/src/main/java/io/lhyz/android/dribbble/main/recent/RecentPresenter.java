@@ -15,9 +15,59 @@
  */
 package io.lhyz.android.dribbble.main.recent;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
+import io.lhyz.android.boilerplate.interactor.Interactor;
+import io.lhyz.android.dribbble.DribbbleApp;
+import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.di.annotation.Recent;
+
 /**
  * hello,android
  * Created by lhyz on 2016/8/9.
  */
-public class RecentPresenter {
+public class RecentPresenter implements RecentContract.Presenter {
+
+    RecentContract.View mView;
+
+    @Inject
+    @Recent
+    Interactor<List<Shot>> mInteractor;
+
+    public RecentPresenter(RecentContract.View view) {
+        mView = view;
+        mView.setPresenter(this);
+    }
+
+    @Override
+    public void loadRecent() {
+        mView.showLoading();
+        mInteractor.execute(new DefaultSubscriber<List<Shot>>() {
+            @Override
+            public void onSuccess(List<Shot> result) {
+                mView.hideLoading();
+                mView.showRecent(result);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.hideLoading();
+                mView.showEmptyView();
+            }
+        });
+    }
+
+    @Override
+    public void start() {
+        initInjector();
+
+        loadRecent();
+    }
+
+    void initInjector() {
+        DribbbleApp.getAppComponent().inject(this);
+    }
 }

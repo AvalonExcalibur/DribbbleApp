@@ -15,9 +15,59 @@
  */
 package io.lhyz.android.dribbble.main.debut;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
+import io.lhyz.android.boilerplate.interactor.Interactor;
+import io.lhyz.android.dribbble.DribbbleApp;
+import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.di.annotation.Debut;
+
 /**
  * hello,android
  * Created by lhyz on 2016/8/8.
  */
-public class DebutPresenter {
+public class DebutPresenter implements DebutContract.Presenter {
+
+    DebutContract.View mView;
+
+    @Inject
+    @Debut
+    Interactor<List<Shot>> mInteractor;
+
+    public DebutPresenter(DebutContract.View view) {
+        mView = view;
+        mView.setPresenter(this);
+    }
+
+    @Override
+    public void loadDebut() {
+        mView.showLoading();
+        mInteractor.execute(new DefaultSubscriber<List<Shot>>() {
+            @Override
+            public void onSuccess(List<Shot> result) {
+                mView.hideLoading();
+                mView.showDebut(result);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.hideLoading();
+                mView.showEmptyView();
+            }
+        });
+    }
+
+    @Override
+    public void start() {
+        initInjector();
+        loadDebut();
+    }
+
+    void initInjector() {
+        DribbbleApp.getAppComponent().inject(this);
+    }
+
 }

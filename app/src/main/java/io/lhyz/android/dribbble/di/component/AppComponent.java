@@ -20,7 +20,11 @@ import javax.inject.Singleton;
 import dagger.Component;
 import io.lhyz.android.dribbble.di.module.AppModule;
 import io.lhyz.android.dribbble.di.module.InteractorModule;
+import io.lhyz.android.dribbble.main.debut.DebutPresenter;
+import io.lhyz.android.dribbble.main.playoffs.PlayoffsPresenter;
 import io.lhyz.android.dribbble.main.popular.PopularPresenter;
+import io.lhyz.android.dribbble.main.recent.RecentPresenter;
+import io.lhyz.android.dribbble.main.team.TeamPresenter;
 
 /**
  * hello,android
@@ -30,4 +34,12 @@ import io.lhyz.android.dribbble.main.popular.PopularPresenter;
 @Component(modules = {AppModule.class, InteractorModule.class})
 public interface AppComponent {
     void inject(PopularPresenter presenter);
+
+    void inject(DebutPresenter presenter);
+
+    void inject(PlayoffsPresenter presenter);
+
+    void inject(RecentPresenter presenter);
+
+    void inject(TeamPresenter presenter);
 }

@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data.model;
+package io.lhyz.android.dribbble.di.annotation;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import javax.inject.Qualifier;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/11.
  */
-abstract class BaseResponse {
-    String error;
-    String message;
-
-    public String getError() {
-        return error;
-    }
-
-    public String getMessage() {
-        return message;
-    }
+@Qualifier
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Team {
 }

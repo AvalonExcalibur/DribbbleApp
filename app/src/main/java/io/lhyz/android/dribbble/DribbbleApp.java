@@ -18,6 +18,8 @@ package io.lhyz.android.dribbble;
 import android.app.Application;
 import android.content.Context;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import io.lhyz.android.dribbble.di.component.AppComponent;
 import io.lhyz.android.dribbble.di.component.DaggerAppComponent;
 
@@ -33,6 +35,7 @@ public class DribbbleApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         INSTANCE = this;
         sAppComponent = DaggerAppComponent.create();

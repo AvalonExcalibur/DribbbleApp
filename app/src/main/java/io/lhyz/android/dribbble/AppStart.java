@@ -20,14 +20,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 
-import io.lhyz.android.dribbble.main.MainActivity;
 import io.lhyz.android.dribbble.login.AuthActivity;
+import io.lhyz.android.dribbble.main.MainActivity;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/8.
- * <p>
- * 启动导航页，根据token是否已经获取进行跳转
+ * <p/>
+ * 启动导航页,根据token是否已经获取进行跳转
  */
 public class AppStart extends Activity {
     @Override
@@ -53,13 +53,12 @@ public class AppStart extends Activity {
         }
     }
 
-
-    public void redirectToLogin() {
+    private void redirectToLogin() {
         Intent intent = new Intent(this, AuthActivity.class);
         startActivityForResult(intent, AuthActivity.REQUEST_AUTH);
     }
 
-    public void redirectToMain() {
+    private void redirectToMain() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();

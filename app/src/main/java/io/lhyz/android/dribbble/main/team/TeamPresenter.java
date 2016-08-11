@@ -15,9 +15,59 @@
  */
 package io.lhyz.android.dribbble.main.team;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
+import io.lhyz.android.boilerplate.interactor.Interactor;
+import io.lhyz.android.dribbble.DribbbleApp;
+import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.di.annotation.Team;
+
 /**
  * hello,android
  * Created by lhyz on 2016/8/9.
  */
-public class TeamPresenter {
+public class TeamPresenter implements TeamContract.Presenter {
+
+    TeamContract.View mView;
+
+    @Inject
+    @Team
+    Interactor<List<Shot>> mInteractor;
+
+    public TeamPresenter(TeamContract.View view) {
+        mView = view;
+        mView.setPresenter(this);
+    }
+
+    @Override
+    public void loadTeam() {
+        mView.showLoading();
+        mInteractor.execute(new DefaultSubscriber<List<Shot>>() {
+            @Override
+            public void onSuccess(List<Shot> result) {
+                mView.hideLoading();
+                mView.showTeam(result);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.hideLoading();
+                mView.showEmptyView();
+            }
+        });
+    }
+
+    @Override
+    public void start() {
+        initInjector();
+
+        loadTeam();
+    }
+
+    void initInjector() {
+        DribbbleApp.getAppComponent().inject(this);
+    }
 }

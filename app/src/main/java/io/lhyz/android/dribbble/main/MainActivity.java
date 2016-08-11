@@ -28,11 +28,15 @@ import io.lhyz.android.dribbble.base.BaseActivity;
 import io.lhyz.android.dribbble.data.DribbbleService;
 import io.lhyz.android.dribbble.data.model.User;
 import io.lhyz.android.dribbble.main.debut.DebutFragment;
+import io.lhyz.android.dribbble.main.debut.DebutPresenter;
 import io.lhyz.android.dribbble.main.playoffs.PlayoffsFragment;
+import io.lhyz.android.dribbble.main.playoffs.PlayoffsPresenter;
 import io.lhyz.android.dribbble.main.popular.PopularFragment;
 import io.lhyz.android.dribbble.main.popular.PopularPresenter;
 import io.lhyz.android.dribbble.main.recent.RecentFragment;
+import io.lhyz.android.dribbble.main.recent.RecentPresenter;
 import io.lhyz.android.dribbble.main.team.TeamFragment;
+import io.lhyz.android.dribbble.main.team.TeamPresenter;
 import io.lhyz.android.dribbble.net.ServiceCreator;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.android.schedulers.AndroidSchedulers;
@@ -66,7 +70,8 @@ public class MainActivity extends BaseActivity
 
         setSupportActionBar(mToolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, mDrawerLayout, mToolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         mNavigationView.setNavigationItemSelectedListener(this);
@@ -77,12 +82,26 @@ public class MainActivity extends BaseActivity
         new PopularPresenter(popularFragment);
         tabInfoArrayList.add(new TabInfo(popularFragment, "Popular"));
 
-        tabInfoArrayList.add(new TabInfo(RecentFragment.newInstance(), "Recent"));
-        tabInfoArrayList.add(new TabInfo(DebutFragment.newInstance(), "Debuts"));
-        tabInfoArrayList.add(new TabInfo(TeamFragment.newInstance(), "Teams"));
-        tabInfoArrayList.add(new TabInfo(PlayoffsFragment.newInstance(), "Playoffs"));
+        RecentFragment recentFragment = RecentFragment.newInstance();
+        new RecentPresenter(recentFragment);
+        tabInfoArrayList.add(new TabInfo(recentFragment, "Recent"));
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), tabInfoArrayList);
+        DebutFragment debutFragment = DebutFragment.newInstance();
+        new DebutPresenter(debutFragment);
+        tabInfoArrayList.add(new TabInfo(debutFragment, "Debuts"));
+
+        TeamFragment teamFragment = TeamFragment.newInstance();
+        new TeamPresenter(teamFragment);
+        tabInfoArrayList.add(new TabInfo(teamFragment, "Teams"));
+
+        PlayoffsFragment playoffsFragment = PlayoffsFragment.newInstance();
+        new PlayoffsPresenter(playoffsFragment);
+        tabInfoArrayList.add(new TabInfo(playoffsFragment, "Playoffs"));
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(
+                getSupportFragmentManager(),
+                tabInfoArrayList);
+
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }

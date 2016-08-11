@@ -3,6 +3,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_shots"
+            android:icon="@drawable/ic_camera_black_24dp"
+            android:title="@string/nav_shots"/>
+        <item
             android:id="@+id/nav_buckets"
             android:icon="@drawable/ic_folder_black_24dp"
             android:title="@string/nav_buckets"/>
@@ -10,10 +14,6 @@
             android:id="@+id/nav_projects"
             android:icon="@drawable/ic_photo_library_black_24dp"
             android:title="@string/nav_projects"/>
-        <item
-            android:id="@+id/nav_shots"
-            android:icon="@drawable/ic_camera_black_24dp"
-            android:title="@string/nav_shots"/>
         <item
             android:id="@+id/nav_teams"
             android:icon="@drawable/ic_group_black_24dp"

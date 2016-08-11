@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 apply plugin: 'android-apt'
 
 android {
@@ -39,6 +40,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -75,6 +80,10 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     //Google Guava
     compile 'com.google.guava:guava:19.0'
+    //Crash Analyses(Twitter->Fabric)
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
+        transitive = true;
+    }
     //模板代码
     compile project(':boilerplate')
     //单元测试

@@ -24,7 +24,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,7 @@ import butterknife.BindView;
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseFragment;
 import io.lhyz.android.dribbble.data.model.Shot;
-import io.lhyz.android.dribbble.view.ScrollChildSwipeRefreshLayout;
+import io.lhyz.android.dribbble.main.OnShotClickListener;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -50,8 +49,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by lhyz on 2016/8/8.
  */
 public class PopularFragment extends BaseFragment implements PopularContract.View {
+
     @BindView(R.id.refresh_layout)
-    ScrollChildSwipeRefreshLayout mSwipeRefreshLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycler_list)
     RecyclerView mRecyclerView;
     @BindView(R.id.no_items)
@@ -79,11 +79,9 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
             }
         });
 
-        mAdapter = new PopularAdapter(getContext(), mShotItemListener);
+        mAdapter = new PopularAdapter(getContext(), mOnShotClickListener);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
-
-        mSwipeRefreshLayout.setScrollUpChild(mRecyclerView);
     }
 
     @Override
@@ -139,11 +137,11 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
         Context mContext;
         LayoutInflater mInflater;
         List<Shot> mShots;
-        ShotItemListener mShotItemListener;
+        OnShotClickListener mOnShotClickListener;
 
-        public PopularAdapter(Context context, ShotItemListener listener) {
+        public PopularAdapter(Context context, OnShotClickListener listener) {
             mContext = context;
-            mShotItemListener = listener;
+            mOnShotClickListener = listener;
             mInflater = LayoutInflater.from(context);
             mShots = new ArrayList<>(0);
         }
@@ -172,7 +170,7 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
 
         @Override
         public PopularViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new PopularViewHolder(mInflater.inflate(R.layout.item_popular, parent, false));
+            return new PopularViewHolder(mInflater.inflate(R.layout.item_shot, parent, false));
         }
 
         @Override
@@ -194,7 +192,7 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
             imgArt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mShotItemListener.onShotClick(shot);
+                    mOnShotClickListener.onShotClick(shot);
                 }
             });
         }
@@ -205,14 +203,10 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
         }
     }
 
-    ShotItemListener mShotItemListener = new ShotItemListener() {
+    private final OnShotClickListener mOnShotClickListener = new OnShotClickListener() {
         @Override
         public void onShotClick(Shot shot) {
-            Log.d("TAG", "" + shot.getId());
+
         }
     };
-
-    interface ShotItemListener {
-        void onShotClick(Shot shot);
-    }
 }

@@ -25,8 +25,16 @@ import io.lhyz.android.boilerplate.executor.PostThreadExecutor;
 import io.lhyz.android.boilerplate.executor.ThreadExecutor;
 import io.lhyz.android.boilerplate.interactor.Interactor;
 import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.di.annotation.Debut;
+import io.lhyz.android.dribbble.di.annotation.Playoffs;
 import io.lhyz.android.dribbble.di.annotation.Popular;
+import io.lhyz.android.dribbble.di.annotation.Recent;
+import io.lhyz.android.dribbble.di.annotation.Team;
+import io.lhyz.android.dribbble.main.debut.DebutInteractor;
+import io.lhyz.android.dribbble.main.playoffs.PlayoffsInteractor;
 import io.lhyz.android.dribbble.main.popular.PopularInteractor;
+import io.lhyz.android.dribbble.main.recent.RecentInteractor;
+import io.lhyz.android.dribbble.main.team.TeamInteractor;
 
 /**
  * hello,android
@@ -41,5 +49,37 @@ public class InteractorModule {
     Interactor<List<Shot>> providePopularInteractor(PostThreadExecutor postThreadExecutor,
                                                     ThreadExecutor threadExecutor) {
         return new PopularInteractor(threadExecutor, postThreadExecutor);
+    }
+
+    @Debut
+    @Singleton
+    @Provides
+    Interactor<List<Shot>> provideDebutInteractor(PostThreadExecutor postThreadExecutor,
+                                                  ThreadExecutor threadExecutor) {
+        return new DebutInteractor(threadExecutor, postThreadExecutor);
+    }
+
+    @Playoffs
+    @Singleton
+    @Provides
+    Interactor<List<Shot>> providePlayoffsInteractor(PostThreadExecutor postThreadExecutor,
+                                                     ThreadExecutor threadExecutor) {
+        return new PlayoffsInteractor(threadExecutor, postThreadExecutor);
+    }
+
+    @Recent
+    @Singleton
+    @Provides
+    Interactor<List<Shot>> provideRecentInteractor(PostThreadExecutor postThreadExecutor,
+                                                   ThreadExecutor threadExecutor) {
+        return new RecentInteractor(threadExecutor, postThreadExecutor);
+    }
+
+    @Team
+    @Singleton
+    @Provides
+    Interactor<List<Shot>> provideTeamInteractor(PostThreadExecutor postThreadExecutor,
+                                                 ThreadExecutor threadExecutor) {
+        return new TeamInteractor(threadExecutor, postThreadExecutor);
     }
 }

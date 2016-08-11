@@ -13,21 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data.model;
+package io.lhyz.android.dribbble.main;
+
+import io.lhyz.android.dribbble.data.model.Shot;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/11.
  */
-abstract class BaseResponse {
-    String error;
-    String message;
-
-    public String getError() {
-        return error;
-    }
-
-    public String getMessage() {
-        return message;
-    }
+public interface OnShotClickListener {
+    void onShotClick(Shot shot);
 }

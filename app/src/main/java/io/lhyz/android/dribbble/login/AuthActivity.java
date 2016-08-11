@@ -86,7 +86,7 @@ public class AuthActivity extends BaseActivity {
         return R.layout.act_auth;
     }
 
-    public void executeAuthenticate(String code) {
+    private void executeAuthenticate(String code) {
         mDialog.show();
         OkHttpClient client = new OkHttpClient();
 

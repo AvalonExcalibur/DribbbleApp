@@ -13,21 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data.model;
+package io.lhyz.android.dribbble.main.debut;
+
+import java.util.List;
+
+import io.lhyz.android.dribbble.base.BasePresenter;
+import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.main.LoadView;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
+ * Created by lhyz on 2016/8/11.
  */
-abstract class BaseResponse {
-    String error;
-    String message;
-
-    public String getError() {
-        return error;
+class DebutContract {
+    interface View extends LoadView<Presenter> {
+        void showDebut(List<Shot> shots);
     }
 
-    public String getMessage() {
-        return message;
+    interface Presenter extends BasePresenter {
+        void loadDebut();
     }
 }
