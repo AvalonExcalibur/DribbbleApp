@@ -22,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -133,7 +134,7 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
     private final OnShotClickListener mOnShotClickListener = new OnShotClickListener() {
         @Override
         public void onShotClick(Shot shot) {
-
+            Log.d("TAG", "On Shot Clicked " + shot.getId());
         }
     };
 }

@@ -65,9 +65,11 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ShotViewHolder
         ImageView imgAuthor;
         TextView tvName;
 
+        View itemView;
+
         public ShotViewHolder(View itemView) {
             super(itemView);
-
+            this.itemView = itemView;
             imgArt = (ImageView) itemView.findViewById(R.id.img_art);
             imgAuthor = (ImageView) itemView.findViewById(R.id.img_author);
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
@@ -81,6 +83,7 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ShotViewHolder
 
     @Override
     public void onBindViewHolder(ShotViewHolder holder, int position) {
+        final View view = holder.itemView;
         final int pos = holder.getAdapterPosition();
         final Shot shot = mShots.get(pos);
 
@@ -95,7 +98,7 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ShotViewHolder
 
         holder.tvName.setText(shot.getUser().getName());
 
-        imgArt.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mOnShotClickListener.onShotClick(shot);
