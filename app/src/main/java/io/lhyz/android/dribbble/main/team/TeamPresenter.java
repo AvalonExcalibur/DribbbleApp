@@ -68,6 +68,11 @@ public class TeamPresenter implements TeamContract.Presenter {
     }
 
     @Override
+    public void pause() {
+        mInteractor.unsubscribe();
+    }
+
+    @Override
     public void destroy() {
         mInteractor.unsubscribe();
         mView = null;

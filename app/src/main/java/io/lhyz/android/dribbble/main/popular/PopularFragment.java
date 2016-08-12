@@ -91,9 +91,9 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.pause();
     }
 
     @Override

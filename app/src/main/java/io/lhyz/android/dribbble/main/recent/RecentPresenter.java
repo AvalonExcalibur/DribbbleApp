@@ -68,10 +68,15 @@ public class RecentPresenter implements RecentContract.Presenter {
     }
 
     @Override
+    public void pause() {
+        mInteractor.unsubscribe();
+    }
+    @Override
     public void destroy() {
         mInteractor.unsubscribe();
         mView = null;
     }
+
 
     void initInjector() {
         DribbbleApp.getAppComponent().inject(this);

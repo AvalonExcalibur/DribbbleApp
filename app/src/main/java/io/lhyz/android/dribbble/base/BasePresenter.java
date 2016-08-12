@@ -22,5 +22,7 @@ package io.lhyz.android.dribbble.base;
 public interface BasePresenter {
     void start();
 
+    void pause();
+
     void destroy();
 }

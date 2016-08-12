@@ -91,9 +91,9 @@ public class TeamFragment extends BaseFragment implements TeamContract.View {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.pause();
     }
 
     @Override

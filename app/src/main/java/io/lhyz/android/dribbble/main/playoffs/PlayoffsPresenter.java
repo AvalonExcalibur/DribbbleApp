@@ -67,6 +67,11 @@ public class PlayoffsPresenter implements PlayoffsContract.Presenter {
     }
 
     @Override
+    public void pause() {
+        mInteractor.unsubscribe();
+    }
+
+    @Override
     public void destroy() {
         mInteractor.unsubscribe();
         mView = null;

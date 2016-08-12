@@ -67,6 +67,11 @@ public class DebutPresenter implements DebutContract.Presenter {
     }
 
     @Override
+    public void pause() {
+        mInteractor.unsubscribe();
+    }
+
+    @Override
     public void destroy() {
         mInteractor.unsubscribe();
         mView = null;

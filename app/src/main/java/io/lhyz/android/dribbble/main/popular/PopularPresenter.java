@@ -50,6 +50,11 @@ public class PopularPresenter implements PopularContract.Presenter {
     }
 
     @Override
+    public void pause() {
+        mInteractor.unsubscribe();
+    }
+
+    @Override
     public void destroy() {
         mInteractor.unsubscribe();
         mView = null;

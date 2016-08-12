@@ -103,6 +103,9 @@ public class MainActivity extends BaseActivity
                 tabInfoArrayList);
 
         mViewPager.setAdapter(adapter);
+        //不设置预加载的个数的话，就必须对异步操作（Presenter）和Fragment（View）生命周期关联控制的比较详细
+        //这里设置预加载个数知识为了方便查看，去掉亦可（我已经完成了生命周期管理）
+        mViewPager.setOffscreenPageLimit(5);
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
