@@ -78,13 +78,13 @@ public class MainActivity extends BaseActivity
 
         ArrayList<TabInfo> tabInfoArrayList = new ArrayList<>();
 
-        PopularFragment popularFragment = PopularFragment.newInstance();
-        new PopularPresenter(popularFragment);
-        tabInfoArrayList.add(new TabInfo(popularFragment, "Popular"));
-
         RecentFragment recentFragment = RecentFragment.newInstance();
         new RecentPresenter(recentFragment);
         tabInfoArrayList.add(new TabInfo(recentFragment, "Recent"));
+
+        PopularFragment popularFragment = PopularFragment.newInstance();
+        new PopularPresenter(popularFragment);
+        tabInfoArrayList.add(new TabInfo(popularFragment, "Popular"));
 
         DebutFragment debutFragment = DebutFragment.newInstance();
         new DebutPresenter(debutFragment);

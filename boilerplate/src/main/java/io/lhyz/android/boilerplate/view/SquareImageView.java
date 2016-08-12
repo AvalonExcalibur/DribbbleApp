@@ -39,6 +39,7 @@ public class SquareImageView extends ImageView {
         super(context, attrs, defStyleAttr);
     }
 
+    @SuppressWarnings("unused")
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SquareImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);

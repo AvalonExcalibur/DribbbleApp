@@ -15,24 +15,16 @@
  */
 package io.lhyz.android.dribbble.main.recent;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,7 +32,7 @@ import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseFragment;
 import io.lhyz.android.dribbble.data.model.Shot;
 import io.lhyz.android.dribbble.main.OnShotClickListener;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import io.lhyz.android.dribbble.main.ShotAdapter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -57,7 +49,7 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
     View mEmptyView;
 
     RecentContract.Presenter mPresenter;
-    RecentAdapter mAdapter;
+    ShotAdapter mAdapter;
 
     public static RecentFragment newInstance() {
         return new RecentFragment();
@@ -78,7 +70,7 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
             }
         });
 
-        mAdapter = new RecentAdapter(getContext(), mOnShotClickListener);
+        mAdapter = new ShotAdapter(getContext(), mOnShotClickListener);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -106,7 +98,7 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
         mEmptyView.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
 
-        mAdapter.setRecentList(shots);
+        mAdapter.setShotList(shots);
     }
 
     @Override
@@ -136,76 +128,6 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
     @Override
     public void setPresenter(RecentContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
-    }
-
-    private static class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.RecentViewHolder> {
-        Context mContext;
-        LayoutInflater mInflater;
-        List<Shot> mShots;
-        OnShotClickListener mOnShotClickListener;
-
-        public RecentAdapter(Context context, OnShotClickListener listener) {
-            mContext = context;
-            mOnShotClickListener = listener;
-            mInflater = LayoutInflater.from(context);
-            mShots = new ArrayList<>(0);
-        }
-
-        static class RecentViewHolder extends RecyclerView.ViewHolder {
-            ImageView imgArt;
-            ImageView imgAuthor;
-            TextView tvName;
-
-            public RecentViewHolder(View itemView) {
-                super(itemView);
-                imgArt = (ImageView) itemView.findViewById(R.id.img_art);
-                imgAuthor = (ImageView) itemView.findViewById(R.id.img_author);
-                tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            }
-        }
-
-        public void setRecentList(@NonNull List<Shot> shots) {
-            if (mShots.size() != 0) {
-                mShots.clear();
-            }
-            mShots.addAll(shots);
-
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public RecentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new RecentViewHolder(mInflater.inflate(R.layout.item_shot, parent, false));
-        }
-
-        @Override
-        public void onBindViewHolder(RecentViewHolder holder, int position) {
-            final int pos = holder.getAdapterPosition();
-            final Shot shot = mShots.get(pos);
-
-            //Glide默认解决了列表重用下的ImageView设置混乱
-            final ImageView imgArt = holder.imgArt;
-            Glide.with(mContext).load(shot.getImages().getNormal()).into(imgArt);
-
-            final ImageView imgAuthor = holder.imgAuthor;
-            Glide.with(mContext).load(shot.getUser().getAvatarUrl())
-                    .bitmapTransform(new CropCircleTransformation(mContext))
-                    .into(imgAuthor);
-
-            holder.tvName.setText(shot.getUser().getName());
-
-            imgArt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mOnShotClickListener.onShotClick(shot);
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return mShots.size();
-        }
     }
 
     private final OnShotClickListener mOnShotClickListener = new OnShotClickListener() {

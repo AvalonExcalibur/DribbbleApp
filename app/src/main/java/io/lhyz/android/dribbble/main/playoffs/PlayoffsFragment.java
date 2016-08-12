@@ -15,24 +15,16 @@
  */
 package io.lhyz.android.dribbble.main.playoffs;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,7 +32,7 @@ import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseFragment;
 import io.lhyz.android.dribbble.data.model.Shot;
 import io.lhyz.android.dribbble.main.OnShotClickListener;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import io.lhyz.android.dribbble.main.ShotAdapter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -58,7 +50,7 @@ public class PlayoffsFragment extends BaseFragment implements PlayoffsContract.V
     View mEmptyView;
 
     PlayoffsContract.Presenter mPresenter;
-    PlayoffsAdapter mAdapter;
+    ShotAdapter mAdapter;
 
     public static PlayoffsFragment newInstance() {
         return new PlayoffsFragment();
@@ -79,7 +71,7 @@ public class PlayoffsFragment extends BaseFragment implements PlayoffsContract.V
             }
         });
 
-        mAdapter = new PlayoffsAdapter(getContext(), mOnShotClickListener);
+        mAdapter = new ShotAdapter(getContext(), mOnShotClickListener);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -107,7 +99,7 @@ public class PlayoffsFragment extends BaseFragment implements PlayoffsContract.V
         mEmptyView.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
 
-        mAdapter.setPlayoffsList(shots);
+        mAdapter.setShotList(shots);
     }
 
     @Override
@@ -137,76 +129,6 @@ public class PlayoffsFragment extends BaseFragment implements PlayoffsContract.V
     @Override
     public void setPresenter(PlayoffsContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
-    }
-
-    private static class PlayoffsAdapter extends RecyclerView.Adapter<PlayoffsAdapter.PlayoffsViewHolder> {
-        Context mContext;
-        LayoutInflater mInflater;
-        List<Shot> mShots;
-        OnShotClickListener mOnShotClickListener;
-
-        public PlayoffsAdapter(Context context, OnShotClickListener listener) {
-            mContext = context;
-            mOnShotClickListener = listener;
-            mInflater = LayoutInflater.from(context);
-            mShots = new ArrayList<>(0);
-        }
-
-        static class PlayoffsViewHolder extends RecyclerView.ViewHolder {
-            ImageView imgArt;
-            ImageView imgAuthor;
-            TextView tvName;
-
-            public PlayoffsViewHolder(View itemView) {
-                super(itemView);
-                imgArt = (ImageView) itemView.findViewById(R.id.img_art);
-                imgAuthor = (ImageView) itemView.findViewById(R.id.img_author);
-                tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            }
-        }
-
-        public void setPlayoffsList(@NonNull List<Shot> shots) {
-            if (mShots.size() != 0) {
-                mShots.clear();
-            }
-            mShots.addAll(shots);
-
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public PlayoffsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new PlayoffsViewHolder(mInflater.inflate(R.layout.item_shot, parent, false));
-        }
-
-        @Override
-        public void onBindViewHolder(PlayoffsViewHolder holder, int position) {
-            final int pos = holder.getAdapterPosition();
-            final Shot shot = mShots.get(pos);
-
-            //Glide默认解决了列表重用下的ImageView设置混乱
-            final ImageView imgArt = holder.imgArt;
-            Glide.with(mContext).load(shot.getImages().getNormal()).into(imgArt);
-
-            final ImageView imgAuthor = holder.imgAuthor;
-            Glide.with(mContext).load(shot.getUser().getAvatarUrl())
-                    .bitmapTransform(new CropCircleTransformation(mContext))
-                    .into(imgAuthor);
-
-            holder.tvName.setText(shot.getUser().getName());
-
-            imgArt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mOnShotClickListener.onShotClick(shot);
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return mShots.size();
-        }
     }
 
     private final OnShotClickListener mOnShotClickListener = new OnShotClickListener() {
