@@ -133,7 +133,7 @@ public class PlayoffsFragment extends BaseFragment implements PlayoffsContract.V
 
     private final OnShotClickListener mOnShotClickListener = new OnShotClickListener() {
         @Override
-        public void onShotClick(Shot shot) {
+        public void onShotClick(View view, Shot shot) {
 
         }
     };

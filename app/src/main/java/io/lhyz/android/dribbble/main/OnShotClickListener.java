@@ -15,6 +15,8 @@
  */
 package io.lhyz.android.dribbble.main;
 
+import android.view.View;
+
 import io.lhyz.android.dribbble.data.model.Shot;
 
 /**
@@ -22,5 +24,5 @@ import io.lhyz.android.dribbble.data.model.Shot;
  * Created by lhyz on 2016/8/11.
  */
 public interface OnShotClickListener {
-    void onShotClick(Shot shot);
+    void onShotClick(View view,Shot shot);
 }

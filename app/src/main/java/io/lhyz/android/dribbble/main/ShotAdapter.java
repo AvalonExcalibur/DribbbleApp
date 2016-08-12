@@ -101,7 +101,7 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ShotViewHolder
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOnShotClickListener.onShotClick(shot);
+                mOnShotClickListener.onShotClick(view,shot);
             }
         });
     }

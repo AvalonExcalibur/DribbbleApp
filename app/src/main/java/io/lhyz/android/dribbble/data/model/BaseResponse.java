@@ -19,6 +19,7 @@ package io.lhyz.android.dribbble.data.model;
  * hello,android
  * Created by lhyz on 2016/8/7.
  */
+@SuppressWarnings("unused")
 abstract class BaseResponse {
     String error;
     String message;

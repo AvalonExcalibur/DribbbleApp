@@ -15,19 +15,29 @@
  */
 package io.lhyz.android.dribbble.data.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/9.
  */
-public class Shot extends BaseResponse {
+@SuppressWarnings("unused")
+public class Shot extends BaseResponse implements Serializable {
     int id;
     String title;
     String description;
     int width;
     int height;
     Image images;
+    @SerializedName("views_count")
+    int viewsCount;
+    @SerializedName("likes_count")
+    int likesCount;
+    @SerializedName("comments_count")
+    int commentsCount;
     User user;
     List<String> tags;
 
@@ -76,7 +86,19 @@ public class Shot extends BaseResponse {
         return tags;
     }
 
-    public static class Image {
+    public int getViewsCount() {
+        return viewsCount;
+    }
+
+    public int getLikesCount() {
+        return likesCount;
+    }
+
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public static class Image implements Serializable {
         String hidpi;
         String normal;
         String teaser;

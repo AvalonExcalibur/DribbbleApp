@@ -17,11 +17,14 @@ package io.lhyz.android.dribbble.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * hello,android
  * Created by lhyz on 2016/8/7.
  */
-public class User extends BaseResponse {
+@SuppressWarnings("unused")
+public class User extends BaseResponse implements Serializable {
     long id;
     String name;
     String username;

@@ -43,6 +43,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light"/>
 
+        <activity
+            android:name=".detail.ShotDetailActivity"
+            android:theme="@style/Theme.AppCompat.Light">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".main.MainActivity"/>
+        </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="0aa57e33a3f18af76e3256128cae61c33d964541"/>
