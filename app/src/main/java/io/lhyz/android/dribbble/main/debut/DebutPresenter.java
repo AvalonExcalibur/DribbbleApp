@@ -66,6 +66,12 @@ public class DebutPresenter implements DebutContract.Presenter {
         loadDebut();
     }
 
+    @Override
+    public void destroy() {
+        mInteractor.unsubscribe();
+        mView = null;
+    }
+
     void initInjector() {
         DribbbleApp.getAppComponent().inject(this);
     }

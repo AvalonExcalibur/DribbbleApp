@@ -91,6 +91,12 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    @Override
     protected int getLayout() {
         return R.layout.frag_list;
     }

@@ -67,6 +67,12 @@ public class TeamPresenter implements TeamContract.Presenter {
         loadTeam();
     }
 
+    @Override
+    public void destroy() {
+        mInteractor.unsubscribe();
+        mView = null;
+    }
+
     void initInjector() {
         DribbbleApp.getAppComponent().inject(this);
     }

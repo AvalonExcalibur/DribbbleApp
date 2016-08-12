@@ -49,6 +49,12 @@ public class PopularPresenter implements PopularContract.Presenter {
         loadPopular();
     }
 
+    @Override
+    public void destroy() {
+        mInteractor.unsubscribe();
+        mView = null;
+    }
+
     void initInjector() {
         DribbbleApp.getAppComponent().inject(this);
     }

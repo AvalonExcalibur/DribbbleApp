@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_dribbble"/>
+                android:src="@drawable/dribbble"/>
 
             <io.lhyz.android.boilerplate.view.RobotoTextView
                 android:id="@+id/description"

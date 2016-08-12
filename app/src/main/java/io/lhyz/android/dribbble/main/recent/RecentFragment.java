@@ -91,6 +91,12 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    @Override
     protected int getLayout() {
         return R.layout.frag_list;
     }

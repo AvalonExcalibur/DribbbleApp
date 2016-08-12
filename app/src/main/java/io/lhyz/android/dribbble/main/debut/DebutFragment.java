@@ -90,6 +90,12 @@ public class DebutFragment extends BaseFragment implements DebutContract.View {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    @Override
     protected int getLayout() {
         return R.layout.frag_list;
     }

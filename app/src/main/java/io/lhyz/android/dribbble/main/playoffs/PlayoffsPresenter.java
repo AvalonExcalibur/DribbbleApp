@@ -66,6 +66,12 @@ public class PlayoffsPresenter implements PlayoffsContract.Presenter {
         loadPlayoffs();
     }
 
+    @Override
+    public void destroy() {
+        mInteractor.unsubscribe();
+        mView = null;
+    }
+
     void initInjector() {
         DribbbleApp.getAppComponent().inject(this);
     }
