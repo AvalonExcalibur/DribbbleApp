@@ -19,17 +19,22 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import java.util.Arrays;
+
 import butterknife.BindView;
+import co.lujun.androidtagview.TagContainerLayout;
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseActivity;
 import io.lhyz.android.dribbble.data.model.Shot;
@@ -48,14 +53,19 @@ public class ShotDetailActivity extends BaseActivity {
     ImageView mImageView;
     @BindView(R.id.progress_loading)
     ProgressBar mProgressBar;
-
+    @BindView(R.id.tv_description)
+    TextView tvDescription;
     @BindView(R.id.action_likes)
     Button btnLikes;
     @BindView(R.id.action_comments)
     Button btnComments;
 
+    @BindView(R.id.tags_view)
+    TagContainerLayout mTagContainerLayout;
+
     Shot mShot;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +75,16 @@ public class ShotDetailActivity extends BaseActivity {
         setActionBarTitle(mShot.getTitle());
         btnLikes.setText("" + mShot.getLikesCount());
         btnComments.setText("" + mShot.getCommentsCount());
+        if (mShot.getDescription() != null) {
+            tvDescription.setText(Html.fromHtml(mShot.getDescription()));
+        } else {
+            tvDescription.setText("No Description");
+        }
+        if (mShot.getTags() != null) {
+            mTagContainerLayout.setTags(mShot.getTags());
+        } else {
+            mTagContainerLayout.setTags(Arrays.asList("No Tag"));
+        }
 
         Shot.Image image = mShot.getImages();
         String url = image.getHidpi() == null ?

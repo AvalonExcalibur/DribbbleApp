@@ -81,6 +81,8 @@ dependencies {
     //GIF
     compile 'com.facebook.fresco:fresco:0.12.0'
     compile 'com.facebook.fresco:animated-gif:0.12.0'
+    //TagsView
+    compile 'co.lujun:androidtagview:1.0.3'
     //Google Guava
     compile 'com.google.guava:guava:19.0'
     //Crash Analyses(Twitter->Fabric)

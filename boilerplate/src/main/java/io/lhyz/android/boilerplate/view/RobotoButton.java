@@ -25,7 +25,7 @@ import android.widget.Button;
 /**
  * hello,android
  * Created by lhyz on 2016/8/13.
- * <p>
+ * <p/>
  * Button 继承自TextView
  */
 public class RobotoButton extends Button {
@@ -56,5 +56,6 @@ public class RobotoButton extends Button {
     private void initRobotoFont(Context context) {
         Typeface typeface = Typeface.createFromAsset(context.getAssets(), "roboto.ttf");
         setTypeface(typeface);
+        getPaint().setAntiAlias(true);
     }
 }

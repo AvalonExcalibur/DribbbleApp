@@ -28,6 +28,7 @@
             android:background="@android:color/white"
             android:drawableLeft="@drawable/ic_remove_red_eye_black_24dp"
             android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:text="@string/app_name"
             android:textAppearance="@style/ButtonTextAppearance"/>
 

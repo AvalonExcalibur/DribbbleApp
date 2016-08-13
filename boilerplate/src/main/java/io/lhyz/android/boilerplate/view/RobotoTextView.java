@@ -58,5 +58,6 @@ public class RobotoTextView extends TextView {
     private void initRobotoFont(Context context) {
         Typeface typeface = Typeface.createFromAsset(context.getAssets(), "roboto.ttf");
         setTypeface(typeface);
+        getPaint().setAntiAlias(true);
     }
 }
