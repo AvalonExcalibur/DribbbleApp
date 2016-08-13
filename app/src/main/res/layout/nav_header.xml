@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textAppearance="@style/NameTextAppearance"
+        android:textAppearance="@style/LargeTextAppearance.White"
         tools:text="@string/app_name"/>
 
     <io.lhyz.android.boilerplate.view.RobotoTextView

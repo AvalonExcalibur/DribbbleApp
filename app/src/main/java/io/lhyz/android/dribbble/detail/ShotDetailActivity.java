@@ -16,14 +16,16 @@
 package io.lhyz.android.dribbble.detail;
 
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -32,21 +34,33 @@ import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.request.BasePostprocessor;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
+import com.facebook.imagepipeline.request.Postprocessor;
 
 import java.util.Collections;
+import java.util.List;
 
 import butterknife.BindView;
 import co.lujun.androidtagview.TagContainerLayout;
+import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
+import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseActivity;
+import io.lhyz.android.dribbble.data.DribbbleService;
+import io.lhyz.android.dribbble.data.model.Comment;
 import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.net.ServiceCreator;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/12.
- * <p/>
+ * <p>
  * 横竖屏动态模板代码
  */
 public class ShotDetailActivity extends BaseActivity {
@@ -59,13 +73,15 @@ public class ShotDetailActivity extends BaseActivity {
     TextView tvDescription;
     @BindView(R.id.action_likes)
     @Nullable
-    Button btnLikes;
-    @BindView(R.id.action_comments)
-    @Nullable
-    Button btnComments;
+    FloatingActionButton btnLikes;
     @BindView(R.id.tags_view)
     @Nullable
     TagContainerLayout mTagContainerLayout;
+    @BindView(R.id.toolbar)
+    @Nullable
+    Toolbar mToolbar;
+
+    DribbbleService mDribbbleService;
 
     Shot mShot;
 
@@ -74,13 +90,11 @@ public class ShotDetailActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mShot = (Shot) getIntent().getSerializableExtra(EXTRA_PARAMS_SHOT);
+
         if (getResources().getConfiguration().orientation ==
                 Configuration.ORIENTATION_PORTRAIT) {
-            if (btnLikes != null && btnComments != null && tvDescription != null
-                    && mTagContainerLayout != null) {
+            if (btnLikes != null && tvDescription != null && mTagContainerLayout != null) {
                 setActionBarTitle(mShot.getTitle());
-                btnLikes.setText("" + mShot.getLikesCount());
-                btnComments.setText("" + mShot.getCommentsCount());
                 if (mShot.getDescription() != null) {
                     tvDescription.setText(Html.fromHtml(mShot.getDescription()));
                 } else {
@@ -105,15 +119,48 @@ public class ShotDetailActivity extends BaseActivity {
                 builder.setProgressBarImage(new ProgressBarDrawable())
                         .build();
         mImageView.setHierarchy(hierarchy);
+
+        Postprocessor postprocessor = new BasePostprocessor() {
+            @Override
+            public void process(Bitmap bitmap) {
+
+                super.process(bitmap);
+            }
+        };
         Uri uri = Uri.parse(url);
+        ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(uri)
+                .setPostprocessor(postprocessor)
+                .build();
         DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setImageRequest(imageRequest)
                 .setUri(uri)
                 .setAutoPlayAnimations(true)
                 .build();
         mImageView.setController(controller);
+
+
+        mDribbbleService = new ServiceCreator(AppPreference.getInstance().readToken())
+                .createService();
+
+        mDribbbleService.getComments(mShot.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<List<Comment>>() {
+                    @Override
+                    public void onSuccess(List<Comment> result) {
+                        super.onSuccess(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
     }
 
     private void setActionBarTitle(CharSequence title) {
+        setSupportActionBar(mToolbar);
+
         ActionBar actionBar = getSupportActionBar();
         checkNotNull(actionBar);
         actionBar.setDisplayHomeAsUpEnabled(true);

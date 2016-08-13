@@ -30,7 +30,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="@string/app_name"
-            android:textAppearance="@style/ButtonTextAppearance"/>
+            android:textAppearance="@style/NormalTextAppearance.Black"/>
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_author"
@@ -51,7 +51,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/app_name"
-            android:textAppearance="@style/NormalTextAppearance"/>
+            android:textAppearance="@style/LargeTextAppearance.White"/>
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

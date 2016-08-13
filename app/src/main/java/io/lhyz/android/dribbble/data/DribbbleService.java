@@ -17,9 +17,11 @@ package io.lhyz.android.dribbble.data;
 
 import java.util.List;
 
+import io.lhyz.android.dribbble.data.model.Comment;
 import io.lhyz.android.dribbble.data.model.Shot;
 import io.lhyz.android.dribbble.data.model.User;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -50,4 +52,7 @@ public interface DribbbleService {
     //参数是sort=recent
     @GET("shots?list=playoffs")
     Observable<List<Shot>> getPlayoffs();
+
+    @GET("shots/{shot}/comments")
+    Observable<List<Comment>> getComments(@Path("shot") int shotId);
 }
