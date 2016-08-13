@@ -16,6 +16,7 @@
 package io.lhyz.android.dribbble.main;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,14 +25,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.data.model.Shot;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * hello,android
@@ -61,8 +61,8 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ShotViewHolder
     }
 
     public static final class ShotViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgArt;
-        ImageView imgAuthor;
+        SimpleDraweeView imgArt;
+        SimpleDraweeView imgAuthor;
         TextView tvName;
         TextView tvViewsCount;
 
@@ -71,8 +71,8 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ShotViewHolder
         public ShotViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
-            imgArt = (ImageView) itemView.findViewById(R.id.img_art);
-            imgAuthor = (ImageView) itemView.findViewById(R.id.img_author);
+            imgArt = (SimpleDraweeView) itemView.findViewById(R.id.img_art);
+            imgAuthor = (SimpleDraweeView) itemView.findViewById(R.id.img_author);
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
             tvViewsCount = (TextView) itemView.findViewById(R.id.views_count);
         }
@@ -89,14 +89,11 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ShotViewHolder
         final int pos = holder.getAdapterPosition();
         final Shot shot = mShots.get(pos);
 
-        //Glide默认解决了列表重用下的ImageView设置混乱
-        final ImageView imgArt = holder.imgArt;
-        Glide.with(mContext).load(shot.getImages().getNormal()).into(imgArt);
+        final SimpleDraweeView imgArt = holder.imgArt;
+        imgArt.setImageURI(Uri.parse(shot.getImages().getNormal()));
 
         final ImageView imgAuthor = holder.imgAuthor;
-        Glide.with(mContext).load(shot.getUser().getAvatarUrl())
-                .bitmapTransform(new CropCircleTransformation(mContext))
-                .into(imgAuthor);
+        imgAuthor.setImageURI(Uri.parse(shot.getUser().getAvatarUrl()));
 
         holder.tvName.setText(shot.getUser().getName());
         holder.tvViewsCount.setText("" + shot.getViewsCount());

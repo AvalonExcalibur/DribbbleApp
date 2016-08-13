@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,13 +10,13 @@
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <io.lhyz.android.boilerplate.view.SquareImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/img_avatar"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
-        app:srcCompat="@drawable/logo"/>
+        fresco:roundAsCircle="true"/>
 
     <io.lhyz.android.boilerplate.view.RobotoTextView
         android:id="@+id/tv_name"

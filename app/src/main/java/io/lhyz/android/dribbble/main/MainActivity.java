@@ -1,6 +1,7 @@
 package io.lhyz.android.dribbble.main;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -12,10 +13,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,6 @@ import io.lhyz.android.dribbble.main.recent.RecentPresenter;
 import io.lhyz.android.dribbble.main.team.TeamFragment;
 import io.lhyz.android.dribbble.main.team.TeamPresenter;
 import io.lhyz.android.dribbble.net.ServiceCreator;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -161,13 +160,11 @@ public class MainActivity extends BaseActivity
 
     private void showUser(User user) {
         View headerView = mNavigationView.getHeaderView(0);
-        ImageView imgAvatar = (ImageView) headerView.findViewById(R.id.img_avatar);
+        SimpleDraweeView imgAvatar = (SimpleDraweeView) headerView.findViewById(R.id.img_avatar);
         TextView tvName = (TextView) headerView.findViewById(R.id.tv_name);
         TextView tvHost = (TextView) headerView.findViewById(R.id.tv_host);
 
-        Glide.with(this).load(user.getAvatarUrl())
-                .bitmapTransform(new CropCircleTransformation(this))
-                .into(imgAvatar);
+        imgAvatar.setImageURI(Uri.parse(user.getAvatarUrl()));
 
         tvName.setText(user.getName());
         tvHost.setText(user.getHost());

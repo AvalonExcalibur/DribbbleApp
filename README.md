@@ -11,14 +11,13 @@
 - 2016-08-10 重建MVP+Clean架构，引入Dagger2和Interactor（UseCase）并查询到部分API用法
 - 2016-08-11 根据最初完成的Popular模块模板构建了其他页面（#BUG没有对多线程和RxJava进行细化和优化，所以快速切换情况下应用会崩溃）
   使用了Fabric作为crash分析组件
-  由于Glide是支持加载gif图片的，同时对于在列表（RecyclerView）中多线程加载图片有优化，所以没有特殊依赖别的实现和进行优化
+  由于Fresco是支持加载gif图片的，同时对于在列表（RecyclerView）中多线程加载图片有优化，所以没有特殊依赖别的实现和进行优化
 
 
 ### 预览
 ![](/art/device-2016-08-11-211852.png)
 ![](/art/device-2016-08-11-211955.png)
 ![](/art/device-2016-08-11-211912.png)
-
 
 
 ### Licence
