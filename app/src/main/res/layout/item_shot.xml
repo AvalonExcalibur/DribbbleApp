@@ -19,6 +19,18 @@
         android:layout_gravity="bottom"
         android:background="@color/color_charcoal">
 
+        <io.lhyz.android.boilerplate.view.RobotoButton
+            android:id="@+id/views_count"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:background="@android:color/white"
+            android:drawableLeft="@drawable/ic_remove_red_eye_black_24dp"
+            android:paddingLeft="8dp"
+            android:text="@string/app_name"
+            android:textAppearance="@style/ButtonTextAppearance"/>
+
         <io.lhyz.android.boilerplate.view.SquareImageView
             android:id="@+id/img_author"
             android:layout_width="48dp"

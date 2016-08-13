@@ -17,37 +17,44 @@ package io.lhyz.android.boilerplate.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.widget.ImageButton;
+import android.widget.Button;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/12.
+ * Created by lhyz on 2016/8/13.
+ * <p>
+ * Button 继承自TextView
  */
-public class RobotoImageButton extends ImageButton {
-
-    public RobotoImageButton(Context context) {
+public class RobotoButton extends Button {
+    public RobotoButton(Context context) {
         super(context);
     }
 
-    public RobotoImageButton(Context context, AttributeSet attrs) {
+    public RobotoButton(Context context, AttributeSet attrs) {
         super(context, attrs);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            initRobotoFont(context);
+        }
     }
 
-    public RobotoImageButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RobotoButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            initRobotoFont(context);
+        }
     }
 
     @SuppressWarnings("unused")
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public RobotoImageButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public RobotoButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    private void initRobotoFont(Context context) {
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(), "roboto.ttf");
+        setTypeface(typeface);
     }
 }

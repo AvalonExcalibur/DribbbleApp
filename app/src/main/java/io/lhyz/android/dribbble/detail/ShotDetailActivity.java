@@ -20,7 +20,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -49,12 +49,10 @@ public class ShotDetailActivity extends BaseActivity {
     @BindView(R.id.progress_loading)
     ProgressBar mProgressBar;
 
-    @BindView(R.id.action_views)
-    ImageButton ibViewsCount;
     @BindView(R.id.action_likes)
-    ImageButton ibLikesCount;
+    Button btnLikes;
     @BindView(R.id.action_comments)
-    ImageButton ibCommentsCount;
+    Button btnComments;
 
     Shot mShot;
 
@@ -65,6 +63,8 @@ public class ShotDetailActivity extends BaseActivity {
 
         mShot = (Shot) getIntent().getSerializableExtra(EXTRA_PARAMS_SHOT);
         setActionBarTitle(mShot.getTitle());
+        btnLikes.setText("" + mShot.getLikesCount());
+        btnComments.setText("" + mShot.getCommentsCount());
 
         Shot.Image image = mShot.getImages();
         String url = image.getHidpi() == null ?

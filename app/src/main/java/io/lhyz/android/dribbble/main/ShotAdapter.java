@@ -64,6 +64,7 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ShotViewHolder
         ImageView imgArt;
         ImageView imgAuthor;
         TextView tvName;
+        TextView tvViewsCount;
 
         View itemView;
 
@@ -73,6 +74,7 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ShotViewHolder
             imgArt = (ImageView) itemView.findViewById(R.id.img_art);
             imgAuthor = (ImageView) itemView.findViewById(R.id.img_author);
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
+            tvViewsCount = (TextView) itemView.findViewById(R.id.views_count);
         }
     }
 
@@ -97,11 +99,12 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ShotViewHolder
                 .into(imgAuthor);
 
         holder.tvName.setText(shot.getUser().getName());
+        holder.tvViewsCount.setText("" + shot.getViewsCount());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOnShotClickListener.onShotClick(view,shot);
+                mOnShotClickListener.onShotClick(view, shot);
             }
         });
     }
