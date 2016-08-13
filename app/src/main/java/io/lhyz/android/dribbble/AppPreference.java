@@ -27,6 +27,7 @@ public class AppPreference {
 
     private static final String KEY_ACCESS_TOKEN = "access_token";
     private static final String KEY_FIRST_START = "first_start";
+    private static final String KEY_TAB_POSITION = "tab_position";
 
     private SharedPreferences mSharedPreferences;
 
@@ -61,5 +62,16 @@ public class AppPreference {
             editor.apply();
         }
         return isFirstStart;
+    }
+
+
+    public void saveTabPosition(int pos) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putInt(KEY_TAB_POSITION, pos);
+        editor.apply();
+    }
+
+    public int readTabPosition() {
+        return mSharedPreferences.getInt(KEY_TAB_POSITION, 0);
     }
 }

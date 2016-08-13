@@ -3,67 +3,75 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    xmlns:tag="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/texture_bg"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/img_shot"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:contentDescription="@string/app_name"
-            fresco:viewAspectRatio="1.33"/>
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-        <co.lujun.androidtagview.TagContainerLayout
-            android:id="@+id/tags_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/img_shot"
-            android:background="@android:color/white"
-            android:padding="10dp"
-            tag:container_enable_drag="false"
-            tag:horizontal_interval="10dp"
-            tag:tag_clickable="true"
-            tag:tag_theme="pure_cyan"
-            tag:vertical_interval="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <View
-            android:id="@+id/view_separator_1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/tags_view"
-            android:background="@color/color_pro"/>
+                <co.lujun.androidtagview.TagContainerLayout
+                    android:id="@+id/tags_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    app:container_background_color="#FFFFFF"
+                    app:container_border_radius="0dp"
+                    app:horizontal_interval="8dp"
+                    app:tag_background_color="#FFFFFF"
+                    app:tag_border_color="@color/color_pro"
+                    app:tag_border_width="1dp"
+                    app:tag_clickable="false"
+                    app:tag_corner_radius="1dp"
+                    app:tag_max_length="18"
+                    app:tag_text_color="#000000"
+                    app:tag_text_size="14sp"
+                    app:tag_theme="none"
+                    app:vertical_interval="8dp"/>
 
-        <View
-            android:id="@+id/view_separator_2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/img_shot"
-            android:background="@color/color_pro"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"/>
 
-        <io.lhyz.android.boilerplate.view.RobotoTextView
-            android:id="@+id/tv_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/view_separator_2"
-            android:background="@android:color/white"
-            android:maxLines="3"
-            android:padding="8dp"
-            android:text="@string/app_name"
-            android:textAppearance="@style/BlackTextAppearance"/>
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/img_shot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    fresco:viewAspectRatio="1.33"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"/>
+
+                <io.lhyz.android.boilerplate.view.RobotoTextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:padding="8dp"
+                    android:text="@string/app_name"
+                    android:textAppearance="@style/BlackTextAppearance"/>
+            </LinearLayout>
+        </ScrollView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_gravity="bottom">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,5 +99,5 @@
                     android:textAppearance="@style/ButtonTextAppearance"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>
-    </RelativeLayout>
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

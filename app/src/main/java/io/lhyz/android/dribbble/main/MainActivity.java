@@ -101,10 +101,12 @@ public class MainActivity extends BaseActivity
                 getSupportFragmentManager(),
                 tabInfoArrayList);
 
+        final int pos = AppPreference.getInstance().readTabPosition();
         mViewPager.setAdapter(adapter);
         //不设置预加载的个数的话，就必须对异步操作（Presenter）和Fragment（View）生命周期关联控制的比较详细
         //这里设置预加载个数知识为了方便查看，去掉亦可（我已经完成了生命周期管理）
         mViewPager.setOffscreenPageLimit(5);
+        mViewPager.setCurrentItem(pos);
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
@@ -127,6 +129,19 @@ public class MainActivity extends BaseActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppPreference.getInstance().saveTabPosition(mTabLayout.getSelectedTabPosition());
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //非正常退出
+        AppPreference.getInstance().saveTabPosition(mTabLayout.getSelectedTabPosition());
     }
 
     private void initData() {
