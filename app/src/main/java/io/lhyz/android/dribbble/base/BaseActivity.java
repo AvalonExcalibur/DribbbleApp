@@ -31,10 +31,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setWindowFeature();
         setContentView(getLayout());
         ButterKnife.bind(this);
     }
 
     @LayoutRes
     protected abstract int getLayout();
+
+    protected void setWindowFeature() {
+
+    }
 }

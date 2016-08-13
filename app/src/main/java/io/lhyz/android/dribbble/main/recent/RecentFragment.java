@@ -19,10 +19,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -138,18 +135,14 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
     private final OnShotClickListener mOnShotClickListener = new OnShotClickListener() {
         @Override
         public void onShotClick(View view, Shot shot) {
-            startActivityWithTransition(view, shot);
+            startShotDetailActivity(shot);
         }
     };
 
     @SuppressWarnings("unchecked")
-    private void startActivityWithTransition(View view, Shot shot) {
+    private void startShotDetailActivity(Shot shot) {
         Intent intent = new Intent(getActivity(), ShotDetailActivity.class);
         intent.putExtra(ShotDetailActivity.EXTRA_PARAMS_SHOT, shot);
-        ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                getActivity(),
-                new Pair<>(view.findViewById(R.id.img_art), ShotDetailActivity.VIEW_NAME_IMG)
-        );
-        ActivityCompat.startActivity(getActivity(), intent, activityOptions.toBundle());
+        startActivity(intent);
     }
 }

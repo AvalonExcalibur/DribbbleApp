@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tag="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -11,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tag:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_shot"
@@ -54,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/view_separator_2"
             android:background="@android:color/white"
-            android:maxLines="2"
+            android:maxLines="3"
             android:padding="8dp"
             android:text="@string/app_name"
             android:textAppearance="@style/BlackTextAppearance"/>

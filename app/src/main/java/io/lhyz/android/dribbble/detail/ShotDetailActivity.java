@@ -15,12 +15,14 @@
  */
 package io.lhyz.android.dribbble.detail;
 
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -44,21 +46,25 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * hello,android
  * Created by lhyz on 2016/8/12.
+ * <p/>
+ * 横竖屏动态模板代码
  */
 public class ShotDetailActivity extends BaseActivity {
     public static final String EXTRA_PARAMS_SHOT = "EXTRA_PARAMS_SHOT";
-    public static final String VIEW_NAME_IMG = "VIEW_NAME_IMG";
 
     @BindView(R.id.img_shot)
     SimpleDraweeView mImageView;
     @BindView(R.id.tv_description)
+    @Nullable
     TextView tvDescription;
     @BindView(R.id.action_likes)
+    @Nullable
     Button btnLikes;
     @BindView(R.id.action_comments)
+    @Nullable
     Button btnComments;
-
     @BindView(R.id.tags_view)
+    @Nullable
     TagContainerLayout mTagContainerLayout;
 
     Shot mShot;
@@ -67,21 +73,25 @@ public class ShotDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewCompat.setTransitionName(mImageView, VIEW_NAME_IMG);
-
         mShot = (Shot) getIntent().getSerializableExtra(EXTRA_PARAMS_SHOT);
-        setActionBarTitle(mShot.getTitle());
-        btnLikes.setText("" + mShot.getLikesCount());
-        btnComments.setText("" + mShot.getCommentsCount());
-        if (mShot.getDescription() != null) {
-            tvDescription.setText(Html.fromHtml(mShot.getDescription()));
-        } else {
-            tvDescription.setText("No Description");
-        }
-        if (mShot.getTags() != null) {
-            mTagContainerLayout.setTags(mShot.getTags());
-        } else {
-            mTagContainerLayout.setTags(Collections.singletonList("No Tag"));
+        if (getResources().getConfiguration().orientation ==
+                Configuration.ORIENTATION_PORTRAIT) {
+            if (btnLikes != null && btnComments != null && tvDescription != null
+                    && mTagContainerLayout != null) {
+                setActionBarTitle(mShot.getTitle());
+                btnLikes.setText("" + mShot.getLikesCount());
+                btnComments.setText("" + mShot.getCommentsCount());
+                if (mShot.getDescription() != null) {
+                    tvDescription.setText(Html.fromHtml(mShot.getDescription()));
+                } else {
+                    tvDescription.setText("No Description");
+                }
+                if (mShot.getTags() != null) {
+                    mTagContainerLayout.setTags(mShot.getTags());
+                } else {
+                    mTagContainerLayout.setTags(Collections.singletonList("No Tag"));
+                }
+            }
         }
 
         Shot.Image image = mShot.getImages();
@@ -89,9 +99,11 @@ public class ShotDetailActivity extends BaseActivity {
                 (image.getNormal() == null ? image.getTeaser() : image.getNormal()) :
                 image.getHidpi();
 
-        GenericDraweeHierarchyBuilder builder = GenericDraweeHierarchyBuilder.newInstance(getResources());
-        GenericDraweeHierarchy hierarchy = builder.setProgressBarImage(new ProgressBarDrawable())
-                .build();
+        GenericDraweeHierarchyBuilder builder =
+                GenericDraweeHierarchyBuilder.newInstance(getResources());
+        GenericDraweeHierarchy hierarchy =
+                builder.setProgressBarImage(new ProgressBarDrawable())
+                        .build();
         mImageView.setHierarchy(hierarchy);
         Uri uri = Uri.parse(url);
         DraweeController controller = Fresco.newDraweeControllerBuilder()
@@ -112,5 +124,22 @@ public class ShotDetailActivity extends BaseActivity {
     @Override
     protected int getLayout() {
         return R.layout.act_detail_shot;
+    }
+
+    @Override
+    protected void setWindowFeature() {
+        if (getResources().getConfiguration().orientation ==
+                Configuration.ORIENTATION_PORTRAIT) {
+            super.setWindowFeature();
+        } else {
+            /**
+             * 在此activity中{@link #requestWindowFeature(int)} 不起作用,
+             * AppCompatActivity中需要使用{@link #supportRequestWindowFeature(int)}
+             */
+            supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+
     }
 }
