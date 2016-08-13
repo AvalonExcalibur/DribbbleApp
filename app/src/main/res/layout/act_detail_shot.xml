@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tag="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/texture_bg"
@@ -10,21 +11,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        tag:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ProgressBar
-            android:id="@+id/progress_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"/>
-
-        <io.lhyz.android.boilerplate.view.FixRatioImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_shot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:contentDescription="@string/app_name"/>
+            android:contentDescription="@string/app_name"
+            fresco:viewAspectRatio="1.33"/>
 
         <co.lujun.androidtagview.TagContainerLayout
             android:id="@+id/tags_view"
@@ -33,11 +28,11 @@
             android:layout_above="@id/img_shot"
             android:background="@android:color/white"
             android:padding="10dp"
-            app:container_enable_drag="false"
-            app:horizontal_interval="10dp"
-            app:tag_clickable="true"
-            app:tag_theme="pure_cyan"
-            app:vertical_interval="10dp"/>
+            tag:container_enable_drag="false"
+            tag:horizontal_interval="10dp"
+            tag:tag_clickable="true"
+            tag:tag_theme="pure_cyan"
+            tag:vertical_interval="10dp"/>
 
         <View
             android:id="@+id/view_separator_1"

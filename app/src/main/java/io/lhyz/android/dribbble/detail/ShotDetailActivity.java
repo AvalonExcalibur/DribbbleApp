@@ -15,23 +15,23 @@
  */
 package io.lhyz.android.dribbble.detail;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.drawable.ProgressBarDrawable;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import butterknife.BindView;
 import co.lujun.androidtagview.TagContainerLayout;
@@ -50,9 +50,7 @@ public class ShotDetailActivity extends BaseActivity {
     public static final String VIEW_NAME_IMG = "VIEW_NAME_IMG";
 
     @BindView(R.id.img_shot)
-    ImageView mImageView;
-    @BindView(R.id.progress_loading)
-    ProgressBar mProgressBar;
+    SimpleDraweeView mImageView;
     @BindView(R.id.tv_description)
     TextView tvDescription;
     @BindView(R.id.action_likes)
@@ -83,30 +81,24 @@ public class ShotDetailActivity extends BaseActivity {
         if (mShot.getTags() != null) {
             mTagContainerLayout.setTags(mShot.getTags());
         } else {
-            mTagContainerLayout.setTags(Arrays.asList("No Tag"));
+            mTagContainerLayout.setTags(Collections.singletonList("No Tag"));
         }
 
         Shot.Image image = mShot.getImages();
         String url = image.getHidpi() == null ?
                 (image.getNormal() == null ? image.getTeaser() : image.getNormal()) :
                 image.getHidpi();
-        mProgressBar.setVisibility(View.VISIBLE);
-        Glide.with(this)
-                .load(url)
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        mProgressBar.setVisibility(View.GONE);
-                        return false;
-                    }
 
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        mProgressBar.setVisibility(View.GONE);
-                        return false;
-                    }
-                })
-                .into(mImageView);
+        GenericDraweeHierarchyBuilder builder = GenericDraweeHierarchyBuilder.newInstance(getResources());
+        GenericDraweeHierarchy hierarchy = builder.setProgressBarImage(new ProgressBarDrawable())
+                .build();
+        mImageView.setHierarchy(hierarchy);
+        Uri uri = Uri.parse(url);
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setUri(uri)
+                .setAutoPlayAnimations(true)
+                .build();
+        mImageView.setController(controller);
     }
 
     private void setActionBarTitle(CharSequence title) {
