@@ -1,0 +1,7 @@
+<resources>
+    <string name="lorem_ipsum">
+        <![CDATA[
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec feugiat nulla non tortor faucibus consequat. Curabitur ac arcu quis tellus posuere lobortis. Mauris vulputate magna et ligula venenatis finibus. Nam dui magna, efficitur nec nunc quis, blandit euismod nibh. Etiam eu volutpat lectus, et fringilla neque. Sed a consectetur lorem. Nulla dui erat, sagittis sollicitudin eleifend vitae, feugiat id urna. Donec vulputate pharetra porttitor.
+        ]]>
+    </string>
+</resources>

@@ -15,15 +15,22 @@
  */
 package io.lhyz.android.dribbble.detail;
 
+import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -51,6 +58,7 @@ import io.lhyz.android.dribbble.base.BaseActivity;
 import io.lhyz.android.dribbble.data.DribbbleService;
 import io.lhyz.android.dribbble.data.model.Comment;
 import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.detail.adapter.ShotCommentAdapter;
 import io.lhyz.android.dribbble.net.ServiceCreator;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -80,8 +88,15 @@ public class ShotDetailActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     @Nullable
     Toolbar mToolbar;
+    @BindView(R.id.tv_comments_count)
+    @Nullable
+    TextView tvCommnetCount;
+    @Nullable
+    @BindView(R.id.list_comments)
+    RecyclerView mRecyclerView;
 
     DribbbleService mDribbbleService;
+    ShotCommentAdapter mAdapter;
 
     Shot mShot;
 
@@ -93,19 +108,7 @@ public class ShotDetailActivity extends BaseActivity {
 
         if (getResources().getConfiguration().orientation ==
                 Configuration.ORIENTATION_PORTRAIT) {
-            if (btnLikes != null && tvDescription != null && mTagContainerLayout != null) {
-                setActionBarTitle(mShot.getTitle());
-                if (mShot.getDescription() != null) {
-                    tvDescription.setText(Html.fromHtml(mShot.getDescription()));
-                } else {
-                    tvDescription.setText("No Description");
-                }
-                if (mShot.getTags() != null) {
-                    mTagContainerLayout.setTags(mShot.getTags());
-                } else {
-                    mTagContainerLayout.setTags(Collections.singletonList("No Tag"));
-                }
-            }
+            initInPortrait();
         }
 
         Shot.Image image = mShot.getImages();
@@ -123,7 +126,6 @@ public class ShotDetailActivity extends BaseActivity {
         Postprocessor postprocessor = new BasePostprocessor() {
             @Override
             public void process(Bitmap bitmap) {
-
                 super.process(bitmap);
             }
         };
@@ -137,25 +139,6 @@ public class ShotDetailActivity extends BaseActivity {
                 .setAutoPlayAnimations(true)
                 .build();
         mImageView.setController(controller);
-
-
-        mDribbbleService = new ServiceCreator(AppPreference.getInstance().readToken())
-                .createService();
-
-        mDribbbleService.getComments(mShot.getId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultSubscriber<List<Comment>>() {
-                    @Override
-                    public void onSuccess(List<Comment> result) {
-                        super.onSuccess(result);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                    }
-                });
     }
 
     private void setActionBarTitle(CharSequence title) {
@@ -166,6 +149,60 @@ public class ShotDetailActivity extends BaseActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setTitle(title);
+    }
+
+    private void initInPortrait() {
+        setBasicInfo();
+        setCommentList();
+    }
+
+    @SuppressWarnings("deprecation")
+    private void setBasicInfo() {
+        if (btnLikes != null && tvDescription != null && mTagContainerLayout != null) {
+            setActionBarTitle(mShot.getTitle());
+            if (mShot.getDescription() != null) {
+                tvDescription.setText(Html.fromHtml(mShot.getDescription()));
+            } else {
+                tvDescription.setText("No Description");
+            }
+            if (mShot.getTags() != null) {
+                mTagContainerLayout.setTags(mShot.getTags());
+            } else {
+                mTagContainerLayout.setTags(Collections.singletonList("No Tag"));
+            }
+        }
+    }
+
+    private void setCommentList() {
+        if (mRecyclerView != null && tvCommnetCount != null) {
+            if (mShot.getCommentsCount() > 0) {
+                tvCommnetCount.setText(mShot.getCommentsCount() + " Comments");
+
+                mAdapter = new ShotCommentAdapter(this);
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                mRecyclerView.addItemDecoration(new DividerItemDecoration(this, getResources().getDisplayMetrics().density));
+                mRecyclerView.setAdapter(mAdapter);
+
+                mDribbbleService = new ServiceCreator(AppPreference.getInstance().readToken())
+                        .createService();
+                mDribbbleService.getComments(mShot.getId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new DefaultSubscriber<List<Comment>>() {
+                            @Override
+                            public void onSuccess(List<Comment> result) {
+                                mAdapter.setCommentList(result);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                            }
+                        });
+            } else {
+                tvCommnetCount.setText("No Comments");
+            }
+        }
     }
 
     @Override
@@ -188,5 +225,42 @@ public class ShotDetailActivity extends BaseActivity {
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
 
+    }
+
+
+    private static class DividerItemDecoration extends RecyclerView.ItemDecoration {
+        private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
+        private final Drawable mDivider;
+        private float density;
+
+        /**
+         * Default divider will be used
+         */
+        public DividerItemDecoration(Context context, float density) {
+            final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
+            mDivider = styledAttributes.getDrawable(0);
+            styledAttributes.recycle();
+
+            this.density = density;
+        }
+
+        @Override
+        public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            int left = parent.getPaddingLeft() + (int) (12 * density);
+            int right = parent.getWidth() - parent.getPaddingRight() - (int) (12 * density);
+
+            int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View child = parent.getChildAt(i);
+
+                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+
+                int top = child.getBottom() + params.bottomMargin;
+                int bottom = top + mDivider.getIntrinsicHeight();
+
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
+            }
+        }
     }
 }

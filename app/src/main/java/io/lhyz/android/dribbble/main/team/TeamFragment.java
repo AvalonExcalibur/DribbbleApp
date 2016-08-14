@@ -33,6 +33,7 @@ import io.lhyz.android.dribbble.base.BaseFragment;
 import io.lhyz.android.dribbble.data.model.Shot;
 import io.lhyz.android.dribbble.main.OnShotClickListener;
 import io.lhyz.android.dribbble.main.ShotAdapter;
+import io.lhyz.android.dribbble.navigation.Navigator;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -132,8 +133,8 @@ public class TeamFragment extends BaseFragment implements TeamContract.View {
 
     private final OnShotClickListener mOnShotClickListener = new OnShotClickListener() {
         @Override
-        public void onShotClick(View view, Shot shot) {
-
+        public void onShotClick(Shot shot) {
+            Navigator.startShotDetailsActivity(getActivity(), shot);
         }
     };
 }

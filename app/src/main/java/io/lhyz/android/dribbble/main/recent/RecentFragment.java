@@ -15,7 +15,6 @@
  */
 package io.lhyz.android.dribbble.main.recent;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -32,9 +31,9 @@ import butterknife.BindView;
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseFragment;
 import io.lhyz.android.dribbble.data.model.Shot;
-import io.lhyz.android.dribbble.detail.ShotDetailActivity;
 import io.lhyz.android.dribbble.main.OnShotClickListener;
 import io.lhyz.android.dribbble.main.ShotAdapter;
+import io.lhyz.android.dribbble.navigation.Navigator;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -134,15 +133,8 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
 
     private final OnShotClickListener mOnShotClickListener = new OnShotClickListener() {
         @Override
-        public void onShotClick(View view, Shot shot) {
-            startShotDetailActivity(shot);
+        public void onShotClick(Shot shot) {
+            Navigator.startShotDetailsActivity(getActivity(), shot);
         }
     };
-
-    @SuppressWarnings("unchecked")
-    private void startShotDetailActivity(Shot shot) {
-        Intent intent = new Intent(getActivity(), ShotDetailActivity.class);
-        intent.putExtra(ShotDetailActivity.EXTRA_PARAMS_SHOT, shot);
-        startActivity(intent);
-    }
 }

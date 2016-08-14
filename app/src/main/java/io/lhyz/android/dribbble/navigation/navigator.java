@@ -13,14 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.main;
+package io.lhyz.android.dribbble.navigation;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 
 import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.detail.ShotDetailActivity;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/11.
+ * Created by lhyz on 2016/8/14.
  */
-public interface OnShotClickListener {
-    void onShotClick(Shot shot);
+public class Navigator {
+
+    public static void startShotDetailsActivity(@NonNull Context context, @NonNull Shot shot) {
+        Intent intent = new Intent(context, ShotDetailActivity.class);
+        intent.putExtra(ShotDetailActivity.EXTRA_PARAMS_SHOT, shot);
+        context.startActivity(intent);
+    }
 }

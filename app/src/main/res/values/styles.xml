@@ -35,6 +35,14 @@
         <item name="android:textColor">#000000</item>
     </style>
 
+    <style name="TextAppearance.White.Small" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="TextAppearance.Black.Small" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">#000000</item>
+    </style>
+
     <style name="NormalTextAppearance.White" parent="TextAppearance.White.Body1"/>
 
     <style name="NormalTextAppearance.Black" parent="TextAppearance.Black.Body1"/>
@@ -42,6 +50,18 @@
     <style name="LargeTextAppearance.White" parent="TextAppearance.White.Medium"/>
 
     <style name="LargeTextAppearance.Black" parent="TextAppearance.Black.Medium"/>
+
+    <style name="LargeTextAppearance.Grey" parent="TextAppearance.Black.Medium">
+        <item name="android:textColor">#888888</item>
+    </style>
+
+    <style name="SmallTextAppearance.White" parent="TextAppearance.White.Small"/>
+
+    <style name="SmallTextAppearance.Black" parent="TextAppearance.Black.Small"/>
+
+    <style name="SmallTextAppearance.Grey" parent="TextAppearance.Black.Small">
+        <item name="android:textColor">#888888</item>
+    </style>
 
     <style name="TabTextAppearance" parent="NormalTextAppearance.White">
         <item name="android:textAllCaps">false</item>
