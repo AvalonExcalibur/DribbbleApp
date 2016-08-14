@@ -18,9 +18,12 @@ package io.lhyz.android.dribbble.data;
 import java.util.List;
 
 import io.lhyz.android.dribbble.data.model.Comment;
+import io.lhyz.android.dribbble.data.model.Like;
 import io.lhyz.android.dribbble.data.model.Shot;
 import io.lhyz.android.dribbble.data.model.User;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -55,4 +58,13 @@ public interface DribbbleService {
 
     @GET("shots/{shot}/comments")
     Observable<List<Comment>> getComments(@Path("shot") int shotId);
+
+    @GET("shots/{shot}/like")
+    Observable<Like> isLikes(@Path("shot") int shotId);
+
+    @POST("shots/{shot}/like")
+    Observable<Like> likeShot(@Path("shot") int shotId);
+
+    @DELETE("shots/{shot}/like")
+    Observable<Like> unlikeShot(@Path("shot") int shotId);
 }

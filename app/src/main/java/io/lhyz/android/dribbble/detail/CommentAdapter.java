@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.detail.adapter;
+package io.lhyz.android.dribbble.detail;
 
 import android.content.Context;
 import android.net.Uri;
@@ -36,12 +36,12 @@ import io.lhyz.android.dribbble.data.model.Comment;
  * hello,android
  * Created by lhyz on 2016/8/14.
  */
-public class ShotCommentAdapter extends RecyclerView.Adapter<ShotCommentAdapter.ViewHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
     private final List<Comment> mComments;
     private final LayoutInflater mLayoutInflater;
 
-    public ShotCommentAdapter(Context context) {
+    public CommentAdapter(Context context) {
         mComments = new ArrayList<>(0);
         mLayoutInflater = LayoutInflater.from(context);
     }

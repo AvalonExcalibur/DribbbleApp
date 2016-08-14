@@ -15,15 +15,9 @@
  */
 package io.lhyz.android.dribbble.detail;
 
-import io.lhyz.android.dribbble.base.BaseActivity;
-
 /**
  * hello,android
- * Created by lhyz on 2016/8/12.
+ * Created by lhyz on 2016/8/14.
  */
-public class UserDetailActivity extends BaseActivity {
-    @Override
-    protected int getLayout() {
-        return 0;
-    }
+public class DetailPresenter {
 }

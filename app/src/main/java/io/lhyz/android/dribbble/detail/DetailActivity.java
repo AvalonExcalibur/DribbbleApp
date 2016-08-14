@@ -18,7 +18,6 @@ package io.lhyz.android.dribbble.detail;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -41,10 +40,6 @@ import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.request.BasePostprocessor;
-import com.facebook.imagepipeline.request.ImageRequest;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
-import com.facebook.imagepipeline.request.Postprocessor;
 
 import java.util.Collections;
 import java.util.List;
@@ -57,8 +52,8 @@ import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseActivity;
 import io.lhyz.android.dribbble.data.DribbbleService;
 import io.lhyz.android.dribbble.data.model.Comment;
+import io.lhyz.android.dribbble.data.model.Like;
 import io.lhyz.android.dribbble.data.model.Shot;
-import io.lhyz.android.dribbble.detail.adapter.ShotCommentAdapter;
 import io.lhyz.android.dribbble.net.ServiceCreator;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -68,11 +63,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * hello,android
  * Created by lhyz on 2016/8/12.
- * <p>
+ * <p/>
  * 横竖屏动态模板代码
  */
-public class ShotDetailActivity extends BaseActivity {
+public class DetailActivity extends BaseActivity {
     public static final String EXTRA_PARAMS_SHOT = "EXTRA_PARAMS_SHOT";
+    private static final int TAG_LIKE = 748;
 
     @BindView(R.id.img_shot)
     SimpleDraweeView mImageView;
@@ -85,18 +81,24 @@ public class ShotDetailActivity extends BaseActivity {
     @BindView(R.id.tags_view)
     @Nullable
     TagContainerLayout mTagContainerLayout;
-    @BindView(R.id.toolbar)
-    @Nullable
-    Toolbar mToolbar;
     @BindView(R.id.tv_comments_count)
     @Nullable
-    TextView tvCommnetCount;
+    TextView tvCommentCount;
     @Nullable
     @BindView(R.id.list_comments)
     RecyclerView mRecyclerView;
+    @BindView(R.id.img_author)
+    @Nullable
+    SimpleDraweeView imgAuthor;
+    @BindView(R.id.tv_name)
+    @Nullable
+    TextView tvUserName;
+    @BindView(R.id.tv_update_time)
+    @Nullable
+    TextView tvUpdateTime;
 
     DribbbleService mDribbbleService;
-    ShotCommentAdapter mAdapter;
+    CommentAdapter mAdapter;
 
     Shot mShot;
 
@@ -123,43 +125,51 @@ public class ShotDetailActivity extends BaseActivity {
                         .build();
         mImageView.setHierarchy(hierarchy);
 
-        Postprocessor postprocessor = new BasePostprocessor() {
-            @Override
-            public void process(Bitmap bitmap) {
-                super.process(bitmap);
-            }
-        };
         Uri uri = Uri.parse(url);
-        ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(uri)
-                .setPostprocessor(postprocessor)
-                .build();
         DraweeController controller = Fresco.newDraweeControllerBuilder()
-                .setImageRequest(imageRequest)
                 .setUri(uri)
                 .setAutoPlayAnimations(true)
                 .build();
         mImageView.setController(controller);
     }
 
-    private void setActionBarTitle(CharSequence title) {
-        setSupportActionBar(mToolbar);
-
-        ActionBar actionBar = getSupportActionBar();
-        checkNotNull(actionBar);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setTitle(title);
-    }
-
     private void initInPortrait() {
+        setActionBarFeature();
         setBasicInfo();
         setCommentList();
     }
 
     @SuppressWarnings("deprecation")
     private void setBasicInfo() {
-        if (btnLikes != null && tvDescription != null && mTagContainerLayout != null) {
-            setActionBarTitle(mShot.getTitle());
+        if (btnLikes != null && tvDescription != null && mTagContainerLayout != null
+                && imgAuthor != null && tvUserName != null && tvUpdateTime != null) {
+            mDribbbleService = new ServiceCreator(AppPreference.getInstance().readToken())
+                    .createService();
+
+            mDribbbleService.isLikes(mShot.getId())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new DefaultSubscriber<Like>() {
+                        @Override
+                        public void onSuccess(Like result) {
+                            btnLikes.setImageResource(R.drawable.ic_favorite_white_24dp);
+                            btnLikes.setTag(TAG_LIKE);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+                    });
+            btnLikes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (view.getTag(TAG_LIKE) == null) {
+                        btnLikes.setImageResource(R.drawable.ic_favorite_white_24dp);
+                    } else {
+                        btnLikes.setImageResource(R.drawable.ic_favorite_outline_white_24dp);
+                    }
+                }
+            });
             if (mShot.getDescription() != null) {
                 tvDescription.setText(Html.fromHtml(mShot.getDescription()));
             } else {
@@ -170,21 +180,25 @@ public class ShotDetailActivity extends BaseActivity {
             } else {
                 mTagContainerLayout.setTags(Collections.singletonList("No Tag"));
             }
+
+            imgAuthor.setImageURI(Uri.parse(mShot.getUser().getAvatarUrl()));
+            tvUserName.setText(mShot.getUser().getName());
+            tvUpdateTime.setText(mShot.getUpdatedTime());
         }
     }
 
     private void setCommentList() {
-        if (mRecyclerView != null && tvCommnetCount != null) {
+        if (mRecyclerView != null && tvCommentCount != null) {
             if (mShot.getCommentsCount() > 0) {
-                tvCommnetCount.setText(mShot.getCommentsCount() + " Comments");
+                tvCommentCount.setText(mShot.getCommentsCount() + " Comments");
 
-                mAdapter = new ShotCommentAdapter(this);
+                mAdapter = new CommentAdapter(this);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 mRecyclerView.addItemDecoration(new DividerItemDecoration(this, getResources().getDisplayMetrics().density));
+                mRecyclerView.setNestedScrollingEnabled(false);
                 mRecyclerView.setAdapter(mAdapter);
 
-                mDribbbleService = new ServiceCreator(AppPreference.getInstance().readToken())
-                        .createService();
+
                 mDribbbleService.getComments(mShot.getId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -200,9 +214,18 @@ public class ShotDetailActivity extends BaseActivity {
                             }
                         });
             } else {
-                tvCommnetCount.setText("No Comments");
+                tvCommentCount.setText("No Comments");
             }
         }
+    }
+
+    private void setActionBarFeature() {
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        ActionBar actionBar = getSupportActionBar();
+        checkNotNull(actionBar);
+        actionBar.setTitle("");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
     }
 
     @Override

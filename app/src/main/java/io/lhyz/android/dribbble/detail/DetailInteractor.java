@@ -13,24 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.navigation;
-
-import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-
-import io.lhyz.android.dribbble.data.model.Shot;
-import io.lhyz.android.dribbble.detail.DetailActivity;
+package io.lhyz.android.dribbble.detail;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/14.
  */
-public class Navigator {
-
-    public static void startShotDetailsActivity(@NonNull Context context, @NonNull Shot shot) {
-        Intent intent = new Intent(context, DetailActivity.class);
-        intent.putExtra(DetailActivity.EXTRA_PARAMS_SHOT, shot);
-        context.startActivity(intent);
-    }
+public class DetailInteractor {
 }

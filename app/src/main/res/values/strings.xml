@@ -26,4 +26,7 @@
 
     <string name="actions_likes">Likes</string>
     <string name="actions_comments">Comments</string>
+
+
+    <string name="tag_gif">GIF</string>
 </resources>

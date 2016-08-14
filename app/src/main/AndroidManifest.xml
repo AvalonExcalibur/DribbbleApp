@@ -44,7 +44,7 @@
             android:theme="@style/Theme.AppCompat.Light"/>
 
         <activity
-            android:name=".detail.ShotDetailActivity"
+            android:name=".detail.DetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

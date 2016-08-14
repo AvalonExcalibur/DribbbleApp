@@ -40,6 +40,8 @@ public class Shot extends BaseResponse implements Serializable {
     int commentsCount;
     User user;
     List<String> tags;
+    @SerializedName("updated_at")
+    String updatedTime;
 
     public Shot(int id, String title,
                 String description, int width, int height,
@@ -92,6 +94,10 @@ public class Shot extends BaseResponse implements Serializable {
 
     public int getLikesCount() {
         return likesCount;
+    }
+
+    public String getUpdatedTime() {
+        return updatedTime;
     }
 
     public int getCommentsCount() {

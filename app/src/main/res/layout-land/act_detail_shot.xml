@@ -21,4 +21,15 @@
             android:contentDescription="@string/app_name"
             fresco:viewAspectRatio="1.33"/>
     </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/action_likes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_favorite_outline_white_24dp"
+        app:fabSize="normal"
+        app:layout_anchor="@id/img_shot"
+        app:layout_anchorGravity="bottom|end"/>
+
 </android.support.design.widget.CoordinatorLayout>

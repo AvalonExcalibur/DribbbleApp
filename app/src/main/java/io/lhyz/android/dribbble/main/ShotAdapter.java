@@ -65,6 +65,7 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ShotViewHolder
         SimpleDraweeView imgAuthor;
         TextView tvName;
         TextView tvViewsCount;
+        View gifTag;
 
         View itemView;
 
@@ -75,6 +76,7 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ShotViewHolder
             imgAuthor = (SimpleDraweeView) itemView.findViewById(R.id.img_author);
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
             tvViewsCount = (TextView) itemView.findViewById(R.id.views_count);
+            gifTag = itemView.findViewById(R.id.tag_gif);
         }
     }
 
@@ -88,6 +90,10 @@ public class ShotAdapter extends RecyclerView.Adapter<ShotAdapter.ShotViewHolder
         final View view = holder.itemView;
         final int pos = holder.getAdapterPosition();
         final Shot shot = mShots.get(pos);
+
+        if (shot.getImages().getNormal().toLowerCase().endsWith(".gif")) {
+            holder.gifTag.setVisibility(View.VISIBLE);
+        }
 
         final SimpleDraweeView imgArt = holder.imgArt;
         imgArt.setImageURI(Uri.parse(shot.getImages().getNormal()));
