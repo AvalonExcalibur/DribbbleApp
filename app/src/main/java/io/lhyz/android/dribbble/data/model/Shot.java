@@ -24,18 +24,15 @@ import java.util.List;
  * hello,android
  * Created by lhyz on 2016/8/9.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 public class Shot extends BaseResponse implements Serializable {
     int id;
     String title;
     String description;
-    int width;
     int height;
     Image images;
     @SerializedName("views_count")
     int viewsCount;
-    @SerializedName("likes_count")
-    int likesCount;
     @SerializedName("comments_count")
     int commentsCount;
     User user;
@@ -44,12 +41,11 @@ public class Shot extends BaseResponse implements Serializable {
     String updatedTime;
 
     public Shot(int id, String title,
-                String description, int width, int height,
+                String description, int height,
                 Image images, User author, List<String> tags) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.width = width;
         this.height = height;
         this.images = images;
         this.user = author;
@@ -66,10 +62,6 @@ public class Shot extends BaseResponse implements Serializable {
 
     public String getDescription() {
         return description;
-    }
-
-    public int getWidth() {
-        return width;
     }
 
     public int getHeight() {
@@ -90,10 +82,6 @@ public class Shot extends BaseResponse implements Serializable {
 
     public int getViewsCount() {
         return viewsCount;
-    }
-
-    public int getLikesCount() {
-        return likesCount;
     }
 
     public String getUpdatedTime() {

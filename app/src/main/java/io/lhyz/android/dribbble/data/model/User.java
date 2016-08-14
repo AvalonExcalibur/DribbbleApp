@@ -27,30 +27,17 @@ import java.io.Serializable;
 public class User extends BaseResponse implements Serializable {
     long id;
     String name;
-    String username;
     @SerializedName("avatar_url")
     String avatarUrl;
-    String location;
     @SerializedName("html_url")
     String host;
 
-    @SerializedName("buckets_count")
-    int buckets;
-    @SerializedName("followers_count")
-    int followers;
-    @SerializedName("followings_count")
-    int followings;
-    @SerializedName("likes_count")
-    int likes;
-    @SerializedName("projects_count")
-    int projects;
-    @SerializedName("shots_count")
-    int shots;
-
-    String buckets_url;
-    String followers_url;
-    String likes_url;
-    String shots_url;
+    public User(long id, String name, String avatarUrl, String host) {
+        this.id = id;
+        this.name = name;
+        this.avatarUrl = avatarUrl;
+        this.host = host;
+    }
 
     public long getId() {
         return id;
@@ -60,56 +47,8 @@ public class User extends BaseResponse implements Serializable {
         return name;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public String getAvatarUrl() {
         return avatarUrl;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public int getBuckets() {
-        return buckets;
-    }
-
-    public int getFollowers() {
-        return followers;
-    }
-
-    public int getFollowings() {
-        return followings;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public int getProjects() {
-        return projects;
-    }
-
-    public int getShots() {
-        return shots;
-    }
-
-    public String getBuckets_url() {
-        return buckets_url;
-    }
-
-    public String getFollowers_url() {
-        return followers_url;
-    }
-
-    public String getLikes_url() {
-        return likes_url;
-    }
-
-    public String getShots_url() {
-        return shots_url;
     }
 
     public String getHost() {

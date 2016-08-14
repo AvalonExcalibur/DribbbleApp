@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.detail;
+package io.lhyz.android.dribbble.data;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/14.
  */
-public class DetailInteractor {
+public class DribbbleRepository implements DataSource {
 }

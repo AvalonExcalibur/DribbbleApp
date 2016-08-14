@@ -77,7 +77,7 @@ public class AuthActivity extends BaseActivity {
             }
         });
 
-        mWebView.loadUrl("https://dribbble.com/oauth/authorize?client_id=" + BuildConfig.Client_ID);
+        mWebView.loadUrl("https://dribbble.com/oauth/authorize?scope=public+write+comment+upload&client_id=" + BuildConfig.Client_ID);
         mDialog.show();
     }
 

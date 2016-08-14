@@ -32,6 +32,12 @@ android {
         } else {
             buildConfigField("String", "Callback_URL", "https://www.example.com/")
         }
+
+        if (project.hasProperty("client_access_token")) {
+            buildConfigField("String", "ACCESS_TOKEN", project.property("client_access_token"))
+        } else {
+            buildConfigField("String", "ACCESS_TOKEN", "zxcvbnmasdfghjkl")
+        }
     }
 
     buildTypes {
@@ -91,6 +97,9 @@ dependencies {
     compile 'co.lujun:androidtagview:1.0.3'
     //Google Guava
     compile 'com.google.guava:guava:19.0'
+    //Database ORM
+    compile 'com.j256.ormlite:ormlite-core:5.0'
+    compile 'com.j256.ormlite:ormlite-android:5.0'
     //Crash Analyses(Twitter->Fabric)
     compile('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
         transitive = true;

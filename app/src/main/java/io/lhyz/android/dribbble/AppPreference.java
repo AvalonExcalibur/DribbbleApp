@@ -18,6 +18,8 @@ package io.lhyz.android.dribbble;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import io.lhyz.android.dribbble.data.model.User;
+
 /**
  * hello,android
  * Created by lhyz on 2016/8/7.
@@ -28,6 +30,11 @@ public class AppPreference {
     private static final String KEY_ACCESS_TOKEN = "access_token";
     private static final String KEY_FIRST_START = "first_start";
     private static final String KEY_TAB_POSITION = "tab_position";
+
+    private static final String _ID = "user_cached_id";
+    private static final String _NAME = "user_cached_name";
+    private static final String _AVATAR = "user_cached_avatar";
+    private static final String _HOST = "user_cached_host";
 
     private SharedPreferences mSharedPreferences;
 
@@ -73,5 +80,26 @@ public class AppPreference {
 
     public int readTabPosition() {
         return mSharedPreferences.getInt(KEY_TAB_POSITION, 0);
+    }
+
+
+    public void saveUser(User user) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putLong(_ID, user.getId());
+        editor.putString(_NAME, user.getName());
+        editor.putString(_AVATAR, user.getAvatarUrl());
+        editor.putString(_HOST, user.getHost());
+        editor.apply();
+    }
+
+    public User readUser() {
+        long id = mSharedPreferences.getLong(_ID, 0L);
+        if (id == 0) {
+            return null;
+        }
+        String name = mSharedPreferences.getString(_NAME, null);
+        String avatar_url = mSharedPreferences.getString(_AVATAR, null);
+        String host = mSharedPreferences.getString(_HOST, null);
+        return new User(id, name, avatar_url, host);
     }
 }

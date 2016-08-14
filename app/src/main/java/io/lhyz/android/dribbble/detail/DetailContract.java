@@ -15,8 +15,12 @@
  */
 package io.lhyz.android.dribbble.detail;
 
+import java.util.List;
+
 import io.lhyz.android.dribbble.base.BasePresenter;
 import io.lhyz.android.dribbble.base.BaseView;
+import io.lhyz.android.dribbble.data.model.Comment;
+import io.lhyz.android.dribbble.data.model.Shot;
 
 /**
  * hello,android
@@ -25,10 +29,30 @@ import io.lhyz.android.dribbble.base.BaseView;
 public interface DetailContract {
 
     interface Presenter extends BasePresenter {
+        void setBasicInfo();
 
+        void loadComments();
+
+        void likeShot();
+
+        void unlikeShot();
+
+        void isLikeShot();
     }
 
     interface View extends BaseView<Presenter> {
+        void showBasicInfo(Shot shot);
 
+        void showAllComments(List<Comment> comments);
+
+        void showLoadingComments();
+
+        void hideLoadingComments();
+
+        void showNoComments();
+
+        void showLikesState(boolean likes);
+
+        boolean isPortrait();
     }
 }

@@ -13,23 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data.model;
+package io.lhyz.android.dribbble.data.remote;
 
-import java.io.Serializable;
+import io.lhyz.android.dribbble.data.DataSource;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/14.
  */
-@SuppressWarnings("unused")
-public class Like implements Serializable {
-    int id;
-
-    public Like(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
+public class RemoteDataSource implements DataSource {
 }

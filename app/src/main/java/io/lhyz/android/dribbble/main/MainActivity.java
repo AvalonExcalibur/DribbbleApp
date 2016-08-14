@@ -156,6 +156,12 @@ public class MainActivity extends BaseActivity
     }
 
     private void requestUser() {
+        //如果缓存了user数据，那么直接拿来用
+        final User user = AppPreference.getInstance().readUser();
+        if (user != null) {
+            showUser(user);
+            return;
+        }
         mDribbbleService.getUser().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mUserSubscriber);
@@ -164,6 +170,7 @@ public class MainActivity extends BaseActivity
     private final DefaultSubscriber<User> mUserSubscriber = new DefaultSubscriber<User>() {
         @Override
         public void onSuccess(User user) {
+            AppPreference.getInstance().saveUser(user);
             showUser(user);
         }
 

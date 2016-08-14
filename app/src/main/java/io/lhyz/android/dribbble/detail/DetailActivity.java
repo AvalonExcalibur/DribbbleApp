@@ -15,11 +15,7 @@
  */
 package io.lhyz.android.dribbble.detail;
 
-import android.content.Context;
 import android.content.res.Configuration;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -46,17 +42,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import co.lujun.androidtagview.TagContainerLayout;
-import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
-import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseActivity;
-import io.lhyz.android.dribbble.data.DribbbleService;
 import io.lhyz.android.dribbble.data.model.Comment;
-import io.lhyz.android.dribbble.data.model.Like;
 import io.lhyz.android.dribbble.data.model.Shot;
-import io.lhyz.android.dribbble.net.ServiceCreator;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -66,18 +55,19 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * <p/>
  * 横竖屏动态模板代码
  */
-public class DetailActivity extends BaseActivity {
+public class DetailActivity extends BaseActivity implements DetailContract.View {
     public static final String EXTRA_PARAMS_SHOT = "EXTRA_PARAMS_SHOT";
-    private static final int TAG_LIKE = 748;
 
+    //必须控件
+    @BindView(R.id.action_likes)
+    FloatingActionButton fabLikes;
     @BindView(R.id.img_shot)
     SimpleDraweeView mImageView;
+
+    //可选控件
     @BindView(R.id.tv_description)
     @Nullable
     TextView tvDescription;
-    @BindView(R.id.action_likes)
-    @Nullable
-    FloatingActionButton btnLikes;
     @BindView(R.id.tags_view)
     @Nullable
     TagContainerLayout mTagContainerLayout;
@@ -96,24 +86,54 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.tv_update_time)
     @Nullable
     TextView tvUpdateTime;
+    @BindView(R.id.pb_loading)
+    @Nullable
+    View pbLoading;
 
-    DribbbleService mDribbbleService;
     CommentAdapter mAdapter;
+    DetailContract.Presenter mPresenter;
 
-    Shot mShot;
+    enum LikeState {
+        LIKE,
+        UNLIKE
+    }
+
+    LikeState state = LikeState.UNLIKE;
 
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mShot = (Shot) getIntent().getSerializableExtra(EXTRA_PARAMS_SHOT);
+        initData();
+    }
 
-        if (getResources().getConfiguration().orientation ==
-                Configuration.ORIENTATION_PORTRAIT) {
-            initInPortrait();
-        }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.start();
+    }
 
-        Shot.Image image = mShot.getImages();
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPresenter.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    private void initData() {
+        Shot shot = (Shot) getIntent().getSerializableExtra(EXTRA_PARAMS_SHOT);
+        mPresenter = new DetailPresenter(this, shot);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void showBasicInfo(Shot shot) {
+        final Shot.Image image = shot.getImages();
         String url = image.getHidpi() == null ?
                 (image.getNormal() == null ? image.getTeaser() : image.getNormal()) :
                 image.getHidpi();
@@ -131,101 +151,125 @@ public class DetailActivity extends BaseActivity {
                 .setAutoPlayAnimations(true)
                 .build();
         mImageView.setController(controller);
-    }
-
-    private void initInPortrait() {
-        setActionBarFeature();
-        setBasicInfo();
-        setCommentList();
-    }
-
-    @SuppressWarnings("deprecation")
-    private void setBasicInfo() {
-        if (btnLikes != null && tvDescription != null && mTagContainerLayout != null
-                && imgAuthor != null && tvUserName != null && tvUpdateTime != null) {
-            mDribbbleService = new ServiceCreator(AppPreference.getInstance().readToken())
-                    .createService();
-
-            mDribbbleService.isLikes(mShot.getId())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new DefaultSubscriber<Like>() {
-                        @Override
-                        public void onSuccess(Like result) {
-                            btnLikes.setImageResource(R.drawable.ic_favorite_white_24dp);
-                            btnLikes.setTag(TAG_LIKE);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                        }
-                    });
-            btnLikes.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (view.getTag(TAG_LIKE) == null) {
-                        btnLikes.setImageResource(R.drawable.ic_favorite_white_24dp);
-                    } else {
-                        btnLikes.setImageResource(R.drawable.ic_favorite_outline_white_24dp);
-                    }
+        //默认不可用
+        fabLikes.setEnabled(false);
+        fabLikes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //点击事件之后按钮不可用
+                view.setEnabled(false);
+                if (state == LikeState.LIKE) {
+                    mPresenter.unlikeShot();
+                } else {
+                    mPresenter.likeShot();
                 }
-            });
-            if (mShot.getDescription() != null) {
-                tvDescription.setText(Html.fromHtml(mShot.getDescription()));
-            } else {
-                tvDescription.setText("No Description");
             }
-            if (mShot.getTags() != null) {
-                mTagContainerLayout.setTags(mShot.getTags());
-            } else {
-                mTagContainerLayout.setTags(Collections.singletonList("No Tag"));
-            }
+        });
 
-            imgAuthor.setImageURI(Uri.parse(mShot.getUser().getAvatarUrl()));
-            tvUserName.setText(mShot.getUser().getName());
-            tvUpdateTime.setText(mShot.getUpdatedTime());
+        //当竖屏是，下面的view都是null
+        if (tvDescription == null ||
+                mTagContainerLayout == null ||
+                imgAuthor == null ||
+                tvUserName == null ||
+                tvUpdateTime == null) {
+            return;
         }
-    }
 
-    private void setCommentList() {
-        if (mRecyclerView != null && tvCommentCount != null) {
-            if (mShot.getCommentsCount() > 0) {
-                tvCommentCount.setText(mShot.getCommentsCount() + " Comments");
-
-                mAdapter = new CommentAdapter(this);
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-                mRecyclerView.addItemDecoration(new DividerItemDecoration(this, getResources().getDisplayMetrics().density));
-                mRecyclerView.setNestedScrollingEnabled(false);
-                mRecyclerView.setAdapter(mAdapter);
-
-
-                mDribbbleService.getComments(mShot.getId())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new DefaultSubscriber<List<Comment>>() {
-                            @Override
-                            public void onSuccess(List<Comment> result) {
-                                mAdapter.setCommentList(result);
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                e.printStackTrace();
-                            }
-                        });
-            } else {
-                tvCommentCount.setText("No Comments");
-            }
-        }
-    }
-
-    private void setActionBarFeature() {
+        //Toolbar设置
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         ActionBar actionBar = getSupportActionBar();
         checkNotNull(actionBar);
         actionBar.setTitle("");
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+
+        if (shot.getDescription() != null) {
+            tvDescription.setText(Html.fromHtml(shot.getDescription()));
+        } else {
+            tvDescription.setText("No Description");
+        }
+
+        if (shot.getTags() != null && shot.getTags().size() > 0) {
+            mTagContainerLayout.setTags(shot.getTags());
+        } else {
+            mTagContainerLayout.setTags(Collections.singletonList("No Tag"));
+        }
+
+        imgAuthor.setImageURI(Uri.parse(shot.getUser().getAvatarUrl()));
+        tvUserName.setText(shot.getUser().getName());
+        tvUpdateTime.setText(shot.getUpdatedTime());
+
+        if (mRecyclerView == null) {
+            return;
+        }
+        //横屏状态
+        mAdapter = new CommentAdapter(this);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, getResources().getDisplayMetrics().density));
+        mRecyclerView.setNestedScrollingEnabled(false);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void showAllComments(List<Comment> comments) {
+        if (tvCommentCount == null) {
+            return;
+        }
+        if (comments.size() > 0) {
+            tvCommentCount.setText(comments.size() + " Comments");
+            mAdapter.setCommentList(comments);
+        } else {
+            tvCommentCount.setText("No Comments");
+        }
+    }
+
+    @Override
+    public void showLoadingComments() {
+        if (pbLoading == null || mRecyclerView == null) {
+            return;
+        }
+        pbLoading.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideLoadingComments() {
+        if (pbLoading == null || mRecyclerView == null) {
+            return;
+        }
+        pbLoading.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showNoComments() {
+        if (tvCommentCount == null) {
+            return;
+        }
+        tvCommentCount.setText("No Comments");
+    }
+
+    @Override
+    public void showLikesState(boolean likes) {
+        //更新了按钮状态之后解禁按钮
+        fabLikes.setEnabled(true);
+        if (likes) {
+            state = LikeState.LIKE;
+            fabLikes.setImageResource(R.drawable.ic_favorite_white_24dp);
+        } else {
+            state = LikeState.UNLIKE;
+            fabLikes.setImageResource(R.drawable.ic_favorite_outline_white_24dp);
+        }
+    }
+
+    @Override
+    public void setPresenter(DetailContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public boolean isPortrait() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
     @Override
@@ -247,43 +291,7 @@ public class DetailActivity extends BaseActivity {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
-
     }
 
-
-    private static class DividerItemDecoration extends RecyclerView.ItemDecoration {
-        private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
-        private final Drawable mDivider;
-        private float density;
-
-        /**
-         * Default divider will be used
-         */
-        public DividerItemDecoration(Context context, float density) {
-            final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
-            mDivider = styledAttributes.getDrawable(0);
-            styledAttributes.recycle();
-
-            this.density = density;
-        }
-
-        @Override
-        public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-            int left = parent.getPaddingLeft() + (int) (12 * density);
-            int right = parent.getWidth() - parent.getPaddingRight() - (int) (12 * density);
-
-            int childCount = parent.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View child = parent.getChildAt(i);
-
-                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-
-                int top = child.getBottom() + params.bottomMargin;
-                int bottom = top + mDivider.getIntrinsicHeight();
-
-                mDivider.setBounds(left, top, right, bottom);
-                mDivider.draw(c);
-            }
-        }
-    }
 }
+

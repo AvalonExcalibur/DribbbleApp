@@ -13,23 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data.model;
-
-import java.io.Serializable;
+package io.lhyz.android.dribbble.data;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/14.
  */
-@SuppressWarnings("unused")
-public class Like implements Serializable {
-    int id;
-
-    public Like(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
+public interface DataSource {
 }

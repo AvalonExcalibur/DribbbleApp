@@ -35,6 +35,10 @@ public class AppStart extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+//        if (BuildConfig.DEBUG) {
+//            AppPreference.getInstance().saveToken(BuildConfig.ACCESS_TOKEN);
+//        }
+
         if (AppPreference.getInstance().readToken() == null) {
             redirectToLogin();
         } else {

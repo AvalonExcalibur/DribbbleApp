@@ -15,9 +15,150 @@
  */
 package io.lhyz.android.dribbble.detail;
 
+import java.util.List;
+
+import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
+import io.lhyz.android.dribbble.AppPreference;
+import io.lhyz.android.dribbble.data.DribbbleService;
+import io.lhyz.android.dribbble.data.model.Comment;
+import io.lhyz.android.dribbble.data.model.Like;
+import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.net.ServiceCreator;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 /**
  * hello,android
  * Created by lhyz on 2016/8/14.
  */
-public class DetailPresenter {
+public class DetailPresenter implements DetailContract.Presenter {
+
+    DetailContract.View mView;
+    final Shot mShot;
+
+    DribbbleService mDribbbleService;
+    Subscription mSubscription;
+
+    public DetailPresenter(DetailContract.View view, Shot shot) {
+        mView = view;
+        mShot = shot;
+        mView.setPresenter(this);
+
+        mDribbbleService = new ServiceCreator(AppPreference.getInstance().readToken())
+                .createService();
+    }
+
+    @Override
+    public void setBasicInfo() {
+        mView.showBasicInfo(mShot);
+    }
+
+    @Override
+    public void loadComments() {
+        if (mShot.getCommentsCount() == 0) {
+            mView.showNoComments();
+            return;
+        }
+        if (mView.isPortrait()) {
+            mView.showLoadingComments();
+            mSubscription = mDribbbleService.getComments(mShot.getId())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new DefaultSubscriber<List<Comment>>() {
+                        @Override
+                        public void onSuccess(List<Comment> result) {
+                            mView.hideLoadingComments();
+                            mView.showAllComments(result);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            mView.hideLoadingComments();
+                            mView.showNoComments();
+                        }
+                    });
+        }
+    }
+
+    @Override
+    public void likeShot() {
+        mDribbbleService.likeShot(mShot.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<Like>() {
+                    @Override
+                    public void onSuccess(Like result) {
+                        mView.showLikesState(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.showLikesState(false);
+                    }
+                });
+    }
+
+    @Override
+    public void unlikeShot() {
+        mDribbbleService.unlikeShot(mShot.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<Like>() {
+                    @Override
+                    public void onSuccess(Like result) {
+                        mView.showLikesState(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.showLikesState(true);
+                    }
+                });
+    }
+
+    @Override
+    public void isLikeShot() {
+        mDribbbleService.isLikes(mShot.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<Like>() {
+                    @Override
+                    public void onSuccess(Like result) {
+                        mView.showLikesState(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.showLikesState(false);
+                    }
+                });
+    }
+
+    @Override
+    public void start() {
+        setBasicInfo();
+        isLikeShot();
+        loadComments();
+    }
+
+    @Override
+    public void pause() {
+        unsubscribe();
+    }
+
+    @Override
+    public void destroy() {
+        unsubscribe();
+        mView = null;
+    }
+
+    private void unsubscribe() {
+        if (mSubscription == null) {
+            return;
+        }
+        if (!mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
+        }
+    }
 }
