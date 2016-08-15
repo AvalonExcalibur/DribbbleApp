@@ -25,6 +25,8 @@ import java.io.Serializable;
  */
 @SuppressWarnings("unused")
 public class User extends BaseResponse implements Serializable {
+    private static final long serialVersionUID = -3850892019322418984L;
+
     long id;
     String name;
     @SerializedName("avatar_url")

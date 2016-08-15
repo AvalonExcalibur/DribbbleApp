@@ -57,14 +57,14 @@ public interface DribbbleService {
     Observable<List<Shot>> getPlayoffs();
 
     @GET("shots/{shot}/comments")
-    Observable<List<Comment>> getComments(@Path("shot") int shotId);
+    Observable<List<Comment>> getComments(@Path("shot") long shotId);
 
     @GET("shots/{shot}/like")
-    Observable<Like> isLikes(@Path("shot") int shotId);
+    Observable<Like> isLikes(@Path("shot") long shotId);
 
     @POST("shots/{shot}/like")
-    Observable<Like> likeShot(@Path("shot") int shotId);
+    Observable<Like> likeShot(@Path("shot") long shotId);
 
     @DELETE("shots/{shot}/like")
-    Observable<Like> unlikeShot(@Path("shot") int shotId);
+    Observable<Like> unlikeShot(@Path("shot") long shotId);
 }

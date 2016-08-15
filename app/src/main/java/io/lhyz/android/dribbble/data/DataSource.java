@@ -15,9 +15,24 @@
  */
 package io.lhyz.android.dribbble.data;
 
+import android.support.annotation.NonNull;
+
+import java.util.List;
+
+import io.lhyz.android.dribbble.data.model.Comment;
+
 /**
  * hello,android
  * Created by lhyz on 2016/8/14.
  */
 public interface DataSource {
+    interface LoadCommentCallback {
+        void onLoadedComments(List<Comment> comments);
+
+        void onNoComments();
+    }
+
+    void loadComments(long shotId, boolean force, @NonNull LoadCommentCallback callback);
+
+    void saveComments(long shotId, @NonNull List<Comment> comments);
 }

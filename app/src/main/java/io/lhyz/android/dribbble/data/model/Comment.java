@@ -16,6 +16,9 @@
 package io.lhyz.android.dribbble.data.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 
@@ -24,15 +27,28 @@ import java.io.Serializable;
  * Created by lhyz on 2016/8/13.
  */
 @SuppressWarnings("unused")
+@DatabaseTable(tableName = "comments")
 public class Comment extends BaseResponse implements Serializable {
-    int id;
+    private static final long serialVersionUID = -7050492019251241384L;
+
+    @DatabaseField
+    long shotId;
+    @DatabaseField(id = true)
+    long id;
+    @DatabaseField
     String body;
     @SerializedName("likes_count")
+    @DatabaseField
     int likesCount;
+    @DatabaseField
     @SerializedName("updated_at")
     String updateTime;
-
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
     User user;
+
+    public Comment() {
+        //For ORMLite
+    }
 
     public Comment(int id, String body, int likesCount, String updateTime, User user) {
         this.id = id;
@@ -42,7 +58,15 @@ public class Comment extends BaseResponse implements Serializable {
         this.user = user;
     }
 
-    public int getId() {
+    public long getShotId() {
+        return shotId;
+    }
+
+    public void setShotId(long shotId) {
+        this.shotId = shotId;
+    }
+
+    public long getId() {
         return id;
     }
 

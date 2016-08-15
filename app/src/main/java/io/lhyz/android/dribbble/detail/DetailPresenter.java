@@ -15,6 +15,8 @@
  */
 package io.lhyz.android.dribbble.detail;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.List;
 
 import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
@@ -34,11 +36,14 @@ import rx.schedulers.Schedulers;
  */
 public class DetailPresenter implements DetailContract.Presenter {
 
+    private static final String TAG = "DetailPresenter";
+
     DetailContract.View mView;
     final Shot mShot;
 
     DribbbleService mDribbbleService;
     Subscription mSubscription;
+    Subscription mLikeSubscription;
 
     public DetailPresenter(DetailContract.View view, Shot shot) {
         mView = view;
@@ -74,6 +79,9 @@ public class DetailPresenter implements DetailContract.Presenter {
 
                         @Override
                         public void onError(Throwable e) {
+                            if (e != null) {
+                                Logger.d(TAG, e.getMessage());
+                            }
                             mView.hideLoadingComments();
                             mView.showNoComments();
                         }
@@ -83,7 +91,8 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void likeShot() {
-        mDribbbleService.likeShot(mShot.getId())
+        mView.showLikesState(true);
+        mLikeSubscription = mDribbbleService.likeShot(mShot.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<Like>() {
@@ -94,6 +103,9 @@ public class DetailPresenter implements DetailContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        if (e != null) {
+                            Logger.d(TAG, e.getMessage());
+                        }
                         mView.showLikesState(false);
                     }
                 });
@@ -101,7 +113,8 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void unlikeShot() {
-        mDribbbleService.unlikeShot(mShot.getId())
+        mView.showLikesState(false);
+        mLikeSubscription = mDribbbleService.unlikeShot(mShot.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<Like>() {
@@ -112,6 +125,9 @@ public class DetailPresenter implements DetailContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        if (e != null) {
+                            Logger.d(TAG, e.getMessage());
+                        }
                         mView.showLikesState(true);
                     }
                 });
@@ -119,7 +135,7 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void isLikeShot() {
-        mDribbbleService.isLikes(mShot.getId())
+        mLikeSubscription = mDribbbleService.isLikes(mShot.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<Like>() {
@@ -130,6 +146,9 @@ public class DetailPresenter implements DetailContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        if (e != null) {
+                            Logger.d(TAG, e.getMessage());
+                        }
                         mView.showLikesState(false);
                     }
                 });
@@ -154,11 +173,15 @@ public class DetailPresenter implements DetailContract.Presenter {
     }
 
     private void unsubscribe() {
-        if (mSubscription == null) {
-            return;
+        if (mSubscription != null) {
+            if (!mSubscription.isUnsubscribed()) {
+                mSubscription.unsubscribe();
+            }
         }
-        if (!mSubscription.isUnsubscribed()) {
-            mSubscription.unsubscribe();
+        if (mLikeSubscription != null) {
+            if (!mLikeSubscription.isUnsubscribed()) {
+                mLikeSubscription.unsubscribe();
+            }
         }
     }
 }
