@@ -26,10 +26,9 @@ import java.io.Serializable;
  * hello,android
  * Created by lhyz on 2016/8/13.
  */
-@SuppressWarnings("unused")
 @DatabaseTable(tableName = "comments")
-public class Comment extends BaseResponse implements Serializable {
-    private static final long serialVersionUID = -7050492019251241384L;
+public class Comment implements Serializable {
+    private static final long serialVersionUID = -7279496175692649917L;
 
     @DatabaseField
     long shotId;

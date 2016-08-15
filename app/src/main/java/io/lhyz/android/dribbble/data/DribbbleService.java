@@ -21,6 +21,7 @@ import io.lhyz.android.dribbble.data.model.Comment;
 import io.lhyz.android.dribbble.data.model.Like;
 import io.lhyz.android.dribbble.data.model.Shot;
 import io.lhyz.android.dribbble.data.model.User;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -33,34 +34,51 @@ import rx.Observable;
  */
 public interface DribbbleService {
 
+    /**
+     * User info
+     *
+     * @return User
+     */
     @GET("user")
     Observable<User> getUser();
 
+    /**
+     * Shot接口
+     */
     //默认是popular
     @GET("shots")
-    Observable<List<Shot>> getPopular();
+    Observable<List<Shot>> getPopularList();
 
     //参数是sort=recent
     @GET("shots?sort=recent")
-    Observable<List<Shot>> getRecent();
+    Observable<List<Shot>> getRecentList();
 
     //参数list=debuts
     @GET("shots?list=debuts")
-    Observable<List<Shot>> getDebuts();
+    Observable<List<Shot>> getDebutList();
 
     //参数是sort=recent
     @GET("shots?list=teams")
-    Observable<List<Shot>> getTeams();
+    Observable<List<Shot>> getTeamList();
 
     //参数是sort=recent
     @GET("shots?list=playoffs")
-    Observable<List<Shot>> getPlayoffs();
+    Observable<List<Shot>> getPlayoffList();
 
+    /**
+     * 评论接口
+     */
     @GET("shots/{shot}/comments")
     Observable<List<Comment>> getComments(@Path("shot") long shotId);
 
+    @POST("shots/{shot}/comments")
+    Observable<Comment> postComment(@Path("shot") long shotId, @Body String body);
+
+    /**
+     * like接口
+     */
     @GET("shots/{shot}/like")
-    Observable<Like> isLikes(@Path("shot") long shotId);
+    Observable<Like> isLike(@Path("shot") long shotId);
 
     @POST("shots/{shot}/like")
     Observable<Like> likeShot(@Path("shot") long shotId);

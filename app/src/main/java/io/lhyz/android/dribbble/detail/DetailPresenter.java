@@ -20,7 +20,6 @@ import com.orhanobut.logger.Logger;
 import java.util.List;
 
 import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
-import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.data.DribbbleService;
 import io.lhyz.android.dribbble.data.model.Comment;
 import io.lhyz.android.dribbble.data.model.Like;
@@ -50,7 +49,7 @@ public class DetailPresenter implements DetailContract.Presenter {
         mShot = shot;
         mView.setPresenter(this);
 
-        mDribbbleService = new ServiceCreator(AppPreference.getInstance().readToken())
+        mDribbbleService = ServiceCreator.getInstance()
                 .createService();
     }
 
@@ -135,7 +134,7 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void isLikeShot() {
-        mLikeSubscription = mDribbbleService.isLikes(mShot.getId())
+        mLikeSubscription = mDribbbleService.isLike(mShot.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<Like>() {

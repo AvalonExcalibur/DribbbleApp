@@ -43,6 +43,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -134,8 +135,35 @@
                     android:layout_height="wrap_content"/>
             </FrameLayout>
         </LinearLayout>
-
     </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+        <io.lhyz.android.boilerplate.view.PlainTextEditText
+            android:id="@+id/et_comment"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_weight="1"
+            android:background="@drawable/msg_bubble_input"
+            android:hint="@string/placeholder_comment"
+            android:inputType="text"
+            android:minHeight="48dp"/>
+
+        <ImageButton
+            android:id="@+id/ib_send"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/ic_send_round_bg"
+            android:contentDescription="@string/app_name"
+            android:gravity="center"
+            android:src="@drawable/ic_send_black_24dp"/>
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/action_likes"

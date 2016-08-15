@@ -26,12 +26,14 @@ import okhttp3.Response;
  * Created by lhyz on 2016/8/7.
  * <p>
  * 构造请求header，并入OkHttpClient
+ * <p>
+ * 专用于Authorization头部添加
  */
-public class InterceptorManager implements Interceptor {
+public class AuthorizationInterceptor implements Interceptor {
 
     private final String accessToken;
 
-    public InterceptorManager(String accessToken) {
+    public AuthorizationInterceptor(String accessToken) {
         this.accessToken = accessToken;
     }
 

@@ -24,8 +24,9 @@ import java.util.List;
  * hello,android
  * Created by lhyz on 2016/8/9.
  */
-//@SuppressWarnings("unused")
-public class Shot extends BaseResponse implements Serializable {
+public class Shot implements Serializable {
+    private static final long serialVersionUID = -1546919630642750560L;
+
     int id;
     String title;
     String description;
@@ -39,6 +40,10 @@ public class Shot extends BaseResponse implements Serializable {
     List<String> tags;
     @SerializedName("updated_at")
     String updatedTime;
+
+    public Shot() {
+        //For ORMLite
+    }
 
     public Shot(int id, String title,
                 String description, int height,
@@ -64,9 +69,9 @@ public class Shot extends BaseResponse implements Serializable {
         return description;
     }
 
-    public int getHeight() {
-        return height;
-    }
+//    public int getHeight() {
+//        return height;
+//    }
 
     public Image getImages() {
         return images;

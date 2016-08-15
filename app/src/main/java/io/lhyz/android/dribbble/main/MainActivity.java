@@ -151,7 +151,8 @@ public class MainActivity extends BaseActivity
             startActivity(new Intent(this, AppStart.class));
             finish();
         } else {
-            mDribbbleService = new ServiceCreator(token).createService();
+            mDribbbleService = ServiceCreator.getInstance()
+                    .createService();
         }
     }
 

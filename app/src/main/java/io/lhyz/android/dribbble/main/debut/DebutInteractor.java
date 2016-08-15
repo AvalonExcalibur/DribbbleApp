@@ -22,7 +22,6 @@ import javax.inject.Inject;
 import io.lhyz.android.boilerplate.executor.PostThreadExecutor;
 import io.lhyz.android.boilerplate.executor.ThreadExecutor;
 import io.lhyz.android.boilerplate.interactor.Interactor;
-import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.data.DribbbleService;
 import io.lhyz.android.dribbble.data.model.Shot;
 import io.lhyz.android.dribbble.net.ServiceCreator;
@@ -40,12 +39,12 @@ public class DebutInteractor extends Interactor<List<Shot>> {
     public DebutInteractor(ThreadExecutor threadExecutor, PostThreadExecutor postThreadExecutor) {
         super(threadExecutor, postThreadExecutor);
 
-        mDribbbleService = new ServiceCreator(AppPreference.getInstance().readToken())
+        mDribbbleService = ServiceCreator.getInstance()
                 .createService();
     }
 
     @Override
     protected Observable<List<Shot>> buildObservable() {
-        return mDribbbleService.getDebuts();
+        return mDribbbleService.getDebutList();
     }
 }

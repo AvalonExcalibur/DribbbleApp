@@ -15,6 +15,7 @@
  */
 package io.lhyz.android.dribbble.net;
 
+import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.data.DribbbleService;
 
 /**
@@ -22,14 +23,22 @@ import io.lhyz.android.dribbble.data.DribbbleService;
  * Created by lhyz on 2016/8/10.
  */
 public class ServiceCreator {
-    final String token;
+    private static class Holder {
+        private static final ServiceCreator creator = new ServiceCreator();
+    }
 
-    public ServiceCreator(String token) {
-        this.token = token;
+    private final String token;
+
+    public ServiceCreator() {
+        this.token = AppPreference.getInstance().readToken();
+    }
+
+    public static ServiceCreator getInstance() {
+        return Holder.creator;
     }
 
     public DribbbleService createService() {
-        InterceptorManager interceptorManager = new InterceptorManager(token);
+        AuthorizationInterceptor interceptorManager = new AuthorizationInterceptor(token);
         RetrofitManager retrofitManager = new RetrofitManager(interceptorManager);
         return retrofitManager.buildRetrofit().create(DribbbleService.class);
     }

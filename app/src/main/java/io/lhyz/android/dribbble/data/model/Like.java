@@ -21,15 +21,16 @@ import java.io.Serializable;
  * hello,android
  * Created by lhyz on 2016/8/14.
  */
-@SuppressWarnings("unused")
 public class Like implements Serializable {
-    int id;
+    private static final long serialVersionUID = -5112644724876220367L;
 
-    public Like(int id) {
+    long id;
+
+    public Like(long id) {
         this.id = id;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 }

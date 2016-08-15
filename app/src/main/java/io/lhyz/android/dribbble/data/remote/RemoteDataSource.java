@@ -22,7 +22,6 @@ import com.orhanobut.logger.Logger;
 import java.util.List;
 
 import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
-import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.data.DataSource;
 import io.lhyz.android.dribbble.data.DribbbleService;
 import io.lhyz.android.dribbble.data.model.Comment;
@@ -45,7 +44,7 @@ public class RemoteDataSource implements DataSource {
     DribbbleService mDribbbleService;
 
     public RemoteDataSource() {
-        mDribbbleService = new ServiceCreator(AppPreference.getInstance().readToken())
+        mDribbbleService = ServiceCreator.getInstance()
                 .createService();
     }
 

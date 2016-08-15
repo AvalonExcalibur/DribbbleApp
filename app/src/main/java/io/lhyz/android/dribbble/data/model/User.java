@@ -23,9 +23,8 @@ import java.io.Serializable;
  * hello,android
  * Created by lhyz on 2016/8/7.
  */
-@SuppressWarnings("unused")
-public class User extends BaseResponse implements Serializable {
-    private static final long serialVersionUID = -3850892019322418984L;
+public class User implements Serializable {
+    private static final long serialVersionUID = 5995269526048710984L;
 
     long id;
     String name;

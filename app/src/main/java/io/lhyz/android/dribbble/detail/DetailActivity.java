@@ -28,6 +28,8 @@ import android.text.Html;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -52,7 +54,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * hello,android
  * Created by lhyz on 2016/8/12.
- * <p/>
+ * <p>
  * 横竖屏动态模板代码
  */
 public class DetailActivity extends BaseActivity implements DetailContract.View {
@@ -89,6 +91,13 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
     @BindView(R.id.pb_loading)
     @Nullable
     View pbLoading;
+
+    @Nullable
+    @BindView(R.id.et_comment)
+    EditText etCommet;
+    @Nullable
+    @BindView(R.id.ib_send)
+    Button ibSend;
 
     CommentAdapter mAdapter;
     DetailContract.Presenter mPresenter;
