@@ -141,6 +141,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:background="@color/activity_background"
         android:orientation="horizontal"
         android:padding="8dp"
         app:layout_scrollFlags="scroll|enterAlways">
@@ -162,7 +163,7 @@
             android:background="@drawable/ic_send_round_bg"
             android:contentDescription="@string/app_name"
             android:gravity="center"
-            android:src="@drawable/ic_send_black_24dp"/>
+            android:src="@drawable/ic_send_white_24dp"/>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

@@ -25,7 +25,7 @@ import android.view.View;
 /**
  * hello,android
  * Created by lhyz on 2016/8/14.
- * <p>
+ * <p/>
  * 分割线
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {

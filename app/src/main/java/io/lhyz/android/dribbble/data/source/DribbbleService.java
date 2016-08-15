@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data;
+package io.lhyz.android.dribbble.data.source;
 
 import java.util.List;
 
-import io.lhyz.android.dribbble.data.model.Comment;
-import io.lhyz.android.dribbble.data.model.Like;
-import io.lhyz.android.dribbble.data.model.Shot;
-import io.lhyz.android.dribbble.data.model.User;
+import io.lhyz.android.dribbble.data.Comment;
+import io.lhyz.android.dribbble.data.Like;
+import io.lhyz.android.dribbble.data.Shot;
+import io.lhyz.android.dribbble.data.User;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -64,6 +64,9 @@ public interface DribbbleService {
     //参数是sort=recent
     @GET("shots?list=playoffs")
     Observable<List<Shot>> getPlayoffList();
+
+    @GET("user/following/shots")
+    Observable<List<Shot>> getFollowingShotList();
 
     /**
      * 评论接口

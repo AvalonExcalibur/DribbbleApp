@@ -22,7 +22,7 @@ import javax.inject.Inject;
 import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
 import io.lhyz.android.boilerplate.interactor.Interactor;
 import io.lhyz.android.dribbble.DribbbleApp;
-import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.data.Shot;
 import io.lhyz.android.dribbble.di.annotation.Team;
 
 /**

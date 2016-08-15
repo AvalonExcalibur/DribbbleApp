@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data.local;
+package io.lhyz.android.dribbble.data.source.local;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,26 +25,27 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
-import io.lhyz.android.dribbble.data.model.Comment;
+import io.lhyz.android.dribbble.data.Shot;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/15.
  */
-public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
-    private static final String DATABASE_NAME = "Comments";
+public class ShotDBHelper extends OrmLiteSqliteOpenHelper {
+
+    private static final String DATABASE_NAME = "Shots.db";
     private static final int DATABASE_VERSION = 1;
 
-    private Dao<Comment, Long> mDao;
+    private Dao<Shot, Long> mDao;
 
-    public DatabaseHelper(Context context) {
+    public ShotDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, Comment.class);
+            TableUtils.createTable(connectionSource, Shot.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,16 +54,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, Comment.class, true);
+            TableUtils.dropTable(connectionSource, Shot.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public Dao<Comment, Long> getTasksDao() throws SQLException {
+    public Dao<Shot, Long> getDao() throws SQLException {
         if (mDao == null) {
-            mDao = getDao(Comment.class);
+            mDao = getDao(Shot.class);
         }
         return mDao;
     }

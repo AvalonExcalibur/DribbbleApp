@@ -24,7 +24,7 @@ import dagger.Provides;
 import io.lhyz.android.boilerplate.executor.PostThreadExecutor;
 import io.lhyz.android.boilerplate.executor.ThreadExecutor;
 import io.lhyz.android.boilerplate.interactor.Interactor;
-import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.data.Shot;
 import io.lhyz.android.dribbble.di.annotation.Debut;
 import io.lhyz.android.dribbble.di.annotation.Playoffs;
 import io.lhyz.android.dribbble.di.annotation.Popular;

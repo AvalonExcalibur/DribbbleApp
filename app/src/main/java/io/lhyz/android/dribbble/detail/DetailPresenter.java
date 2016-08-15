@@ -20,14 +20,15 @@ import com.orhanobut.logger.Logger;
 import java.util.List;
 
 import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
-import io.lhyz.android.dribbble.data.DribbbleService;
-import io.lhyz.android.dribbble.data.model.Comment;
-import io.lhyz.android.dribbble.data.model.Like;
-import io.lhyz.android.dribbble.data.model.Shot;
-import io.lhyz.android.dribbble.net.ServiceCreator;
+import io.lhyz.android.dribbble.Injections;
+import io.lhyz.android.dribbble.data.Comment;
+import io.lhyz.android.dribbble.data.Like;
+import io.lhyz.android.dribbble.data.Shot;
+import io.lhyz.android.dribbble.data.source.DribbbleRepository;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * hello,android
@@ -40,17 +41,16 @@ public class DetailPresenter implements DetailContract.Presenter {
     DetailContract.View mView;
     final Shot mShot;
 
-    DribbbleService mDribbbleService;
-    Subscription mSubscription;
-    Subscription mLikeSubscription;
+    DribbbleRepository mRepository;
+    CompositeSubscription mCompositeSubscription;
 
     public DetailPresenter(DetailContract.View view, Shot shot) {
         mView = view;
         mShot = shot;
         mView.setPresenter(this);
 
-        mDribbbleService = ServiceCreator.getInstance()
-                .createService();
+        mCompositeSubscription = new CompositeSubscription();
+        mRepository = Injections.provideRepository();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class DetailPresenter implements DetailContract.Presenter {
         }
         if (mView.isPortrait()) {
             mView.showLoadingComments();
-            mSubscription = mDribbbleService.getComments(mShot.getId())
+            Subscription subscription = mRepository.getComments(mShot.getId())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new DefaultSubscriber<List<Comment>>() {
@@ -85,13 +85,14 @@ public class DetailPresenter implements DetailContract.Presenter {
                             mView.showNoComments();
                         }
                     });
+            mCompositeSubscription.add(subscription);
         }
     }
 
     @Override
     public void likeShot() {
         mView.showLikesState(true);
-        mLikeSubscription = mDribbbleService.likeShot(mShot.getId())
+        Subscription subscription = mRepository.likeShot(mShot.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<Like>() {
@@ -108,12 +109,13 @@ public class DetailPresenter implements DetailContract.Presenter {
                         mView.showLikesState(false);
                     }
                 });
+        mCompositeSubscription.add(subscription);
     }
 
     @Override
     public void unlikeShot() {
         mView.showLikesState(false);
-        mLikeSubscription = mDribbbleService.unlikeShot(mShot.getId())
+        Subscription subscription = mRepository.unlikeShot(mShot.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<Like>() {
@@ -130,11 +132,12 @@ public class DetailPresenter implements DetailContract.Presenter {
                         mView.showLikesState(true);
                     }
                 });
+        mCompositeSubscription.add(subscription);
     }
 
     @Override
     public void isLikeShot() {
-        mLikeSubscription = mDribbbleService.isLike(mShot.getId())
+        Subscription subscription = mRepository.isLike(mShot.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<Like>() {
@@ -151,6 +154,26 @@ public class DetailPresenter implements DetailContract.Presenter {
                         mView.showLikesState(false);
                     }
                 });
+        mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void postComment(String body) {
+        Subscription subscription = mRepository.addComment(mShot.getId(), new Comment(body))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<Comment>() {
+                    @Override
+                    public void onSuccess(Comment result) {
+                        super.onSuccess(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
+        mCompositeSubscription.add(subscription);
     }
 
     @Override
@@ -171,16 +194,8 @@ public class DetailPresenter implements DetailContract.Presenter {
         mView = null;
     }
 
-    private void unsubscribe() {
-        if (mSubscription != null) {
-            if (!mSubscription.isUnsubscribed()) {
-                mSubscription.unsubscribe();
-            }
-        }
-        if (mLikeSubscription != null) {
-            if (!mLikeSubscription.isUnsubscribed()) {
-                mLikeSubscription.unsubscribe();
-            }
-        }
+    @Override
+    public void unsubscribe() {
+        mCompositeSubscription.clear();
     }
 }

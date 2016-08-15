@@ -16,24 +16,24 @@
 package io.lhyz.android.dribbble.net;
 
 import io.lhyz.android.dribbble.AppPreference;
-import io.lhyz.android.dribbble.data.DribbbleService;
+import io.lhyz.android.dribbble.data.source.DribbbleService;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/10.
  */
-public class ServiceCreator {
+public class DribbbleServiceCreator {
     private static class Holder {
-        private static final ServiceCreator creator = new ServiceCreator();
+        private static final DribbbleServiceCreator creator = new DribbbleServiceCreator();
     }
 
     private final String token;
 
-    public ServiceCreator() {
+    public DribbbleServiceCreator() {
         this.token = AppPreference.getInstance().readToken();
     }
 
-    public static ServiceCreator getInstance() {
+    public static DribbbleServiceCreator getInstance() {
         return Holder.creator;
     }
 

@@ -25,11 +25,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -46,15 +48,15 @@ import butterknife.BindView;
 import co.lujun.androidtagview.TagContainerLayout;
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseActivity;
-import io.lhyz.android.dribbble.data.model.Comment;
-import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.data.Comment;
+import io.lhyz.android.dribbble.data.Shot;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/12.
- * <p>
+ * <p/>
  * 横竖屏动态模板代码
  */
 public class DetailActivity extends BaseActivity implements DetailContract.View {
@@ -94,10 +96,10 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
 
     @Nullable
     @BindView(R.id.et_comment)
-    EditText etCommet;
+    EditText etComment;
     @Nullable
     @BindView(R.id.ib_send)
-    Button ibSend;
+    ImageButton ibSend;
 
     CommentAdapter mAdapter;
     DetailContract.Presenter mPresenter;
@@ -175,12 +177,14 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
             }
         });
 
-        //当竖屏是，下面的view都是null
+        //当竖屏时，下面的view都是null
         if (tvDescription == null ||
                 mTagContainerLayout == null ||
                 imgAuthor == null ||
                 tvUserName == null ||
-                tvUpdateTime == null) {
+                tvUpdateTime == null ||
+                etComment == null ||
+                ibSend == null) {
             return;
         }
 
@@ -208,6 +212,16 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
         tvUserName.setText(shot.getUser().getName());
         tvUpdateTime.setText(shot.getUpdatedTime());
 
+        ibSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TextUtils.isEmpty(etComment.getText().toString())) {
+                    mPresenter.postComment(etComment.getText().toString());
+                    etComment.setText(null);
+                }
+            }
+        });
+
         if (mRecyclerView == null) {
             return;
         }
@@ -217,6 +231,16 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, getResources().getDisplayMetrics().density));
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //TODO
+        if (item.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

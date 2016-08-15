@@ -13,24 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.main.recent;
+package io.lhyz.android.dribbble;
 
-import java.util.List;
-
-import io.lhyz.android.dribbble.base.BasePresenter;
-import io.lhyz.android.dribbble.data.Shot;
-import io.lhyz.android.dribbble.main.LoadView;
+import io.lhyz.android.dribbble.data.source.DribbbleRepository;
+import io.lhyz.android.dribbble.data.source.local.LocalDataSource;
+import io.lhyz.android.dribbble.data.source.remote.RemoteDataSource;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/11.
+ * Created by lhyz on 2016/8/15.
  */
-public class RecentContract {
-    interface View extends LoadView<Presenter> {
-        void showRecent(List<Shot> shots);
-    }
+public class Injections {
 
-    interface Presenter extends BasePresenter {
-        void loadRecent();
+    public static DribbbleRepository provideRepository() {
+        return new DribbbleRepository(LocalDataSource.getInstance(DribbbleApp.getAppContext()),
+                RemoteDataSource.getInstance());
     }
 }

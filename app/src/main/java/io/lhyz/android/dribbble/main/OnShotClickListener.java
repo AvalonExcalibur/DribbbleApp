@@ -15,7 +15,7 @@
  */
 package io.lhyz.android.dribbble.main;
 
-import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.data.Shot;
 
 /**
  * hello,android

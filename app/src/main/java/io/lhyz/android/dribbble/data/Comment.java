@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data.model;
+package io.lhyz.android.dribbble.data;
 
 import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DataType;
@@ -30,8 +30,10 @@ import java.io.Serializable;
 public class Comment implements Serializable {
     private static final long serialVersionUID = -7279496175692649917L;
 
+    //shot Id for this comment( not exist in json data)
     @DatabaseField
     long shotId;
+
     @DatabaseField(id = true)
     long id;
     @DatabaseField
@@ -49,16 +51,11 @@ public class Comment implements Serializable {
         //For ORMLite
     }
 
-    public Comment(int id, String body, int likesCount, String updateTime, User user) {
-        this.id = id;
+    /**
+     * 作为临时添加的comment使用
+     */
+    public Comment(String body) {
         this.body = body;
-        this.likesCount = likesCount;
-        this.updateTime = updateTime;
-        this.user = user;
-    }
-
-    public long getShotId() {
-        return shotId;
     }
 
     public void setShotId(long shotId) {

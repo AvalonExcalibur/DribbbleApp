@@ -22,9 +22,10 @@ import javax.inject.Inject;
 import io.lhyz.android.boilerplate.executor.PostThreadExecutor;
 import io.lhyz.android.boilerplate.executor.ThreadExecutor;
 import io.lhyz.android.boilerplate.interactor.Interactor;
-import io.lhyz.android.dribbble.data.DribbbleService;
-import io.lhyz.android.dribbble.data.model.Shot;
-import io.lhyz.android.dribbble.net.ServiceCreator;
+import io.lhyz.android.dribbble.Injections;
+import io.lhyz.android.dribbble.data.Shot;
+import io.lhyz.android.dribbble.data.source.DribbbleRepository;
+import io.lhyz.android.dribbble.data.source.ShotType;
 import rx.Observable;
 
 /**
@@ -33,19 +34,18 @@ import rx.Observable;
  */
 public class PopularInteractor extends Interactor<List<Shot>> {
 
-    DribbbleService mDribbbleService;
+    DribbbleRepository mRepository;
 
     @Inject
     public PopularInteractor(ThreadExecutor threadExecutor,
                              PostThreadExecutor postThreadExecutor) {
         super(threadExecutor, postThreadExecutor);
 
-        mDribbbleService = ServiceCreator.getInstance()
-                .createService();
+        mRepository = Injections.provideRepository();
     }
 
     @Override
     protected Observable<List<Shot>> buildObservable() {
-        return mDribbbleService.getPopularList();
+        return mRepository.getShotList(ShotType.POPULAR);
     }
 }

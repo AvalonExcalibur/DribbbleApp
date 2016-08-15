@@ -13,50 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.detail;
+package io.lhyz.android.dribbble.data.source;
 
 import java.util.List;
 
-import io.lhyz.android.dribbble.base.BasePresenter;
-import io.lhyz.android.dribbble.base.BaseView;
 import io.lhyz.android.dribbble.data.Comment;
+import io.lhyz.android.dribbble.data.Like;
 import io.lhyz.android.dribbble.data.Shot;
+import rx.Observable;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/14.
  */
-public interface DetailContract {
+public interface DataSource {
 
-    interface Presenter extends BasePresenter {
-        void setBasicInfo();
+    /**
+     * For Shot
+     */
+    Observable<List<Shot>> getShotList(int type);
 
-        void loadComments();
+    void saveShotList(int type, List<Shot> shots);
 
-        void likeShot();
+    void refreshShots(int type);
 
-        void unlikeShot();
+    /**
+     * For Comments
+     */
+    Observable<List<Comment>> getComments(long shotId);
 
-        void isLikeShot();
+    Observable<Comment> addComment(long shotId, Comment comment);
 
-        void postComment(String body);
+    void saveCommentList(long shotId, List<Comment> comment);
 
-        void unsubscribe();
-    }
+    void refreshComment();
 
-    interface View extends BaseView<Presenter> {
-        void showBasicInfo(Shot shot);
+    /**
+     * For Likes
+     */
 
-        void showAllComments(List<Comment> comments);
+    Observable<Like> isLike(long shotId);
 
-        void showLoadingComments();
+    Observable<Like> likeShot(long shotId);
 
-        void hideLoadingComments();
-
-        void showNoComments();
-
-        void showLikesState(boolean likes);
-
-        boolean isPortrait();
-    }
+    Observable<Like> unlikeShot(long shotId);
 }

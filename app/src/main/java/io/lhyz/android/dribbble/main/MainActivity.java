@@ -25,8 +25,8 @@ import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.AppStart;
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseActivity;
-import io.lhyz.android.dribbble.data.DribbbleService;
-import io.lhyz.android.dribbble.data.model.User;
+import io.lhyz.android.dribbble.data.source.DribbbleService;
+import io.lhyz.android.dribbble.data.User;
 import io.lhyz.android.dribbble.main.debut.DebutFragment;
 import io.lhyz.android.dribbble.main.debut.DebutPresenter;
 import io.lhyz.android.dribbble.main.playoffs.PlayoffsFragment;
@@ -37,7 +37,7 @@ import io.lhyz.android.dribbble.main.recent.RecentFragment;
 import io.lhyz.android.dribbble.main.recent.RecentPresenter;
 import io.lhyz.android.dribbble.main.team.TeamFragment;
 import io.lhyz.android.dribbble.main.team.TeamPresenter;
-import io.lhyz.android.dribbble.net.ServiceCreator;
+import io.lhyz.android.dribbble.net.DribbbleServiceCreator;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -151,7 +151,7 @@ public class MainActivity extends BaseActivity
             startActivity(new Intent(this, AppStart.class));
             finish();
         } else {
-            mDribbbleService = ServiceCreator.getInstance()
+            mDribbbleService = DribbbleServiceCreator.getInstance()
                     .createService();
         }
     }

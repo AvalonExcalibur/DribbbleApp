@@ -13,26 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data;
-
-import android.support.annotation.NonNull;
-
-import java.util.List;
-
-import io.lhyz.android.dribbble.data.model.Comment;
+package io.lhyz.android.dribbble.data.source;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/14.
+ * Created by lhyz on 2016/8/15.
  */
-public interface DataSource {
-    interface LoadCommentCallback {
-        void onLoadedComments(List<Comment> comments);
-
-        void onNoComments();
-    }
-
-    void loadComments(long shotId, boolean force, @NonNull LoadCommentCallback callback);
-
-    void saveComments(long shotId, @NonNull List<Comment> comments);
+public interface ShotType {
+    int POPULAR = 0;
+    int RECENT = 1;
+    int DEBUT = 2;
+    int TEAM = 3;
+    int PLAYOFFS = 4;
+    int FOLLOWING = 5;
 }

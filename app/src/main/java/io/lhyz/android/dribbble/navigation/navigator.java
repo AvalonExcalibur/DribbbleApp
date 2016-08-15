@@ -19,7 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.data.Shot;
 import io.lhyz.android.dribbble.detail.DetailActivity;
 
 /**

@@ -30,7 +30,7 @@ import java.util.List;
 import butterknife.BindView;
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseFragment;
-import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.data.Shot;
 import io.lhyz.android.dribbble.main.OnShotClickListener;
 import io.lhyz.android.dribbble.main.ShotAdapter;
 import io.lhyz.android.dribbble.navigation.Navigator;

@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data.model;
+package io.lhyz.android.dribbble.data;
 
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,20 +27,39 @@ import java.util.List;
  * hello,android
  * Created by lhyz on 2016/8/9.
  */
+@DatabaseTable(tableName = "shots")
 public class Shot implements Serializable {
     private static final long serialVersionUID = -1546919630642750560L;
 
-    int id;
+    //shot type
+    @DatabaseField
+    int type;
+
+    //自动生成主键（取了id的全拼作为区别）
+    @DatabaseField(generatedId = true)
+    @SuppressWarnings("unused")
+    long identity;
+
+    //由于在不同列表中可能出现同一个shot，所以这里我不敢用作主键
+    @DatabaseField
+    long id;
+    @DatabaseField
     String title;
+    @DatabaseField
     String description;
-    int height;
+    @DatabaseField
     Image images;
+    @DatabaseField
     @SerializedName("views_count")
     int viewsCount;
+    @DatabaseField
     @SerializedName("comments_count")
     int commentsCount;
+    @DatabaseField
     User user;
+    @ForeignCollectionField
     List<String> tags;
+    @DatabaseField
     @SerializedName("updated_at")
     String updatedTime;
 
@@ -45,19 +67,11 @@ public class Shot implements Serializable {
         //For ORMLite
     }
 
-    public Shot(int id, String title,
-                String description, int height,
-                Image images, User author, List<String> tags) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.height = height;
-        this.images = images;
-        this.user = author;
-        this.tags = tags;
+    public void setType(int type) {
+        this.type = type;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -68,10 +82,6 @@ public class Shot implements Serializable {
     public String getDescription() {
         return description;
     }
-
-//    public int getHeight() {
-//        return height;
-//    }
 
     public Image getImages() {
         return images;
@@ -98,6 +108,8 @@ public class Shot implements Serializable {
     }
 
     public static class Image implements Serializable {
+        private static final long serialVersionUID = 8243845973394454688L;
+
         String hidpi;
         String normal;
         String teaser;

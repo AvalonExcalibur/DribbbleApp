@@ -15,6 +15,7 @@
  */
 package io.lhyz.android.dribbble.net;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -30,15 +31,15 @@ public class RetrofitManager {
 
     private static final String DRIBBBLE_API = "https://api.dribbble.com/v1/";
 
-    private final AuthorizationInterceptor mAuthorizationInterceptor;
+    private final Interceptor mInterceptor;
 
-    public RetrofitManager(AuthorizationInterceptor authorizationInterceptor) {
-        mAuthorizationInterceptor = authorizationInterceptor;
+    public RetrofitManager(Interceptor interceptor) {
+        mInterceptor = interceptor;
     }
 
     public Retrofit buildRetrofit() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(mAuthorizationInterceptor)
+                .addInterceptor(mInterceptor)
                 .build();
         return new Retrofit.Builder()
                 .baseUrl(DRIBBBLE_API)

@@ -13,4 +13,6 @@
     <color name="color_teams">#00b6e3</color>
     <color name="color_play_book">#66cc99</color>
     <color name="color_slate">#9da3a5</color>
+
+    <color name="activity_background">#ededed</color>
 </resources>

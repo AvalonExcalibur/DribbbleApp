@@ -18,7 +18,7 @@ package io.lhyz.android.dribbble.main.playoffs;
 import java.util.List;
 
 import io.lhyz.android.dribbble.base.BasePresenter;
-import io.lhyz.android.dribbble.data.model.Shot;
+import io.lhyz.android.dribbble.data.Shot;
 import io.lhyz.android.dribbble.main.LoadView;
 
 /**
