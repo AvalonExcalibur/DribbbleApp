@@ -17,13 +17,14 @@ package io.lhyz.android.dribbble.main.team;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
-import io.lhyz.android.boilerplate.interactor.Interactor;
-import io.lhyz.android.dribbble.DribbbleApp;
-import io.lhyz.android.dribbble.data.Shot;
-import io.lhyz.android.dribbble.di.annotation.Team;
+import io.lhyz.android.dribbble.Injections;
+import io.lhyz.android.dribbble.data.bean.Shot;
+import io.lhyz.android.dribbble.data.source.DribbbleRepository;
+import io.lhyz.android.dribbble.data.source.ShotType;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * hello,android
@@ -33,52 +34,59 @@ public class TeamPresenter implements TeamContract.Presenter {
 
     TeamContract.View mView;
 
-    @Inject
-    @Team
-    Interactor<List<Shot>> mInteractor;
+    DribbbleRepository mRepository;
+    Subscription mSubscription;
 
     public TeamPresenter(TeamContract.View view) {
         mView = view;
         mView.setPresenter(this);
+
+        mRepository = Injections.provideRepository();
     }
 
     @Override
     public void loadTeam() {
         mView.showLoading();
-        mInteractor.execute(new DefaultSubscriber<List<Shot>>() {
-            @Override
-            public void onSuccess(List<Shot> result) {
-                mView.hideLoading();
-                mView.showTeam(result);
-            }
+        mSubscription = mRepository.getShotList(ShotType.TEAM)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<List<Shot>>() {
+                    @Override
+                    public void onSuccess(List<Shot> result) {
+                        mView.hideLoading();
+                        mView.showTeam(result);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                mView.hideLoading();
-                mView.showEmptyView();
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.hideLoading();
+                        mView.showEmptyView();
+                    }
+                });
     }
 
     @Override
     public void start() {
-        initInjector();
-
         loadTeam();
     }
 
     @Override
     public void pause() {
-        mInteractor.unsubscribe();
+        unsubscribe();
     }
 
     @Override
     public void destroy() {
-        mInteractor.unsubscribe();
+        unsubscribe();
         mView = null;
     }
 
-    void initInjector() {
-        DribbbleApp.getAppComponent().inject(this);
+    private void unsubscribe() {
+        if (mSubscription == null) {
+            return;
+        }
+        if (!mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
+        }
     }
 }

@@ -18,7 +18,7 @@ package io.lhyz.android.dribbble;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import io.lhyz.android.dribbble.data.User;
+import io.lhyz.android.dribbble.data.bean.User;
 
 /**
  * hello,android

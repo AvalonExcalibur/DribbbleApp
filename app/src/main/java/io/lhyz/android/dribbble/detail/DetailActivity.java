@@ -48,15 +48,15 @@ import butterknife.BindView;
 import co.lujun.androidtagview.TagContainerLayout;
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseActivity;
-import io.lhyz.android.dribbble.data.Comment;
-import io.lhyz.android.dribbble.data.Shot;
+import io.lhyz.android.dribbble.data.bean.Comment;
+import io.lhyz.android.dribbble.data.bean.Shot;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/12.
- * <p/>
+ * <p>
  * 横竖屏动态模板代码
  */
 public class DetailActivity extends BaseActivity implements DetailContract.View {
@@ -218,6 +218,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
                 if (!TextUtils.isEmpty(etComment.getText().toString())) {
                     mPresenter.postComment(etComment.getText().toString());
                     etComment.setText(null);
+                    mPresenter.loadComments();
                 }
             }
         });
@@ -235,7 +236,6 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //TODO
         if (item.getItemId() == android.R.id.home) {
             super.onBackPressed();
             return true;

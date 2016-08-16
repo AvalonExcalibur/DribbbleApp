@@ -25,7 +25,7 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
-import io.lhyz.android.dribbble.data.Comment;
+import io.lhyz.android.dribbble.data.model.CommentModel;
 
 /**
  * hello,android
@@ -35,7 +35,7 @@ public class CommentDBHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "Comments.db";
     private static final int DATABASE_VERSION = 1;
 
-    private Dao<Comment, Long> mDao;
+    private Dao<CommentModel, Long> mDao;
 
     public CommentDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -44,7 +44,7 @@ public class CommentDBHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, Comment.class);
+            TableUtils.createTable(connectionSource, CommentModel.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,16 +53,16 @@ public class CommentDBHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, Comment.class, true);
+            TableUtils.dropTable(connectionSource, CommentModel.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public Dao<Comment, Long> getDao() throws SQLException {
+    public Dao<CommentModel, Long> getDao() throws SQLException {
         if (mDao == null) {
-            mDao = getDao(Comment.class);
+            mDao = getDao(CommentModel.class);
         }
         return mDao;
     }

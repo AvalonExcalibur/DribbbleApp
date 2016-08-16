@@ -30,7 +30,7 @@ import java.util.List;
 import butterknife.BindView;
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseFragment;
-import io.lhyz.android.dribbble.data.Shot;
+import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.main.OnShotClickListener;
 import io.lhyz.android.dribbble.main.ShotAdapter;
 import io.lhyz.android.dribbble.navigation.Navigator;
@@ -86,6 +86,12 @@ public class DebutFragment extends BaseFragment implements DebutContract.View {
     public void onDestroyView() {
         super.onDestroyView();
         mPresenter.pause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
     }
 
     @Override

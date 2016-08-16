@@ -21,9 +21,9 @@ import java.util.List;
 
 import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
 import io.lhyz.android.dribbble.Injections;
-import io.lhyz.android.dribbble.data.Comment;
-import io.lhyz.android.dribbble.data.Like;
-import io.lhyz.android.dribbble.data.Shot;
+import io.lhyz.android.dribbble.data.bean.Comment;
+import io.lhyz.android.dribbble.data.bean.Like;
+import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DribbbleRepository;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;

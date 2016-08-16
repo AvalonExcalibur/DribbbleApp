@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data;
+package io.lhyz.android.dribbble.data.bean;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -24,7 +24,7 @@ import java.io.Serializable;
  * Created by lhyz on 2016/8/7.
  */
 public class User implements Serializable {
-    private static final long serialVersionUID = 5995269526048710984L;
+    private static final long serialVersionUID = 3267164831443096444L;
 
     long id;
     String name;
@@ -32,6 +32,11 @@ public class User implements Serializable {
     String avatarUrl;
     @SerializedName("html_url")
     String host;
+
+    public User(String name, String avatarUrl) {
+        this.name = name;
+        this.avatarUrl = avatarUrl;
+    }
 
     public User(long id, String name, String avatarUrl, String host) {
         this.id = id;

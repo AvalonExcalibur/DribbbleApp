@@ -23,12 +23,19 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.orhanobut.logger.Logger;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 import io.lhyz.android.boilerplate.util.TagHelper;
-import io.lhyz.android.dribbble.data.Comment;
-import io.lhyz.android.dribbble.data.Like;
-import io.lhyz.android.dribbble.data.Shot;
+import io.lhyz.android.dribbble.data.bean.Comment;
+import io.lhyz.android.dribbble.data.bean.Like;
+import io.lhyz.android.dribbble.data.bean.Shot;
+import io.lhyz.android.dribbble.data.mapper.CommentMapper;
+import io.lhyz.android.dribbble.data.mapper.CommentModelMapper;
+import io.lhyz.android.dribbble.data.mapper.ShotMapper;
+import io.lhyz.android.dribbble.data.mapper.ShotModelMapper;
+import io.lhyz.android.dribbble.data.model.CommentModel;
+import io.lhyz.android.dribbble.data.model.ShotModel;
 import io.lhyz.android.dribbble.data.source.DataSource;
 import rx.Observable;
 import rx.Subscriber;
@@ -42,13 +49,12 @@ public class LocalDataSource implements DataSource {
 
     private static LocalDataSource INSTANCE;
 
-    Dao<Comment, Long> mCommentDao;
-    Dao<Shot, Long> mShotDao;
+    Dao<CommentModel, Long> mCommentDao;
+    Dao<ShotModel, Long> mShotDao;
 
     public LocalDataSource(Context context) {
         CommentDBHelper commentDBHelper = new CommentDBHelper(context);
         ShotDBHelper shotDBHelper = new ShotDBHelper(context);
-        //TODO Error when create shot(i think)
         try {
             mCommentDao = commentDBHelper.getDao();
             mShotDao = shotDBHelper.getDao();
@@ -69,17 +75,15 @@ public class LocalDataSource implements DataSource {
      */
     @Override
     public Observable<List<Shot>> getShotList(final int type) {
-        //TODO 排序问题（时间排序）
         return Observable.create(new Observable.OnSubscribe<List<Shot>>() {
             @Override
             public void call(Subscriber<? super List<Shot>> subscriber) {
                 try {
-                    QueryBuilder<Shot, Long> queryBuilder = mShotDao.queryBuilder();
-                    //根据类型查询
+                    QueryBuilder<ShotModel, Long> queryBuilder = mShotDao.queryBuilder();
                     queryBuilder.where().eq("type", type);
-                    PreparedQuery<Shot> preparedQuery = queryBuilder.prepare();
-                    List<Shot> result = mShotDao.query(preparedQuery);
-                    subscriber.onNext(result);
+                    PreparedQuery<ShotModel> preparedQuery = queryBuilder.prepare();
+                    List<ShotModel> shotModels = mShotDao.query(preparedQuery);
+                    subscriber.onNext(ShotModelMapper.getInstance().transform(shotModels));
                     subscriber.onCompleted();
                 } catch (SQLException e) {
                     subscriber.onError(e);
@@ -93,13 +97,11 @@ public class LocalDataSource implements DataSource {
      */
     @Override
     public void saveShotList(int type, List<Shot> shots) {
-        for (Shot shot : shots) {
-            shot.setType(type);
-        }
+        Collection<ShotModel> shotModels = ShotMapper.getInstance().transform(shots);
         try {
-            mShotDao.create(shots);
+            mShotDao.create(shotModels);
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
     }
 
@@ -113,17 +115,15 @@ public class LocalDataSource implements DataSource {
      */
     @Override
     public Observable<List<Comment>> getComments(final long shotId) {
-        //TODO 排序问题（时间排序）
         return Observable.create(new Observable.OnSubscribe<List<Comment>>() {
             @Override
             public void call(Subscriber<? super List<Comment>> subscriber) {
                 try {
-                    QueryBuilder<Comment, Long> queryBuilder = mCommentDao.queryBuilder();
-                    //根据shotId查询
+                    QueryBuilder<CommentModel, Long> queryBuilder = mCommentDao.queryBuilder();
                     queryBuilder.where().eq("shotId", shotId);
-                    PreparedQuery<Comment> preparedQuery = queryBuilder.prepare();
-                    List<Comment> result = mCommentDao.query(preparedQuery);
-                    subscriber.onNext(result);
+                    PreparedQuery<CommentModel> preparedQuery = queryBuilder.prepare();
+                    List<CommentModel> commentModels = mCommentDao.query(preparedQuery);
+                    subscriber.onNext(CommentModelMapper.getInstance().transform(commentModels));
                     subscriber.onCompleted();
                 } catch (SQLException e) {
                     subscriber.onError(e);
@@ -137,20 +137,14 @@ public class LocalDataSource implements DataSource {
      */
     @Override
     public Observable<Comment> addComment(final long shotId, final Comment comment) {
-        return Observable.create(new Observable.OnSubscribe<Comment>() {
-            @Override
-            public void call(Subscriber<? super Comment> subscriber) {
-                //本地添加一条数据(这条数据必须是服务器返回的)
-                comment.setShotId(shotId);
-                try {
-                    mCommentDao.create(comment);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                subscriber.onNext(comment);
-                subscriber.onCompleted();
-            }
-        });
+        CommentModel commentModel = CommentMapper.getInstance().transform(comment);
+        commentModel.setShotId(shotId);
+        try {
+            mCommentDao.create(commentModel);
+        } catch (SQLException e) {
+            Logger.e(TAG, e.getMessage());
+        }
+        return Observable.empty();
     }
 
     /**
@@ -158,13 +152,11 @@ public class LocalDataSource implements DataSource {
      */
     @Override
     public void saveCommentList(long shotId, List<Comment> comments) {
-        for (Comment comment : comments) {
-            comment.setShotId(shotId);
-        }
+        Collection<CommentModel> commentModels = CommentMapper.getInstance().transform(comments);
         try {
-            mCommentDao.create(comments);
+            mCommentDao.create(commentModels);
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
     }
 

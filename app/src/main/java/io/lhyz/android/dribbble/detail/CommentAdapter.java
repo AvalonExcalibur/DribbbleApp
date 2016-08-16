@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.lhyz.android.dribbble.R;
-import io.lhyz.android.dribbble.data.Comment;
+import io.lhyz.android.dribbble.data.bean.Comment;
 
 /**
  * hello,android

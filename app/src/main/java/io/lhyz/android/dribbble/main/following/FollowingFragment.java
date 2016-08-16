@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.main.recent;
+package io.lhyz.android.dribbble.main.following;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -39,9 +39,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/9.
+ * Created by lhyz on 2016/8/16.
  */
-public class RecentFragment extends BaseFragment implements RecentContract.View {
+public class FollowingFragment extends BaseFragment implements FollowingContract.View {
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycler_list)
@@ -49,11 +49,11 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
     @BindView(R.id.no_items)
     View mEmptyView;
 
-    RecentContract.Presenter mPresenter;
+    FollowingContract.Presenter mPresenter;
     ShotAdapter mAdapter;
 
-    public static RecentFragment newInstance() {
-        return new RecentFragment();
+    public static FollowingFragment newInstance() {
+        return new FollowingFragment();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.loadRecent();
+                mPresenter.loadFollowing();
             }
         });
 
@@ -75,7 +75,6 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
     }
-
 
     @Override
     public void onResume() {
@@ -101,7 +100,7 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
     }
 
     @Override
-    public void showRecent(List<Shot> shots) {
+    public void showFollowing(List<Shot> shots) {
         mEmptyView.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
 
@@ -124,7 +123,7 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
         mRecyclerView.setVisibility(View.GONE);
 
         TextView description = (TextView) mEmptyView.findViewById(R.id.description);
-        description.setText("No Recently Shots");
+        description.setText("No Followings");
     }
 
     @Override
@@ -133,7 +132,7 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
     }
 
     @Override
-    public void setPresenter(RecentContract.Presenter presenter) {
+    public void setPresenter(FollowingContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 

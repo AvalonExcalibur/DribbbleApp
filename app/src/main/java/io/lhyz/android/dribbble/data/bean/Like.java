@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.annotation;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-import javax.inject.Qualifier;
+package io.lhyz.android.dribbble.data.bean;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/11.
+ * Created by lhyz on 2016/8/14.
  */
-@Qualifier
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Debut {
+public class Like {
+    long id;
+
+    public Like(long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
+    }
 }

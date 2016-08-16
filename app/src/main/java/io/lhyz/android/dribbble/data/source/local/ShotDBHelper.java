@@ -25,7 +25,7 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
-import io.lhyz.android.dribbble.data.Shot;
+import io.lhyz.android.dribbble.data.model.ShotModel;
 
 /**
  * hello,android
@@ -36,7 +36,7 @@ public class ShotDBHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "Shots.db";
     private static final int DATABASE_VERSION = 1;
 
-    private Dao<Shot, Long> mDao;
+    private Dao<ShotModel, Long> mDao;
 
     public ShotDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -45,7 +45,7 @@ public class ShotDBHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, Shot.class);
+            TableUtils.createTable(connectionSource, ShotModel.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -54,16 +54,16 @@ public class ShotDBHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, Shot.class, true);
+            TableUtils.dropTable(connectionSource, ShotModel.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public Dao<Shot, Long> getDao() throws SQLException {
+    public Dao<ShotModel, Long> getDao() throws SQLException {
         if (mDao == null) {
-            mDao = getDao(Shot.class);
+            mDao = getDao(ShotModel.class);
         }
         return mDao;
     }

@@ -17,13 +17,14 @@ package io.lhyz.android.dribbble.main.playoffs;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
-import io.lhyz.android.boilerplate.interactor.Interactor;
-import io.lhyz.android.dribbble.DribbbleApp;
-import io.lhyz.android.dribbble.data.Shot;
-import io.lhyz.android.dribbble.di.annotation.Playoffs;
+import io.lhyz.android.dribbble.Injections;
+import io.lhyz.android.dribbble.data.bean.Shot;
+import io.lhyz.android.dribbble.data.source.DribbbleRepository;
+import io.lhyz.android.dribbble.data.source.ShotType;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * hello,android
@@ -33,51 +34,59 @@ public class PlayoffsPresenter implements PlayoffsContract.Presenter {
 
     PlayoffsContract.View mView;
 
-    @Inject
-    @Playoffs
-    Interactor<List<Shot>> mInteractor;
+    DribbbleRepository mRepository;
+    Subscription mSubscription;
 
     public PlayoffsPresenter(PlayoffsContract.View view) {
         mView = view;
         mView.setPresenter(this);
+
+        mRepository = Injections.provideRepository();
     }
 
     @Override
     public void loadPlayoffs() {
         mView.showLoading();
-        mInteractor.execute(new DefaultSubscriber<List<Shot>>() {
-            @Override
-            public void onSuccess(List<Shot> result) {
-                mView.hideLoading();
-                mView.showPlayoffs(result);
-            }
+        mSubscription = mRepository.getShotList(ShotType.PLAYOFFS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<List<Shot>>() {
+                    @Override
+                    public void onSuccess(List<Shot> result) {
+                        mView.hideLoading();
+                        mView.showPlayoffs(result);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                mView.hideLoading();
-                mView.showEmptyView();
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.hideLoading();
+                        mView.showEmptyView();
+                    }
+                });
     }
 
     @Override
     public void start() {
-        initInjector();
         loadPlayoffs();
     }
 
     @Override
     public void pause() {
-        mInteractor.unsubscribe();
+        unsubscribe();
     }
 
     @Override
     public void destroy() {
-        mInteractor.unsubscribe();
+        unsubscribe();
         mView = null;
     }
 
-    void initInjector() {
-        DribbbleApp.getAppComponent().inject(this);
+    private void unsubscribe() {
+        if (mSubscription == null) {
+            return;
+        }
+        if (!mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
+        }
     }
 }

@@ -17,10 +17,10 @@ package io.lhyz.android.dribbble.data.source;
 
 import java.util.List;
 
-import io.lhyz.android.dribbble.data.Comment;
-import io.lhyz.android.dribbble.data.Like;
-import io.lhyz.android.dribbble.data.Shot;
-import io.lhyz.android.dribbble.data.User;
+import io.lhyz.android.dribbble.data.bean.Comment;
+import io.lhyz.android.dribbble.data.bean.Like;
+import io.lhyz.android.dribbble.data.bean.Shot;
+import io.lhyz.android.dribbble.data.bean.User;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -74,6 +74,9 @@ public interface DribbbleService {
     @GET("shots/{shot}/comments")
     Observable<List<Comment>> getComments(@Path("shot") long shotId);
 
+    /**
+     * 我总是得到403 显示操作禁止（但是我获取access_token收取的时候确实获取了对Comment操作的权限）
+     */
     @POST("shots/{shot}/comments")
     Observable<Comment> postComment(@Path("shot") long shotId, @Body String body);
 

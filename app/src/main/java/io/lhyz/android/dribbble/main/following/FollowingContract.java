@@ -13,20 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.annotation;
+package io.lhyz.android.dribbble.main.following;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.util.List;
 
-import javax.inject.Qualifier;
+import io.lhyz.android.dribbble.base.BasePresenter;
+import io.lhyz.android.dribbble.data.bean.Shot;
+import io.lhyz.android.dribbble.main.LoadView;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/11.
+ * Created by lhyz on 2016/8/16.
  */
-@Qualifier
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Playoffs {
+public interface FollowingContract {
+    interface View extends LoadView<Presenter> {
+        void showFollowing(List<Shot> shots);
+    }
+
+    interface Presenter extends BasePresenter {
+        void loadFollowing();
+    }
 }

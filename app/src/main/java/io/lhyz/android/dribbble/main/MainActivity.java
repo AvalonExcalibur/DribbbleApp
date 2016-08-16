@@ -25,10 +25,12 @@ import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.AppStart;
 import io.lhyz.android.dribbble.R;
 import io.lhyz.android.dribbble.base.BaseActivity;
+import io.lhyz.android.dribbble.data.bean.User;
 import io.lhyz.android.dribbble.data.source.DribbbleService;
-import io.lhyz.android.dribbble.data.User;
 import io.lhyz.android.dribbble.main.debut.DebutFragment;
 import io.lhyz.android.dribbble.main.debut.DebutPresenter;
+import io.lhyz.android.dribbble.main.following.FollowingFragment;
+import io.lhyz.android.dribbble.main.following.FollowingPresenter;
 import io.lhyz.android.dribbble.main.playoffs.PlayoffsFragment;
 import io.lhyz.android.dribbble.main.playoffs.PlayoffsPresenter;
 import io.lhyz.android.dribbble.main.popular.PopularFragment;
@@ -85,6 +87,10 @@ public class MainActivity extends BaseActivity
         new PopularPresenter(popularFragment);
         tabInfoArrayList.add(new TabInfo(popularFragment, "Popular"));
 
+        FollowingFragment followingFragment = FollowingFragment.newInstance();
+        new FollowingPresenter(followingFragment);
+        tabInfoArrayList.add(new TabInfo(followingFragment, "Following"));
+
         DebutFragment debutFragment = DebutFragment.newInstance();
         new DebutPresenter(debutFragment);
         tabInfoArrayList.add(new TabInfo(debutFragment, "Debuts"));
@@ -105,7 +111,7 @@ public class MainActivity extends BaseActivity
         mViewPager.setAdapter(adapter);
         //不设置预加载的个数的话，就必须对异步操作（Presenter）和Fragment（View）生命周期关联控制的比较详细
         //这里设置预加载个数知识为了方便查看，去掉亦可（我已经完成了生命周期管理）
-        mViewPager.setOffscreenPageLimit(5);
+        mViewPager.setOffscreenPageLimit(6);
         mViewPager.setCurrentItem(pos);
         mTabLayout.setupWithViewPager(mViewPager);
     }

@@ -32,8 +32,6 @@ public class PlainTextEditText extends EditText {
 
     public PlainTextEditText(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-//        setTypeface(Typeface.createFromAsset(context.getAssets(), "roboto.ttf"));
-//        getPaint().setAntiAlias(true);
     }
 
     // Intercept and modify the paste event. Let everything else through unchanged.

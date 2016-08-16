@@ -43,7 +43,6 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="?attr/actionBarSize"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -63,24 +62,31 @@
                     android:layout_margin="4dp"
                     fresco:roundAsCircle="true"/>
 
-                <io.lhyz.android.boilerplate.view.RobotoTextView
-                    android:id="@+id/tv_name"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_centerVertical="true"
                     android:layout_toEndOf="@id/img_author"
-                    android:textAppearance="@style/LargeTextAppearance.Black"
-                    tools:text="lhyz wy"/>
+                    android:orientation="vertical">
 
-                <io.lhyz.android.boilerplate.view.RobotoTextView
-                    android:id="@+id/tv_update_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_name"
-                    android:layout_margin="8dp"
-                    android:layout_toEndOf="@id/img_author"
-                    android:textAppearance="@style/SmallTextAppearance.Black"
-                    tools:text="2012-03-15T01:52:33Z"/>
+                    <io.lhyz.android.boilerplate.view.RobotoTextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="4dp"
+                        android:textAppearance="@style/LargeTextAppearance.Black"
+                        tools:text="lhyz wy"/>
+
+                    <io.lhyz.android.boilerplate.view.RobotoTextView
+                        android:id="@+id/tv_update_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:textAppearance="@style/SmallTextAppearance.Black"
+                        tools:text="2012-03-15T01:52:33Z"/>
+                </LinearLayout>
             </RelativeLayout>
 
             <co.lujun.androidtagview.TagContainerLayout
@@ -137,6 +143,7 @@
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
+    <!--暂时无法使用API进行创建comment-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -144,12 +151,12 @@
         android:background="@color/activity_background"
         android:orientation="horizontal"
         android:padding="8dp"
-        app:layout_scrollFlags="scroll|enterAlways">
+        android:visibility="gone">
 
         <io.lhyz.android.boilerplate.view.PlainTextEditText
             android:id="@+id/et_comment"
             android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/msg_bubble_input"
             android:hint="@string/placeholder_comment"
@@ -158,10 +165,11 @@
 
         <ImageButton
             android:id="@+id/ib_send"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:background="@drawable/ic_send_round_bg"
             android:contentDescription="@string/app_name"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:src="@drawable/ic_send_white_24dp"/>
     </LinearLayout>

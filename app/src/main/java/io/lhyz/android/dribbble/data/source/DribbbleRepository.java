@@ -15,32 +15,23 @@
  */
 package io.lhyz.android.dribbble.data.source;
 
-import com.j256.ormlite.field.DataType;
-
 import java.util.List;
-import java.util.Map;
 
-import io.lhyz.android.dribbble.data.Comment;
-import io.lhyz.android.dribbble.data.Like;
-import io.lhyz.android.dribbble.data.Shot;
+import io.lhyz.android.dribbble.data.bean.Comment;
+import io.lhyz.android.dribbble.data.bean.Like;
+import io.lhyz.android.dribbble.data.bean.Shot;
 import rx.Observable;
+import rx.functions.Action1;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/14.
  */
 public class DribbbleRepository implements DataSource {
-
-    //TODO 暂时只实现远程数据库的操作作为测试
-
     //本地数据源
     DataSource mLocalDataSource;
     //远程数据源
     DataSource mRemoteDataSource;
-
-    //内存缓存
-    Map<DataType, List<Shot>> mShotCache;
-    Map<Long, List<Comment>> mCommentCache;
 
     public DribbbleRepository(DataSource localDataSource, DataSource remoteDataSource) {
         mLocalDataSource = localDataSource;
@@ -48,13 +39,18 @@ public class DribbbleRepository implements DataSource {
     }
 
     @Override
-    public Observable<List<Shot>> getShotList(int type) {
-        return mRemoteDataSource.getShotList(type);
+    public Observable<List<Shot>> getShotList(final int type) {
+        return mRemoteDataSource.getShotList(type).doOnNext(new Action1<List<Shot>>() {
+            @Override
+            public void call(List<Shot> shots) {
+                mLocalDataSource.saveShotList(type, shots);
+            }
+        });
     }
 
     @Override
     public void saveShotList(int type, List<Shot> shots) {
-        mRemoteDataSource.saveShotList(type, shots);
+        mLocalDataSource.saveShotList(type, shots);
     }
 
     @Override
@@ -63,8 +59,13 @@ public class DribbbleRepository implements DataSource {
     }
 
     @Override
-    public Observable<List<Comment>> getComments(long shotId) {
-        return mRemoteDataSource.getComments(shotId);
+    public Observable<List<Comment>> getComments(final long shotId) {
+        return mRemoteDataSource.getComments(shotId).doOnNext(new Action1<List<Comment>>() {
+            @Override
+            public void call(List<Comment> comments) {
+                mLocalDataSource.saveCommentList(shotId, comments);
+            }
+        });
     }
 
     @Override
@@ -74,7 +75,7 @@ public class DribbbleRepository implements DataSource {
 
     @Override
     public void saveCommentList(long shotId, List<Comment> comment) {
-        mRemoteDataSource.saveCommentList(shotId, comment);
+        mLocalDataSource.saveCommentList(shotId, comment);
     }
 
     @Override

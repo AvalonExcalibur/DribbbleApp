@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.main.recent;
+package io.lhyz.android.dribbble.main.following;
 
 import java.util.List;
 
@@ -28,16 +28,17 @@ import rx.schedulers.Schedulers;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/9.
+ * Created by lhyz on 2016/8/16.
  */
-public class RecentPresenter implements RecentContract.Presenter {
+public class FollowingPresenter implements FollowingContract.Presenter {
 
-    RecentContract.View mView;
+    FollowingContract.View mView;
 
     DribbbleRepository mRepository;
+
     Subscription mSubscription;
 
-    public RecentPresenter(RecentContract.View view) {
+    public FollowingPresenter(FollowingContract.View view) {
         mView = view;
         mView.setPresenter(this);
 
@@ -45,16 +46,16 @@ public class RecentPresenter implements RecentContract.Presenter {
     }
 
     @Override
-    public void loadRecent() {
+    public void loadFollowing() {
         mView.showLoading();
-        mSubscription = mRepository.getShotList(ShotType.RECENT)
+        mSubscription = mRepository.getShotList(ShotType.FOLLOWING)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<List<Shot>>() {
                     @Override
                     public void onSuccess(List<Shot> result) {
                         mView.hideLoading();
-                        mView.showRecent(result);
+                        mView.showFollowing(result);
                     }
 
                     @Override
@@ -67,7 +68,7 @@ public class RecentPresenter implements RecentContract.Presenter {
 
     @Override
     public void start() {
-        loadRecent();
+        loadFollowing();
     }
 
     @Override

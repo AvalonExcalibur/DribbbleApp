@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data;
+package io.lhyz.android.dribbble.data.bean;
 
 import com.google.gson.annotations.SerializedName;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
-import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,48 +24,40 @@ import java.util.List;
  * hello,android
  * Created by lhyz on 2016/8/9.
  */
-@DatabaseTable(tableName = "shots")
 public class Shot implements Serializable {
     private static final long serialVersionUID = -1546919630642750560L;
 
-    //shot type
-    @DatabaseField
     int type;
-
-    //自动生成主键（取了id的全拼作为区别）
-    @DatabaseField(generatedId = true)
-    @SuppressWarnings("unused")
-    long identity;
-
-    //由于在不同列表中可能出现同一个shot，所以这里我不敢用作主键
-    @DatabaseField
     long id;
-    @DatabaseField
     String title;
-    @DatabaseField
     String description;
-    @DatabaseField
     Image images;
-    @DatabaseField
     @SerializedName("views_count")
     int viewsCount;
-    @DatabaseField
     @SerializedName("comments_count")
     int commentsCount;
-    @DatabaseField
     User user;
-    @ForeignCollectionField
     List<String> tags;
-    @DatabaseField
     @SerializedName("updated_at")
     String updatedTime;
 
-    public Shot() {
-        //For ORMLite
+    public Shot(int type, long id, String title, String description, Image images,
+                int viewsCount, int commentsCount, User user, List<String> tags,
+                String updatedTime) {
+        this.type = type;
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.images = images;
+        this.viewsCount = viewsCount;
+        this.commentsCount = commentsCount;
+        this.user = user;
+        this.tags = tags;
+        this.updatedTime = updatedTime;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public int getType() {
+        return type;
     }
 
     public long getId() {
@@ -87,6 +76,14 @@ public class Shot implements Serializable {
         return images;
     }
 
+    public int getViewsCount() {
+        return viewsCount;
+    }
+
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
     public User getUser() {
         return user;
     }
@@ -95,20 +92,12 @@ public class Shot implements Serializable {
         return tags;
     }
 
-    public int getViewsCount() {
-        return viewsCount;
-    }
-
     public String getUpdatedTime() {
         return updatedTime;
     }
 
-    public int getCommentsCount() {
-        return commentsCount;
-    }
-
     public static class Image implements Serializable {
-        private static final long serialVersionUID = 8243845973394454688L;
+        private static final long serialVersionUID = 4949847134997846173L;
 
         String hidpi;
         String normal;

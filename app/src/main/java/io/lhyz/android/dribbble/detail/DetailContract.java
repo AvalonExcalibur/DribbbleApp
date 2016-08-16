@@ -19,8 +19,8 @@ import java.util.List;
 
 import io.lhyz.android.dribbble.base.BasePresenter;
 import io.lhyz.android.dribbble.base.BaseView;
-import io.lhyz.android.dribbble.data.Comment;
-import io.lhyz.android.dribbble.data.Shot;
+import io.lhyz.android.dribbble.data.bean.Comment;
+import io.lhyz.android.dribbble.data.bean.Shot;
 
 /**
  * hello,android

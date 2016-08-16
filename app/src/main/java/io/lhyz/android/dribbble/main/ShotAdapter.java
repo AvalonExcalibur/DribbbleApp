@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.lhyz.android.dribbble.R;
-import io.lhyz.android.dribbble.data.Shot;
+import io.lhyz.android.dribbble.data.bean.Shot;
 
 /**
  * hello,android

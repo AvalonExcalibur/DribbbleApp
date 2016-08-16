@@ -17,9 +17,9 @@ package io.lhyz.android.dribbble.data.source;
 
 import java.util.List;
 
-import io.lhyz.android.dribbble.data.Comment;
-import io.lhyz.android.dribbble.data.Like;
-import io.lhyz.android.dribbble.data.Shot;
+import io.lhyz.android.dribbble.data.bean.Comment;
+import io.lhyz.android.dribbble.data.bean.Like;
+import io.lhyz.android.dribbble.data.bean.Shot;
 import rx.Observable;
 
 /**

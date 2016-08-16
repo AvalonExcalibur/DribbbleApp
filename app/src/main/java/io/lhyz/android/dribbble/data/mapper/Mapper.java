@@ -13,20 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.di.annotation;
+package io.lhyz.android.dribbble.data.mapper;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-import javax.inject.Qualifier;
+import java.util.List;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/11.
+ * Created by lhyz on 2016/8/16.
  */
-@Qualifier
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Recent {
+public interface Mapper<T, M> {
+    T transform(M model);
+
+    List<T> transform(List<M> collection);
 }

@@ -13,53 +13,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data;
+package io.lhyz.android.dribbble.data.bean;
 
 import com.google.gson.annotations.SerializedName;
-import com.j256.ormlite.field.DataType;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
-
-import java.io.Serializable;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/13.
  */
-@DatabaseTable(tableName = "comments")
-public class Comment implements Serializable {
-    private static final long serialVersionUID = -7279496175692649917L;
 
-    //shot Id for this comment( not exist in json data)
-    @DatabaseField
+public class Comment {
+
     long shotId;
 
-    @DatabaseField(id = true)
     long id;
-    @DatabaseField
     String body;
     @SerializedName("likes_count")
-    @DatabaseField
     int likesCount;
-    @DatabaseField
     @SerializedName("updated_at")
     String updateTime;
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
     User user;
 
-    public Comment() {
-        //For ORMLite
-    }
-
-    /**
-     * 作为临时添加的comment使用
-     */
+    //用作临时对象
     public Comment(String body) {
         this.body = body;
     }
 
-    public void setShotId(long shotId) {
+    public Comment(long id, String body, int likesCount, String updateTime, User user) {
+        this.id = id;
+        this.body = body;
+        this.likesCount = likesCount;
+        this.updateTime = updateTime;
+        this.user = user;
+    }
+
+    public Comment(long shotId, long id, String body, int likesCount, String updateTime, User user) {
         this.shotId = shotId;
+        this.id = id;
+        this.body = body;
+        this.likesCount = likesCount;
+        this.updateTime = updateTime;
+        this.user = user;
+    }
+
+    public long getShotId() {
+        return shotId;
     }
 
     public long getId() {
