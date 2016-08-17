@@ -13,25 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.executor;
+package io.lhyz.android.dribbble.base;
 
-import javax.inject.Inject;
-
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
+import rx.Subscriber;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/6.
+ * <p/>
+ * 实现一个默认的Subscriber，并更名onNext为onSuccess
  */
-public class UIThread implements PostThreadExecutor {
-
-    @Inject
-    public UIThread() {
+public class DefaultSubscriber<T> extends Subscriber<T> {
+    @Override
+    public void onCompleted() {
+        //Pass
     }
 
     @Override
-    public Scheduler getScheduler() {
-        return AndroidSchedulers.mainThread();
+    public void onNext(T t) {
+        onSuccess(t);
+    }
+
+    @Override
+    public void onError(Throwable e) {
+
+    }
+
+    public void onSuccess(T result) {
+
     }
 }

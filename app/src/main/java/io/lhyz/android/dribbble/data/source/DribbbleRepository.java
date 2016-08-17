@@ -17,11 +17,10 @@ package io.lhyz.android.dribbble.data.source;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.lhyz.android.dribbble.data.bean.Comment;
-import io.lhyz.android.dribbble.data.bean.Like;
 import io.lhyz.android.dribbble.data.bean.Shot;
-import rx.Observable;
-import rx.functions.Action1;
 
 /**
  * hello,android
@@ -33,68 +32,96 @@ public class DribbbleRepository implements DataSource {
     //远程数据源
     DataSource mRemoteDataSource;
 
+    @Inject
     public DribbbleRepository(DataSource localDataSource, DataSource remoteDataSource) {
         mLocalDataSource = localDataSource;
         mRemoteDataSource = remoteDataSource;
     }
 
     @Override
-    public Observable<List<Shot>> getShotList(final int type) {
-        return mRemoteDataSource.getShotList(type).doOnNext(new Action1<List<Shot>>() {
+    public void getShotList(final int type, boolean force, final LoadShotsCallback callback) {
+        if (force) {
+            mRemoteDataSource.getShotList(type, true, new LoadShotsCallback() {
+                @Override
+                public void onShotsLoaded(List<Shot> shots) {
+                    mLocalDataSource.saveShotList(type, shots);
+                    callback.onShotsLoaded(shots);
+                }
+
+                @Override
+                public void onNoShotsAvailable() {
+                    callback.onNoShotsAvailable();
+                }
+            });
+        } else {
+            mLocalDataSource.getShotList(type, false, callback);
+        }
+    }
+
+    @Override
+    public void getCommentList(final long shotId, boolean force, final LoadCommentsCallback callback) {
+        if (force) {
+            mRemoteDataSource.getCommentList(shotId, true, new LoadCommentsCallback() {
+                @Override
+                public void onCommentsLoaded(List<Comment> comments) {
+                    mLocalDataSource.saveCommentList(shotId, comments);
+                    callback.onCommentsLoaded(comments);
+                }
+
+                @Override
+                public void onNoCommentsAvailable() {
+                    callback.onNoCommentsAvailable();
+                }
+            });
+        } else {
+            mLocalDataSource.getCommentList(shotId, false, callback);
+        }
+    }
+
+    @Override
+    public void addComment(final long shotId, Comment comment, final AddCommentCallback callback) {
+        mRemoteDataSource.addComment(shotId, comment, new AddCommentCallback() {
             @Override
-            public void call(List<Shot> shots) {
-                mLocalDataSource.saveShotList(type, shots);
+            public void onSuccess(Comment comment) {
+                mLocalDataSource.addComment(shotId, comment, null);
+                callback.onSuccess(comment);
+            }
+
+            @Override
+            public void onFailure() {
+                callback.onFailure();
             }
         });
+    }
+
+    @Override
+    public void isLike(long shotId, LikeCallback callback) {
+        mRemoteDataSource.isLike(shotId, callback);
+    }
+
+    @Override
+    public void likeShot(long shotId, LikeCallback callback) {
+        mRemoteDataSource.likeShot(shotId, callback);
+    }
+
+    @Override
+    public void unlikeShot(long shotId, LikeCallback callback) {
+        mRemoteDataSource.unlikeShot(shotId, callback);
     }
 
     @Override
     public void saveShotList(int type, List<Shot> shots) {
-        mLocalDataSource.saveShotList(type, shots);
-    }
 
-    @Override
-    public void refreshShots(int type) {
-        mRemoteDataSource.refreshShots(type);
-    }
-
-    @Override
-    public Observable<List<Comment>> getComments(final long shotId) {
-        return mRemoteDataSource.getComments(shotId).doOnNext(new Action1<List<Comment>>() {
-            @Override
-            public void call(List<Comment> comments) {
-                mLocalDataSource.saveCommentList(shotId, comments);
-            }
-        });
-    }
-
-    @Override
-    public Observable<Comment> addComment(long shotId, Comment comment) {
-        return mRemoteDataSource.addComment(shotId, comment);
     }
 
     @Override
     public void saveCommentList(long shotId, List<Comment> comment) {
-        mLocalDataSource.saveCommentList(shotId, comment);
+
     }
 
     @Override
-    public void refreshComment() {
-        mRemoteDataSource.refreshComment();
-    }
-
-    @Override
-    public Observable<Like> isLike(long shotId) {
-        return mRemoteDataSource.isLike(shotId);
-    }
-
-    @Override
-    public Observable<Like> likeShot(long shotId) {
-        return mRemoteDataSource.likeShot(shotId);
-    }
-
-    @Override
-    public Observable<Like> unlikeShot(long shotId) {
-        return mRemoteDataSource.unlikeShot(shotId);
+    public void cancel() {
+        mRemoteDataSource.cancel();
+        mLocalDataSource.cancel();
     }
 }

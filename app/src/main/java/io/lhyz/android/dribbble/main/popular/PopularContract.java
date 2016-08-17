@@ -17,7 +17,7 @@ package io.lhyz.android.dribbble.main.popular;
 
 import java.util.List;
 
-import io.lhyz.android.dribbble.base.BasePresenter;
+import io.lhyz.android.dribbble.base.mvp.BasePresenter;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.main.LoadView;
 

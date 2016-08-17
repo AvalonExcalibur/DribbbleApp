@@ -17,14 +17,13 @@ package io.lhyz.android.dribbble.main.following;
 
 import java.util.List;
 
-import io.lhyz.android.dribbble.interactor.DefaultSubscriber;
-import io.lhyz.android.dribbble.Injections;
+import javax.inject.Inject;
+
+import io.lhyz.android.dribbble.DribbbleApp;
 import io.lhyz.android.dribbble.data.bean.Shot;
+import io.lhyz.android.dribbble.data.source.DataSource;
 import io.lhyz.android.dribbble.data.source.DribbbleRepository;
 import io.lhyz.android.dribbble.data.source.ShotType;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * hello,android
@@ -34,36 +33,32 @@ public class FollowingPresenter implements FollowingContract.Presenter {
 
     FollowingContract.View mView;
 
+    @Inject
     DribbbleRepository mRepository;
-
-    Subscription mSubscription;
 
     public FollowingPresenter(FollowingContract.View view) {
         mView = view;
         mView.setPresenter(this);
 
-        mRepository = Injections.provideRepository();
+        DribbbleApp.getApp().getAppComponent().inject(this);
     }
 
     @Override
     public void loadFollowing() {
         mView.showLoading();
-        mSubscription = mRepository.getShotList(ShotType.FOLLOWING)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultSubscriber<List<Shot>>() {
-                    @Override
-                    public void onSuccess(List<Shot> result) {
-                        mView.hideLoading();
-                        mView.showFollowing(result);
-                    }
+        mRepository.getShotList(ShotType.FOLLOWING, true, new DataSource.LoadShotsCallback() {
+            @Override
+            public void onShotsLoaded(List<Shot> shots) {
+                mView.hideLoading();
+                mView.showFollowing(shots);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.hideLoading();
-                        mView.showEmptyView();
-                    }
-                });
+            @Override
+            public void onNoShotsAvailable() {
+                mView.hideLoading();
+                mView.showEmptyView();
+            }
+        });
     }
 
     @Override
@@ -73,21 +68,12 @@ public class FollowingPresenter implements FollowingContract.Presenter {
 
     @Override
     public void pause() {
-        unsubscribe();
+        mRepository.cancel();
     }
 
     @Override
     public void destroy() {
-        unsubscribe();
+        mRepository.cancel();
         mView = null;
-    }
-
-    private void unsubscribe() {
-        if (mSubscription == null) {
-            return;
-        }
-        if (!mSubscription.isUnsubscribed()) {
-            mSubscription.unsubscribe();
-        }
     }
 }

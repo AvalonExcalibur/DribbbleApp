@@ -15,9 +15,11 @@
  */
 package io.lhyz.android.dribbble.data.source.remote;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.List;
 
-import io.lhyz.android.dribbble.util.TagHelper;
+import io.lhyz.android.dribbble.base.DefaultSubscriber;
 import io.lhyz.android.dribbble.data.bean.Comment;
 import io.lhyz.android.dribbble.data.bean.Like;
 import io.lhyz.android.dribbble.data.bean.Shot;
@@ -25,7 +27,12 @@ import io.lhyz.android.dribbble.data.source.DataSource;
 import io.lhyz.android.dribbble.data.source.DribbbleService;
 import io.lhyz.android.dribbble.data.source.ShotType;
 import io.lhyz.android.dribbble.net.DribbbleServiceCreator;
+import io.lhyz.android.dribbble.util.TagHelper;
 import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * hello,android
@@ -41,9 +48,13 @@ public class RemoteDataSource implements DataSource {
 
     DribbbleService mDribbbleService;
 
+    CompositeSubscription mCompositeSubscription;
+
     public RemoteDataSource() {
         mDribbbleService = DribbbleServiceCreator.getInstance()
                 .createService();
+
+        mCompositeSubscription = new CompositeSubscription();
     }
 
     public static RemoteDataSource getInstance() {
@@ -51,24 +62,156 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public Observable<List<Shot>> getShotList(int type) {
+    public void getShotList(int type, boolean force, final LoadShotsCallback callback) {
+        Observable<List<Shot>> observable = null;
         switch (type) {
             case ShotType.RECENT:
-                return mDribbbleService.getRecentList();
+                observable = mDribbbleService.getRecentList();
+                break;
             case ShotType.POPULAR:
-                return mDribbbleService.getPopularList();
+                observable = mDribbbleService.getPopularList();
+                break;
             case ShotType.DEBUT:
-                return mDribbbleService.getDebutList();
+                observable = mDribbbleService.getDebutList();
+                break;
             case ShotType.TEAM:
-                return mDribbbleService.getTeamList();
+                observable = mDribbbleService.getTeamList();
+                break;
             case ShotType.PLAYOFFS:
-                return mDribbbleService.getPlayoffList();
+                observable = mDribbbleService.getPlayoffList();
+                break;
             case ShotType.FOLLOWING:
-                return mDribbbleService.getFollowingShotList();
+                observable = mDribbbleService.getFollowingShotList();
+                break;
             default:
                 break;
         }
-        return Observable.empty();
+        if (observable == null) {
+            callback.onNoShotsAvailable();
+            return;
+        }
+
+        Subscription subscription =
+                observable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new DefaultSubscriber<List<Shot>>() {
+                            @Override
+                            public void onSuccess(List<Shot> result) {
+                                callback.onShotsLoaded(result);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Logger.e(TAG, e.getMessage());
+                                callback.onNoShotsAvailable();
+                            }
+                        });
+        mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void getCommentList(long shotId, boolean force, final LoadCommentsCallback callback) {
+        Subscription subscription = mDribbbleService.getComments(shotId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<List<Comment>>() {
+                    @Override
+                    public void onSuccess(List<Comment> result) {
+                        callback.onCommentsLoaded(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(TAG, e.getMessage());
+                        callback.onNoCommentsAvailable();
+                    }
+                });
+        mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void addComment(long shotId, Comment comment, final AddCommentCallback callback) {
+        Subscription subscription = mDribbbleService.postComment(shotId, comment.getBody())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<Comment>() {
+                    @Override
+                    public void onSuccess(Comment result) {
+                        callback.onSuccess(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(TAG, e.getMessage());
+                        callback.onFailure();
+                    }
+                });
+        mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void isLike(long shotId, final LikeCallback callback) {
+        Subscription subscription = mDribbbleService.isLike(shotId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<Like>() {
+                    @Override
+                    public void onSuccess(Like result) {
+                        callback.onSuccess(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(TAG, e.getMessage());
+                        callback.onFailure();
+                    }
+                });
+        mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void likeShot(long shotId, final LikeCallback callback) {
+        Subscription subscription = mDribbbleService.likeShot(shotId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<Like>() {
+                    @Override
+                    public void onSuccess(Like result) {
+                        callback.onSuccess(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(TAG, e.getMessage());
+                        callback.onFailure();
+                    }
+                });
+        mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void unlikeShot(long shotId, final LikeCallback callback) {
+        Subscription subscription = mDribbbleService.isLike(shotId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<Like>() {
+                    @Override
+                    public void onSuccess(Like result) {
+                        callback.onSuccess(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(TAG, e.getMessage());
+                        callback.onFailure();
+                    }
+                });
+        mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void cancel() {
+        mCompositeSubscription.clear();
     }
 
     @Override
@@ -77,42 +220,7 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public void refreshShots(int type) {
-        //Remote DataSource Not Need This
-    }
-
-    @Override
-    public Observable<List<Comment>> getComments(long shotId) {
-        return mDribbbleService.getComments(shotId);
-    }
-
-    @Override
-    public Observable<Comment> addComment(long shotId, Comment comment) {
-        return mDribbbleService.postComment(shotId, comment.getBody());
-    }
-
-    @Override
     public void saveCommentList(long shotId, List<Comment> comment) {
         //Remote DataSource Not Need This
-    }
-
-    @Override
-    public void refreshComment() {
-        //Remote DataSource Not Need This
-    }
-
-    @Override
-    public Observable<Like> isLike(long shotId) {
-        return mDribbbleService.isLike(shotId);
-    }
-
-    @Override
-    public Observable<Like> likeShot(long shotId) {
-        return mDribbbleService.likeShot(shotId);
-    }
-
-    @Override
-    public Observable<Like> unlikeShot(long shotId) {
-        return mDribbbleService.unlikeShot(shotId);
     }
 }

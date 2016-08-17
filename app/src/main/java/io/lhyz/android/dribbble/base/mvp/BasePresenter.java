@@ -13,20 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble;
-
-import io.lhyz.android.dribbble.data.source.DribbbleRepository;
-import io.lhyz.android.dribbble.data.source.local.LocalDataSource;
-import io.lhyz.android.dribbble.data.source.remote.RemoteDataSource;
+package io.lhyz.android.dribbble.base.mvp;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/15.
+ * Created by lhyz on 2016/8/7.
  */
-public class Injections {
+public interface BasePresenter {
+    void start();
 
-    public static DribbbleRepository provideRepository() {
-        return new DribbbleRepository(LocalDataSource.getInstance(DribbbleApp.getAppContext()),
-                RemoteDataSource.getInstance());
-    }
+    void pause();
+
+    void destroy();
 }

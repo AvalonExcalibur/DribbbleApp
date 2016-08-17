@@ -20,11 +20,11 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import io.lhyz.android.dribbble.interactor.DefaultSubscriber;
+import io.lhyz.android.dribbble.base.DefaultSubscriber;
 import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.AppStart;
 import io.lhyz.android.dribbble.R;
-import io.lhyz.android.dribbble.base.BaseActivity;
+import io.lhyz.android.dribbble.base.app.BaseActivity;
 import io.lhyz.android.dribbble.data.bean.User;
 import io.lhyz.android.dribbble.data.source.DribbbleService;
 import io.lhyz.android.dribbble.main.debut.DebutFragment;

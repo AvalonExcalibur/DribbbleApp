@@ -15,8 +15,8 @@
  */
 package io.lhyz.android.dribbble.main;
 
-import io.lhyz.android.dribbble.base.BasePresenter;
-import io.lhyz.android.dribbble.base.BaseView;
+import io.lhyz.android.dribbble.base.mvp.BasePresenter;
+import io.lhyz.android.dribbble.base.mvp.BaseView;
 
 /**
  * hello,android

@@ -32,7 +32,7 @@ import java.io.IOException;
 import butterknife.BindView;
 import io.lhyz.android.dribbble.BuildConfig;
 import io.lhyz.android.dribbble.R;
-import io.lhyz.android.dribbble.base.BaseActivity;
+import io.lhyz.android.dribbble.base.app.BaseActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;

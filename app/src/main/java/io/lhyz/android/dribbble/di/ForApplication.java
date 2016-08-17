@@ -13,13 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.exception;
+package io.lhyz.android.dribbble.di;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import javax.inject.Scope;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/6.
+ * Created by lhyz on 2016/8/17.
  */
-public interface ErrorBundle {
-    Exception getException();
-    String getMessage();
+@Scope
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ForApplication {
 }

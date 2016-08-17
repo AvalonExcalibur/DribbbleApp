@@ -15,14 +15,13 @@
  */
 package io.lhyz.android.dribbble.di.module;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
-import io.lhyz.android.dribbble.executor.JobExecutor;
-import io.lhyz.android.dribbble.executor.UIThread;
-import io.lhyz.android.dribbble.executor.PostThreadExecutor;
-import io.lhyz.android.dribbble.executor.ThreadExecutor;
+import io.lhyz.android.dribbble.DribbbleApp;
+import io.lhyz.android.dribbble.data.source.DribbbleRepository;
+import io.lhyz.android.dribbble.data.source.local.LocalDataSource;
+import io.lhyz.android.dribbble.data.source.remote.RemoteDataSource;
+import io.lhyz.android.dribbble.di.ForApplication;
 
 /**
  * hello,android
@@ -31,14 +30,9 @@ import io.lhyz.android.dribbble.executor.ThreadExecutor;
 @Module
 public class AppModule {
     @Provides
-    @Singleton
-    PostThreadExecutor providePostThreadExecutor(UIThread uiThread) {
-        return uiThread;
-    }
-
-    @Provides
-    @Singleton
-    ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
-        return jobExecutor;
+    @ForApplication
+    DribbbleRepository provideRepository() {
+        return new DribbbleRepository(LocalDataSource.getInstance(DribbbleApp.getAppContext()),
+                RemoteDataSource.getInstance());
     }
 }

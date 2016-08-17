@@ -20,7 +20,6 @@ import java.util.List;
 import io.lhyz.android.dribbble.data.bean.Comment;
 import io.lhyz.android.dribbble.data.bean.Like;
 import io.lhyz.android.dribbble.data.bean.Shot;
-import rx.Observable;
 
 /**
  * hello,android
@@ -28,33 +27,54 @@ import rx.Observable;
  */
 public interface DataSource {
 
+    interface LoadShotsCallback {
+        void onShotsLoaded(List<Shot> shots);
+
+        void onNoShotsAvailable();
+    }
+
+    interface LoadCommentsCallback {
+        void onCommentsLoaded(List<Comment> comments);
+
+        void onNoCommentsAvailable();
+    }
+
+    interface AddCommentCallback {
+        void onSuccess(Comment comment);
+
+        void onFailure();
+    }
+
+    interface LikeCallback {
+        void onSuccess(Like like);
+
+        void onFailure();
+    }
+
     /**
      * For Shot
      */
-    Observable<List<Shot>> getShotList(int type);
+    void getShotList(int type, boolean force, LoadShotsCallback callback);
 
     void saveShotList(int type, List<Shot> shots);
-
-    void refreshShots(int type);
 
     /**
      * For Comments
      */
-    Observable<List<Comment>> getComments(long shotId);
+    void getCommentList(long shotId, boolean force, LoadCommentsCallback callback);
 
-    Observable<Comment> addComment(long shotId, Comment comment);
+    void addComment(long shotId, Comment comment, AddCommentCallback callback);
 
     void saveCommentList(long shotId, List<Comment> comment);
-
-    void refreshComment();
-
     /**
      * For Likes
      */
 
-    Observable<Like> isLike(long shotId);
+    void isLike(long shotId, LikeCallback callback);
 
-    Observable<Like> likeShot(long shotId);
+    void likeShot(long shotId, LikeCallback callback);
 
-    Observable<Like> unlikeShot(long shotId);
+    void unlikeShot(long shotId, LikeCallback callback);
+
+    void cancel();
 }

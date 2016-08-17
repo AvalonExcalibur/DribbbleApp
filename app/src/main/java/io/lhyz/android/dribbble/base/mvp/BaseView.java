@@ -13,35 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.interactor;
-
-import rx.Subscriber;
+package io.lhyz.android.dribbble.base.mvp;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/6.
- * <p/>
- * 实现一个默认的Subscriber，并更名onNext为onSuccess
- * <p/>
- * TODO 可能有问题，暂时实现先如此
+ * Created by lhyz on 2016/8/7.
  */
-public class DefaultSubscriber<T> extends Subscriber<T> {
-    @Override
-    public void onCompleted() {
-        //Pass
-    }
-
-    @Override
-    public void onNext(T t) {
-        onSuccess(t);
-    }
-
-    @Override
-    public void onError(Throwable e) {
-
-    }
-
-    public void onSuccess(T result) {
-
-    }
+public interface BaseView<T extends BasePresenter> {
+    void setPresenter(T presenter);
 }

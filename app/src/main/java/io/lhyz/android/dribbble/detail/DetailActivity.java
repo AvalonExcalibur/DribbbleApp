@@ -47,7 +47,7 @@ import java.util.List;
 import butterknife.BindView;
 import co.lujun.androidtagview.TagContainerLayout;
 import io.lhyz.android.dribbble.R;
-import io.lhyz.android.dribbble.base.BaseActivity;
+import io.lhyz.android.dribbble.base.app.BaseActivity;
 import io.lhyz.android.dribbble.data.bean.Comment;
 import io.lhyz.android.dribbble.data.bean.Shot;
 

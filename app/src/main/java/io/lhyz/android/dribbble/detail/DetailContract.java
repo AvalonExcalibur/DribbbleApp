@@ -17,8 +17,8 @@ package io.lhyz.android.dribbble.detail;
 
 import java.util.List;
 
-import io.lhyz.android.dribbble.base.BasePresenter;
-import io.lhyz.android.dribbble.base.BaseView;
+import io.lhyz.android.dribbble.base.mvp.BasePresenter;
+import io.lhyz.android.dribbble.base.mvp.BaseView;
 import io.lhyz.android.dribbble.data.bean.Comment;
 import io.lhyz.android.dribbble.data.bean.Shot;
 
@@ -40,8 +40,6 @@ public interface DetailContract {
         void isLikeShot();
 
         void postComment(String body);
-
-        void unsubscribe();
     }
 
     interface View extends BaseView<Presenter> {
