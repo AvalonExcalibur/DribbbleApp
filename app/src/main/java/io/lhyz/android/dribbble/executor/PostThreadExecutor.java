@@ -13,29 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.boilerplate.exception;
+package io.lhyz.android.dribbble.executor;
+
+import rx.Scheduler;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/6.
+ * <p/>
+ * UI界面操作执行器（在UI线程上操作）
  */
-public class DefaultErrorBundle implements ErrorBundle {
-
-    private static final String DEFAULT_ERROR_MESSAGE = "Unknown Error";
-
-    private final Exception mException;
-
-    public DefaultErrorBundle(Exception exception) {
-        mException = exception;
-    }
-
-    @Override
-    public Exception getException() {
-        return mException;
-    }
-
-    @Override
-    public String getMessage() {
-        return null == mException ? DEFAULT_ERROR_MESSAGE : mException.getMessage();
-    }
+public interface PostThreadExecutor {
+    Scheduler getScheduler();
 }

@@ -19,7 +19,7 @@
         android:layout_gravity="bottom"
         android:background="@color/color_charcoal">
 
-        <io.lhyz.android.boilerplate.view.RobotoButton
+        <io.lhyz.android.dribbble.view.RobotoButton
             android:id="@+id/views_count"
             style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
             android:layout_margin="4dp"
             fresco:roundAsCircle="true"/>
 
-        <io.lhyz.android.boilerplate.view.RobotoTextView
+        <io.lhyz.android.dribbble.view.RobotoTextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
             android:textAppearance="@style/LargeTextAppearance.White"/>
     </RelativeLayout>
 
-    <io.lhyz.android.boilerplate.view.RobotoTextView
+    <io.lhyz.android.dribbble.view.RobotoTextView
         android:id="@+id/tag_gif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

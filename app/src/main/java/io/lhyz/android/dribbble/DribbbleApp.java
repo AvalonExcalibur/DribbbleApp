@@ -22,8 +22,6 @@ import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import io.fabric.sdk.android.Fabric;
-import io.lhyz.android.dribbble.di.component.AppComponent;
-import io.lhyz.android.dribbble.di.component.DaggerAppComponent;
 
 /**
  * hello,android
@@ -32,7 +30,6 @@ import io.lhyz.android.dribbble.di.component.DaggerAppComponent;
 public class DribbbleApp extends Application {
 
     private static DribbbleApp INSTANCE;
-    private static AppComponent sAppComponent;
 
     @Override
     public void onCreate() {
@@ -41,7 +38,6 @@ public class DribbbleApp extends Application {
         Fresco.initialize(this);
 
         INSTANCE = this;
-        sAppComponent = DaggerAppComponent.create();
     }
 
     public static DribbbleApp getApp() {
@@ -50,9 +46,5 @@ public class DribbbleApp extends Application {
 
     public static Context getAppContext() {
         return getApp();
-    }
-
-    public static AppComponent getAppComponent() {
-        return sAppComponent;
     }
 }

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.boilerplate.interactor;
+package io.lhyz.android.dribbble.interactor;
 
-import io.lhyz.android.boilerplate.executor.PostThreadExecutor;
-import io.lhyz.android.boilerplate.executor.ThreadExecutor;
+import io.lhyz.android.dribbble.executor.PostThreadExecutor;
+import io.lhyz.android.dribbble.executor.ThreadExecutor;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;

@@ -69,7 +69,7 @@
                     android:layout_toEndOf="@id/img_author"
                     android:orientation="vertical">
 
-                    <io.lhyz.android.boilerplate.view.RobotoTextView
+                    <io.lhyz.android.dribbble.view.RobotoTextView
                         android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                         android:textAppearance="@style/LargeTextAppearance.Black"
                         tools:text="lhyz wy"/>
 
-                    <io.lhyz.android.boilerplate.view.RobotoTextView
+                    <io.lhyz.android.dribbble.view.RobotoTextView
                         android:id="@+id/tv_update_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
                 app:tag_theme="none"
                 app:vertical_interval="8dp"/>
 
-            <io.lhyz.android.boilerplate.view.RobotoTextView
+            <io.lhyz.android.dribbble.view.RobotoTextView
                 android:id="@+id/tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                 android:text="@string/app_name"
                 android:textAppearance="@style/NormalTextAppearance.Black"/>
 
-            <io.lhyz.android.boilerplate.view.RobotoTextView
+            <io.lhyz.android.dribbble.view.RobotoTextView
                 android:id="@+id/tv_comments_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -153,7 +153,7 @@
         android:padding="8dp"
         android:visibility="gone">
 
-        <io.lhyz.android.boilerplate.view.PlainTextEditText
+        <io.lhyz.android.dribbble.view.PlainTextEditText
             android:id="@+id/et_comment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -97,8 +97,6 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
         transitive = true;
     }
-    //模板代码
-    compile project(':boilerplate')
     //单元测试
     testCompile 'junit:junit:4.12'
 }

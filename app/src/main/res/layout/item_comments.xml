@@ -25,14 +25,14 @@
             android:orientation="vertical"
             android:padding="4dp">
 
-            <io.lhyz.android.boilerplate.view.RobotoTextView
+            <io.lhyz.android.dribbble.view.RobotoTextView
                 android:id="@+id/tv_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/LargeTextAppearance.Grey"
                 tools:text="@string/app_name"/>
 
-            <io.lhyz.android.boilerplate.view.RobotoTextView
+            <io.lhyz.android.dribbble.view.RobotoTextView
                 android:id="@+id/tv_update_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                 android:textAppearance="@style/SmallTextAppearance.Grey"
                 tools:text="@string/app_name"/>
 
-            <io.lhyz.android.boilerplate.view.RobotoButton
+            <io.lhyz.android.dribbble.view.RobotoButton
                 android:id="@+id/tv_likes_count"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
                 android:textColor="@android:color/black"/>
         </RelativeLayout>
 
-        <io.lhyz.android.boilerplate.view.RobotoTextView
+        <io.lhyz.android.dribbble.view.RobotoTextView
             android:id="@+id/tv_comment_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

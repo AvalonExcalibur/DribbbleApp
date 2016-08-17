@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.boilerplate.util;
+package io.lhyz.android.dribbble.exception;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/15.
+ * Created by lhyz on 2016/8/6.
  */
-public class TagHelper {
-
-    public static String from(Class<?> clazz) {
-        return clazz.getName();
-    }
+public interface ErrorBundle {
+    Exception getException();
+    String getMessage();
 }

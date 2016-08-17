@@ -26,8 +26,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
-import io.lhyz.android.boilerplate.executor.ThreadExecutor;
-
 /**
  * hello,android
  * Created by lhyz on 2016/8/6.

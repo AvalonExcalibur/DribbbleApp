@@ -24,5 +24,9 @@ import java.util.List;
 public interface Mapper<T, M> {
     T transform(M model);
 
-    List<T> transform(List<M> collection);
+    List<T> transform(List<M> list);
+
+    M convert(T type);
+
+    List<M> convert(List<T> list);
 }

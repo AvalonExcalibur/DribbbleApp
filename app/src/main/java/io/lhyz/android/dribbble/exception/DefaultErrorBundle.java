@@ -13,13 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.boilerplate.exception;
+package io.lhyz.android.dribbble.exception;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/6.
  */
-public interface ErrorBundle {
-    Exception getException();
-    String getMessage();
+public class DefaultErrorBundle implements ErrorBundle {
+
+    private static final String DEFAULT_ERROR_MESSAGE = "Unknown Error";
+
+    private final Exception mException;
+
+    public DefaultErrorBundle(Exception exception) {
+        mException = exception;
+    }
+
+    @Override
+    public Exception getException() {
+        return mException;
+    }
+
+    @Override
+    public String getMessage() {
+        return null == mException ? DEFAULT_ERROR_MESSAGE : mException.getMessage();
+    }
 }

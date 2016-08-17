@@ -17,7 +17,7 @@ package io.lhyz.android.dribbble.main.debut;
 
 import java.util.List;
 
-import io.lhyz.android.boilerplate.interactor.DefaultSubscriber;
+import io.lhyz.android.dribbble.interactor.DefaultSubscriber;
 import io.lhyz.android.dribbble.Injections;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DribbbleRepository;

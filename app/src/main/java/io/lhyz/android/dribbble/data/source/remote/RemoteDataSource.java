@@ -17,7 +17,7 @@ package io.lhyz.android.dribbble.data.source.remote;
 
 import java.util.List;
 
-import io.lhyz.android.boilerplate.util.TagHelper;
+import io.lhyz.android.dribbble.util.TagHelper;
 import io.lhyz.android.dribbble.data.bean.Comment;
 import io.lhyz.android.dribbble.data.bean.Like;
 import io.lhyz.android.dribbble.data.bean.Shot;

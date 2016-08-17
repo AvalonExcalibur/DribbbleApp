@@ -13,16 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.boilerplate.executor;
+package io.lhyz.android.dribbble.interactor;
 
-import rx.Scheduler;
+import rx.Subscriber;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/6.
  * <p/>
- * UI界面操作执行器（在UI线程上操作）
+ * 实现一个默认的Subscriber，并更名onNext为onSuccess
+ * <p/>
+ * TODO 可能有问题，暂时实现先如此
  */
-public interface PostThreadExecutor {
-    Scheduler getScheduler();
+public class DefaultSubscriber<T> extends Subscriber<T> {
+    @Override
+    public void onCompleted() {
+        //Pass
+    }
+
+    @Override
+    public void onNext(T t) {
+        onSuccess(t);
+    }
+
+    @Override
+    public void onError(Throwable e) {
+
+    }
+
+    public void onSuccess(T result) {
+
+    }
 }

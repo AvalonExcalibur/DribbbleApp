@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import io.lhyz.android.dribbble.data.bean.Comment;
+import io.lhyz.android.dribbble.data.bean.User;
 import io.lhyz.android.dribbble.data.model.CommentModel;
 
 /**
@@ -57,16 +58,44 @@ public class CommentMapper implements Mapper<CommentModel, Comment> {
     }
 
     @Override
-    public List<CommentModel> transform(List<Comment> collection) {
+    public List<CommentModel> transform(List<Comment> list) {
         List<CommentModel> commentModels;
-        if (collection != null && !collection.isEmpty()) {
+        if (list != null && !list.isEmpty()) {
             commentModels = new ArrayList<>(20);
-            for (Comment comment : collection) {
+            for (Comment comment : list) {
                 commentModels.add(transform(comment));
             }
         } else {
             commentModels = Collections.emptyList();
         }
         return commentModels;
+    }
+
+    @Override
+    public Comment convert(CommentModel type) {
+        if (type == null) {
+            throw new IllegalArgumentException("Cannot transform a null value");
+        }
+        return new Comment(
+                type.getId(),
+                type.getBody(),
+                type.getLikesCount(),
+                type.getUpdateTime(),
+                new User(type.getUserName(), type.getUserAvatar())
+        );
+    }
+
+    @Override
+    public List<Comment> convert(List<CommentModel> list) {
+        List<Comment> comments;
+        if (list != null && !list.isEmpty()) {
+            comments = new ArrayList<>(20);
+            for (CommentModel comment : list) {
+                comments.add(convert(comment));
+            }
+        } else {
+            comments = Collections.emptyList();
+        }
+        return comments;
     }
 }

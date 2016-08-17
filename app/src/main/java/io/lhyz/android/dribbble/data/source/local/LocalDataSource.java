@@ -26,14 +26,12 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
-import io.lhyz.android.boilerplate.util.TagHelper;
+import io.lhyz.android.dribbble.util.TagHelper;
 import io.lhyz.android.dribbble.data.bean.Comment;
 import io.lhyz.android.dribbble.data.bean.Like;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.mapper.CommentMapper;
-import io.lhyz.android.dribbble.data.mapper.CommentModelMapper;
 import io.lhyz.android.dribbble.data.mapper.ShotMapper;
-import io.lhyz.android.dribbble.data.mapper.ShotModelMapper;
 import io.lhyz.android.dribbble.data.model.CommentModel;
 import io.lhyz.android.dribbble.data.model.ShotModel;
 import io.lhyz.android.dribbble.data.source.DataSource;
@@ -83,7 +81,7 @@ public class LocalDataSource implements DataSource {
                     queryBuilder.where().eq("type", type);
                     PreparedQuery<ShotModel> preparedQuery = queryBuilder.prepare();
                     List<ShotModel> shotModels = mShotDao.query(preparedQuery);
-                    subscriber.onNext(ShotModelMapper.getInstance().transform(shotModels));
+                    subscriber.onNext(ShotMapper.getInstance().convert(shotModels));
                     subscriber.onCompleted();
                 } catch (SQLException e) {
                     subscriber.onError(e);
@@ -123,7 +121,7 @@ public class LocalDataSource implements DataSource {
                     queryBuilder.where().eq("shotId", shotId);
                     PreparedQuery<CommentModel> preparedQuery = queryBuilder.prepare();
                     List<CommentModel> commentModels = mCommentDao.query(preparedQuery);
-                    subscriber.onNext(CommentModelMapper.getInstance().transform(commentModels));
+                    subscriber.onNext(CommentMapper.getInstance().convert(commentModels));
                     subscriber.onCompleted();
                 } catch (SQLException e) {
                     subscriber.onError(e);

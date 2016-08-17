@@ -21,8 +21,8 @@ import dagger.Module;
 import dagger.Provides;
 import io.lhyz.android.dribbble.executor.JobExecutor;
 import io.lhyz.android.dribbble.executor.UIThread;
-import io.lhyz.android.boilerplate.executor.PostThreadExecutor;
-import io.lhyz.android.boilerplate.executor.ThreadExecutor;
+import io.lhyz.android.dribbble.executor.PostThreadExecutor;
+import io.lhyz.android.dribbble.executor.ThreadExecutor;
 
 /**
  * hello,android

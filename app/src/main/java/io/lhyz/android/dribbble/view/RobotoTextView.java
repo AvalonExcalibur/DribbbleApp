@@ -13,34 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.boilerplate.view;
+package io.lhyz.android.dribbble.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/13.
- * <p/>
- * Button 继承自TextView
+ * Created by lhyz on 2016/8/10.
  */
-public class RobotoButton extends Button {
-    public RobotoButton(Context context) {
+public class RobotoTextView extends TextView {
+
+    public RobotoTextView(Context context) {
         super(context);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            initRobotoFont(context);
+        }
     }
 
-    public RobotoButton(Context context, AttributeSet attrs) {
+    public RobotoTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             initRobotoFont(context);
         }
     }
 
-    public RobotoButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RobotoTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             initRobotoFont(context);
@@ -49,7 +51,7 @@ public class RobotoButton extends Button {
 
     @SuppressWarnings("unused")
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public RobotoButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public RobotoTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

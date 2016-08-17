@@ -17,7 +17,6 @@ package io.lhyz.android.dribbble.executor;
 
 import javax.inject.Inject;
 
-import io.lhyz.android.boilerplate.executor.PostThreadExecutor;
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 
