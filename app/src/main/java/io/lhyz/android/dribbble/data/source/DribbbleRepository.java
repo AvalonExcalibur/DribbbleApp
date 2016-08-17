@@ -54,7 +54,17 @@ public class DribbbleRepository implements DataSource {
                 }
             });
         } else {
-            mLocalDataSource.getShotList(type, false, callback);
+            mLocalDataSource.getShotList(type, false, new LoadShotsCallback() {
+                @Override
+                public void onShotsLoaded(List<Shot> shots) {
+                    callback.onShotsLoaded(shots);
+                }
+
+                @Override
+                public void onNoShotsAvailable() {
+                    getShotList(type, true, callback);
+                }
+            });
         }
     }
 
@@ -74,7 +84,17 @@ public class DribbbleRepository implements DataSource {
                 }
             });
         } else {
-            mLocalDataSource.getCommentList(shotId, false, callback);
+            mLocalDataSource.getCommentList(shotId, false, new LoadCommentsCallback() {
+                @Override
+                public void onCommentsLoaded(List<Comment> comments) {
+                    callback.onCommentsLoaded(comments);
+                }
+
+                @Override
+                public void onNoCommentsAvailable() {
+                    getCommentList(shotId, true, callback);
+                }
+            });
         }
     }
 
