@@ -18,25 +18,25 @@ android {
         if (project.hasProperty("client_id")) {
             buildConfigField("String", "Client_ID", project.property("client_id"))
         } else {
-            buildConfigField("String", "Client_ID", "zxcvbnmasdfghjkl")
+            buildConfigField("String", "Client_ID", '"zxcvbnmasdfghjkl"')
         }
 
         if (project.hasProperty("client_secret")) {
             buildConfigField("String", "Client_Secret", project.property("client_secret"))
         } else {
-            buildConfigField("String", "Client_Secret", "zxcvbnmasdfghjkl")
+            buildConfigField("String", "Client_Secret", '"zxcvbnmasdfghjkl"')
         }
 
         if (project.hasProperty("callback_url")) {
             buildConfigField("String", "Callback_URL", project.property("callback_url"))
         } else {
-            buildConfigField("String", "Callback_URL", "https://www.example.com/")
+            buildConfigField("String", "Callback_URL", '"https://www.example.com/"')
         }
 
         if (project.hasProperty("client_access_token")) {
             buildConfigField("String", "ACCESS_TOKEN", project.property("client_access_token"))
         } else {
-            buildConfigField("String", "ACCESS_TOKEN", "zxcvbnmasdfghjkl")
+            buildConfigField("String", "ACCESS_TOKEN", '"zxcvbnmasdfghjkl"')
         }
     }
 
