@@ -20,10 +20,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.lhyz.android.dribbble.DribbbleApp;
+import io.lhyz.android.dribbble.data.ShotType;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DataSource;
 import io.lhyz.android.dribbble.data.source.DribbbleRepository;
-import io.lhyz.android.dribbble.data.ShotType;
 
 /**
  * hello,android
@@ -46,7 +46,7 @@ public class FollowingPresenter implements FollowingContract.Presenter {
     @Override
     public void loadFollowing(boolean force) {
         mView.showLoading();
-        mRepository.getShotList(ShotType.FOLLOWING, true, new DataSource.LoadShotsCallback() {
+        mRepository.getShotList(ShotType.FOLLOWING, force, new DataSource.LoadShotsCallback() {
             @Override
             public void onShotsLoaded(List<Shot> shots) {
                 mView.hideLoading();
