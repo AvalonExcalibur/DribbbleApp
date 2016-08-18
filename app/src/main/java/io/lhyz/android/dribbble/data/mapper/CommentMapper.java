@@ -15,6 +15,8 @@
  */
 package io.lhyz.android.dribbble.data.mapper;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +53,7 @@ public class CommentMapper implements Mapper<CommentModel, Comment> {
         commentModel.setId(model.getId());
         commentModel.setBody(model.getBody());
         commentModel.setLikesCount(model.getLikesCount());
-        commentModel.setUpdateTime(model.getUpdateTime());
+        commentModel.setUpdateTime(new DateTime(model.getUpdateTime()).toDate());
         commentModel.setUserName(model.getUser().getName());
         commentModel.setUserAvatar(model.getUser().getAvatarUrl());
         return commentModel;
@@ -80,7 +82,7 @@ public class CommentMapper implements Mapper<CommentModel, Comment> {
                 type.getId(),
                 type.getBody(),
                 type.getLikesCount(),
-                type.getUpdateTime(),
+                new DateTime(type.getUpdateTime()).toDateTimeISO().toString(),
                 new User(type.getUserName(), type.getUserAvatar())
         );
     }

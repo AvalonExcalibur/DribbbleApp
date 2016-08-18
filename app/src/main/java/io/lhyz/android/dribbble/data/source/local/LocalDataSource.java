@@ -20,6 +20,7 @@ import android.content.Context;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 import com.orhanobut.logger.Logger;
 
 import java.sql.SQLException;
@@ -89,7 +90,7 @@ public class LocalDataSource implements DataSource {
                 try {
                     QueryBuilder<ShotModel, Long> queryBuilder = mShotDao.queryBuilder();
                     queryBuilder.where().eq("type", type);
-                    PreparedQuery<ShotModel> preparedQuery = queryBuilder.limit(12L).orderBy("createdTime", false).prepare();
+                    PreparedQuery<ShotModel> preparedQuery = queryBuilder.orderBy("createdTime", false).prepare();
                     List<ShotModel> shotModels = mShotDao.query(preparedQuery);
                     if (shotModels.size() == 0) {
                         subscriber.onError(new NoShotsException());
@@ -129,7 +130,7 @@ public class LocalDataSource implements DataSource {
                 try {
                     QueryBuilder<CommentModel, Long> queryBuilder = mCommentDao.queryBuilder();
                     queryBuilder.where().eq("shotId", shotId);
-                    PreparedQuery<CommentModel> preparedQuery = queryBuilder.limit(12L).orderBy("createdTime", false).prepare();
+                    PreparedQuery<CommentModel> preparedQuery = queryBuilder.orderBy("createdTime", false).prepare();
                     List<CommentModel> commentModels = mCommentDao.query(preparedQuery);
                     if (commentModels.size() == 0) {
                         subscriber.onError(new NoCommentsException());
@@ -168,7 +169,9 @@ public class LocalDataSource implements DataSource {
         CommentModel commentModel = CommentMapper.getInstance().transform(comment);
         commentModel.setShotId(shotId);
         try {
-            mCommentDao.create(commentModel);
+            if (mCommentDao.queryForId(commentModel.getId()) == null) {
+                mCommentDao.create(commentModel);
+            }
         } catch (SQLException e) {
             Logger.e(TAG, e.getMessage());
         }
@@ -205,7 +208,17 @@ public class LocalDataSource implements DataSource {
             model.setType(type);
         }
         try {
-            mShotDao.create(shotModels);
+            Where<ShotModel, Long> where = mShotDao.queryBuilder().where();
+            for (ShotModel model : shotModels) {
+                where.eq("type", type);
+                where.and();
+                where.eq("id", model.getId());
+                List<ShotModel> results = mShotDao.query(where.prepare());
+                if (results == null || results.size() == 0) {
+                    mShotDao.create(model);
+                }
+                where.reset();
+            }
         } catch (SQLException e) {
             Logger.e(TAG, e.getMessage());
         }
@@ -218,7 +231,11 @@ public class LocalDataSource implements DataSource {
     public void saveCommentList(long shotId, List<Comment> comments) {
         Collection<CommentModel> commentModels = CommentMapper.getInstance().transform(comments);
         try {
-            mCommentDao.create(commentModels);
+            for (CommentModel model : commentModels) {
+                if (mCommentDao.queryForId(model.getId()) == null) {
+                    mCommentDao.create(model);
+                }
+            }
         } catch (SQLException e) {
             Logger.e(TAG, e.getMessage());
         }

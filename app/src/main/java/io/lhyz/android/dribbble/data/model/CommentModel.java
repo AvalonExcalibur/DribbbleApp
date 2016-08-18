@@ -15,10 +15,12 @@
  */
 package io.lhyz.android.dribbble.data.model;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * hello,android
@@ -28,19 +30,17 @@ import java.io.Serializable;
 public class CommentModel implements Serializable {
     private static final long serialVersionUID = -9066176212611645547L;
 
-    @DatabaseField(generatedId = true)
-    long identity;
     //shot Id for this comment
     @DatabaseField
     long shotId;
-    @DatabaseField
+    @DatabaseField(id = true)
     long id;
     @DatabaseField
     String body;
     @DatabaseField
     int likesCount;
-    @DatabaseField
-    String updateTime;
+    @DatabaseField(dataType = DataType.DATE)
+    Date updateTime;
     @DatabaseField
     String userName;
     @DatabaseField
@@ -66,7 +66,7 @@ public class CommentModel implements Serializable {
         this.likesCount = likesCount;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -76,10 +76,6 @@ public class CommentModel implements Serializable {
 
     public void setUserAvatar(String userAvatar) {
         this.userAvatar = userAvatar;
-    }
-
-    public long getIdentity() {
-        return identity;
     }
 
     public long getShotId() {
@@ -98,7 +94,7 @@ public class CommentModel implements Serializable {
         return likesCount;
     }
 
-    public String getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 

@@ -17,6 +17,8 @@ package io.lhyz.android.dribbble.data.mapper;
 
 import android.text.TextUtils;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -70,7 +72,7 @@ public class ShotMapper implements Mapper<ShotModel, Shot> {
             tags = tags.substring(0, tags.length() - 1);
             shotModel.setTags(tags);
         }
-        shotModel.setCreatedTime(model.getCreatedTime());
+        shotModel.setCreatedTime(new DateTime(model.getCreatedTime()).toDate());
         return shotModel;
     }
 
@@ -108,7 +110,7 @@ public class ShotMapper implements Mapper<ShotModel, Shot> {
                 type.getCommentsCount(),
                 new User(type.getUserName(), type.getUserAvatar()),
                 tags,
-                type.getCreatedTime()
+                new DateTime(type.getCreatedTime()).toDateTimeISO().toString()
         );
     }
 

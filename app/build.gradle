@@ -95,6 +95,8 @@ dependencies {
     //Database ORM
     compile 'com.j256.ormlite:ormlite-core:5.0'
     compile 'com.j256.ormlite:ormlite-android:5.0'
+    //Date Format Support
+    compile 'joda-time:joda-time:2.9.4'
     //Log Support
     compile 'com.orhanobut:logger:1.15'
     //Crash Analyses(Twitter->Fabric)

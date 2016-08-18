@@ -1,5 +1,4 @@
 # Dribbble Android App
-[![Build Status](https://travis-ci.org/AvalonExcalibur/DribbbleApp.svg?branch=master)](https://travis-ci.org/AvalonExcalibur/DribbbleApp)
 [![Apache Licence](https://img.shields.io/hexpm/l/plug.svg?maxAge=2592000)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 使用Dribbble API 设计的一个Dribbble客户端

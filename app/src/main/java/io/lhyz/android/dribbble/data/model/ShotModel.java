@@ -15,10 +15,12 @@
  */
 package io.lhyz.android.dribbble.data.model;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * hello,android
@@ -60,8 +62,8 @@ public class ShotModel implements Serializable {
     //使用|作为分隔符保存一串tags
     @DatabaseField
     String tags;
-    @DatabaseField
-    String createdTime;
+    @DatabaseField(dataType = DataType.DATE)
+    Date createdTime;
 
     public ShotModel() {
         //For OrmLite
@@ -115,7 +117,7 @@ public class ShotModel implements Serializable {
         this.tags = tags;
     }
 
-    public void setCreatedTime(String createdTime) {
+    public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
     }
 
@@ -167,7 +169,7 @@ public class ShotModel implements Serializable {
         return tags;
     }
 
-    public String getCreatedTime() {
+    public Date getCreatedTime() {
         return createdTime;
     }
 }
