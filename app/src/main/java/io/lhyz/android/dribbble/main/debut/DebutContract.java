@@ -31,6 +31,6 @@ class DebutContract {
     }
 
     interface Presenter extends BasePresenter {
-        void loadDebut();
+        void loadDebut(boolean force);
     }
 }

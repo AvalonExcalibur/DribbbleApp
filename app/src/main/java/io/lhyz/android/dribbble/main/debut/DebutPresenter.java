@@ -23,7 +23,7 @@ import io.lhyz.android.dribbble.DribbbleApp;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DataSource;
 import io.lhyz.android.dribbble.data.source.DribbbleRepository;
-import io.lhyz.android.dribbble.data.source.ShotType;
+import io.lhyz.android.dribbble.data.ShotType;
 
 /**
  * hello,android
@@ -44,9 +44,9 @@ public class DebutPresenter implements DebutContract.Presenter {
     }
 
     @Override
-    public void loadDebut() {
+    public void loadDebut(boolean force) {
         mView.showLoading();
-        mRepository.getShotList(ShotType.DEBUT, true, new DataSource.LoadShotsCallback() {
+        mRepository.getShotList(ShotType.DEBUT, force, new DataSource.LoadShotsCallback() {
             @Override
             public void onShotsLoaded(List<Shot> shots) {
                 mView.hideLoading();
@@ -63,7 +63,7 @@ public class DebutPresenter implements DebutContract.Presenter {
 
     @Override
     public void start() {
-        loadDebut();
+        loadDebut(false);
     }
 
     @Override

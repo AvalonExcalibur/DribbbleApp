@@ -31,6 +31,6 @@ public class TeamContract {
     }
 
     interface Presenter extends BasePresenter {
-        void loadTeam();
+        void loadTeam(boolean force);
     }
 }

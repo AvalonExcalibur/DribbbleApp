@@ -62,6 +62,9 @@ public class DetailPresenter implements DetailContract.Presenter {
             mRepository.getCommentList(mShot.getId(), true, new DataSource.LoadCommentsCallback() {
                 @Override
                 public void onCommentsLoaded(List<Comment> comments) {
+                    if (comments.size() == 0) {
+                        onNoCommentsAvailable();
+                    }
                     mView.hideLoadingComments();
                     mView.showAllComments(comments);
                 }

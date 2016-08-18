@@ -31,6 +31,6 @@ public class PopularContract {
     }
 
     interface Presenter extends BasePresenter {
-        void loadPopular();
+        void loadPopular(boolean force);
     }
 }

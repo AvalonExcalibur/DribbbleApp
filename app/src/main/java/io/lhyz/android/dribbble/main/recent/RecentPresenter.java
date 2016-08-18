@@ -23,7 +23,7 @@ import io.lhyz.android.dribbble.DribbbleApp;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DataSource;
 import io.lhyz.android.dribbble.data.source.DribbbleRepository;
-import io.lhyz.android.dribbble.data.source.ShotType;
+import io.lhyz.android.dribbble.data.ShotType;
 
 /**
  * hello,android
@@ -44,9 +44,9 @@ public class RecentPresenter implements RecentContract.Presenter {
     }
 
     @Override
-    public void loadRecent() {
+    public void loadRecent(boolean force) {
         mView.showLoading();
-        mRepository.getShotList(ShotType.RECENT, true, new DataSource.LoadShotsCallback() {
+        mRepository.getShotList(ShotType.RECENT, force, new DataSource.LoadShotsCallback() {
             @Override
             public void onShotsLoaded(List<Shot> shots) {
                 mView.hideLoading();
@@ -63,7 +63,7 @@ public class RecentPresenter implements RecentContract.Presenter {
 
     @Override
     public void start() {
-        loadRecent();
+        loadRecent(false);
     }
 
     @Override

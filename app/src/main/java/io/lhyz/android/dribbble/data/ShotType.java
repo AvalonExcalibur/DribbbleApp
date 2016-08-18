@@ -13,24 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.main.recent;
-
-import java.util.List;
-
-import io.lhyz.android.dribbble.base.mvp.BasePresenter;
-import io.lhyz.android.dribbble.data.bean.Shot;
-import io.lhyz.android.dribbble.main.LoadView;
+package io.lhyz.android.dribbble.data;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/11.
+ * Created by lhyz on 2016/8/15.
  */
-public class RecentContract {
-    interface View extends LoadView<Presenter> {
-        void showRecent(List<Shot> shots);
-    }
-
-    interface Presenter extends BasePresenter {
-        void loadRecent(boolean force);
-    }
+public interface ShotType {
+    int RECENT = 0;
+    int POPULAR = 1;
+    int FOLLOWING = 2;
+    int DEBUT = 3;
+    int TEAM = 4;
+    int PLAYOFFS = 5;
 }

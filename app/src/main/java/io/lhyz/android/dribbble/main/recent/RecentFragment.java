@@ -67,7 +67,14 @@ public class RecentFragment extends BaseFragment implements RecentContract.View 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.loadRecent();
+                mPresenter.loadRecent(true);
+            }
+        });
+
+        mEmptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.loadRecent(true);
             }
         });
 

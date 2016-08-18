@@ -13,17 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.data.source;
+package io.lhyz.android.dribbble.exception;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/15.
+ * Created by lhyz on 2016/8/18.
  */
-public interface ShotType {
-    int POPULAR = 0;
-    int RECENT = 1;
-    int DEBUT = 2;
-    int TEAM = 3;
-    int PLAYOFFS = 4;
-    int FOLLOWING = 5;
+public class NoShotsException extends Exception {
+
+    public NoShotsException() {
+    }
+
+    public NoShotsException(String message) {
+        super(message);
+    }
+
+    public NoShotsException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public NoShotsException(Throwable cause) {
+        super(cause);
+    }
 }

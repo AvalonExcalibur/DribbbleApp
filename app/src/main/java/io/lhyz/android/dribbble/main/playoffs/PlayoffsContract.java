@@ -31,6 +31,6 @@ public class PlayoffsContract {
     }
 
     interface Presenter extends BasePresenter {
-        void loadPlayoffs();
+        void loadPlayoffs(boolean force);
     }
 }

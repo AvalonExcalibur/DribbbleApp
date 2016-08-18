@@ -210,7 +210,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
 
         imgAuthor.setImageURI(Uri.parse(shot.getUser().getAvatarUrl()));
         tvUserName.setText(shot.getUser().getName());
-        tvUpdateTime.setText(shot.getUpdatedTime());
+        tvUpdateTime.setText(shot.getCreatedTime());
 
         ibSend.setOnClickListener(new View.OnClickListener() {
             @Override

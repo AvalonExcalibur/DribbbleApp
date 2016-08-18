@@ -23,7 +23,7 @@ import io.lhyz.android.dribbble.DribbbleApp;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DataSource;
 import io.lhyz.android.dribbble.data.source.DribbbleRepository;
-import io.lhyz.android.dribbble.data.source.ShotType;
+import io.lhyz.android.dribbble.data.ShotType;
 
 /**
  * hello,android
@@ -44,7 +44,7 @@ public class FollowingPresenter implements FollowingContract.Presenter {
     }
 
     @Override
-    public void loadFollowing() {
+    public void loadFollowing(boolean force) {
         mView.showLoading();
         mRepository.getShotList(ShotType.FOLLOWING, true, new DataSource.LoadShotsCallback() {
             @Override
@@ -63,7 +63,7 @@ public class FollowingPresenter implements FollowingContract.Presenter {
 
     @Override
     public void start() {
-        loadFollowing();
+        loadFollowing(false);
     }
 
     @Override

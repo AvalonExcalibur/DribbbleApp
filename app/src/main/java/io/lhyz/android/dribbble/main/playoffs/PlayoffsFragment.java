@@ -68,7 +68,14 @@ public class PlayoffsFragment extends BaseFragment implements PlayoffsContract.V
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.loadPlayoffs();
+                mPresenter.loadPlayoffs(true);
+            }
+        });
+
+        mEmptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.loadPlayoffs(true);
             }
         });
 

@@ -68,7 +68,14 @@ public class TeamFragment extends BaseFragment implements TeamContract.View {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.loadTeam();
+                mPresenter.loadTeam(true);
+            }
+        });
+
+        mEmptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.loadTeam(true);
             }
         });
 

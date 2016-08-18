@@ -76,6 +76,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         return new ViewHolder(mLayoutInflater.inflate(R.layout.item_comments, parent, false));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final int pos = holder.getAdapterPosition();

@@ -31,6 +31,6 @@ public interface FollowingContract {
     }
 
     interface Presenter extends BasePresenter {
-        void loadFollowing();
+        void loadFollowing(boolean force);
     }
 }

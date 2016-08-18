@@ -67,7 +67,14 @@ public class DebutFragment extends BaseFragment implements DebutContract.View {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.loadDebut();
+                mPresenter.loadDebut(true);
+            }
+        });
+
+        mEmptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.loadDebut(true);
             }
         });
 

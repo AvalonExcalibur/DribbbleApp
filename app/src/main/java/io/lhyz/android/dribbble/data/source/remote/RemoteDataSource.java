@@ -24,8 +24,8 @@ import io.lhyz.android.dribbble.data.bean.Comment;
 import io.lhyz.android.dribbble.data.bean.Like;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DataSource;
-import io.lhyz.android.dribbble.data.source.DribbbleService;
-import io.lhyz.android.dribbble.data.source.ShotType;
+import io.lhyz.android.dribbble.data.DribbbleService;
+import io.lhyz.android.dribbble.data.ShotType;
 import io.lhyz.android.dribbble.net.DribbbleServiceCreator;
 import io.lhyz.android.dribbble.util.TagHelper;
 import rx.Observable;
@@ -51,7 +51,7 @@ public class RemoteDataSource implements DataSource {
     CompositeSubscription mCompositeSubscription;
 
     public RemoteDataSource() {
-        mDribbbleService = DribbbleServiceCreator.getInstance()
+        mDribbbleService = DribbbleServiceCreator.newInstance()
                 .createService();
 
         mCompositeSubscription = new CompositeSubscription();
@@ -97,6 +97,10 @@ public class RemoteDataSource implements DataSource {
                         .subscribe(new DefaultSubscriber<List<Shot>>() {
                             @Override
                             public void onSuccess(List<Shot> result) {
+                                if (result.size() == 0) {
+                                    callback.onNoShotsAvailable();
+                                    return;
+                                }
                                 callback.onShotsLoaded(result);
                             }
 
@@ -117,6 +121,10 @@ public class RemoteDataSource implements DataSource {
                 .subscribe(new DefaultSubscriber<List<Comment>>() {
                     @Override
                     public void onSuccess(List<Comment> result) {
+                        if (result.size() == 0) {
+                            callback.onNoCommentsAvailable();
+                            return;
+                        }
                         callback.onCommentsLoaded(result);
                     }
 
@@ -137,6 +145,10 @@ public class RemoteDataSource implements DataSource {
                 .subscribe(new DefaultSubscriber<Comment>() {
                     @Override
                     public void onSuccess(Comment result) {
+                        if (result == null) {
+                            callback.onFailure();
+                            return;
+                        }
                         callback.onSuccess(result);
                     }
 

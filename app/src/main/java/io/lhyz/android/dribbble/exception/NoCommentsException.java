@@ -13,24 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.main.recent;
-
-import java.util.List;
-
-import io.lhyz.android.dribbble.base.mvp.BasePresenter;
-import io.lhyz.android.dribbble.data.bean.Shot;
-import io.lhyz.android.dribbble.main.LoadView;
+package io.lhyz.android.dribbble.exception;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/11.
+ * Created by lhyz on 2016/8/18.
  */
-public class RecentContract {
-    interface View extends LoadView<Presenter> {
-        void showRecent(List<Shot> shots);
+public class NoCommentsException extends Exception {
+
+    public NoCommentsException() {
     }
 
-    interface Presenter extends BasePresenter {
-        void loadRecent(boolean force);
+    public NoCommentsException(String message) {
+        super(message);
+    }
+
+    public NoCommentsException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public NoCommentsException(Throwable cause) {
+        super(cause);
     }
 }

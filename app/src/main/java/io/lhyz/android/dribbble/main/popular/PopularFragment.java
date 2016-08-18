@@ -68,7 +68,14 @@ public class PopularFragment extends BaseFragment implements PopularContract.Vie
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.loadPopular();
+                mPresenter.loadPopular(true);
+            }
+        });
+
+        mEmptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.loadPopular(true);
             }
         });
 

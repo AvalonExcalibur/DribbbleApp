@@ -34,6 +34,8 @@ import io.lhyz.android.dribbble.data.mapper.ShotMapper;
 import io.lhyz.android.dribbble.data.model.CommentModel;
 import io.lhyz.android.dribbble.data.model.ShotModel;
 import io.lhyz.android.dribbble.data.source.DataSource;
+import io.lhyz.android.dribbble.exception.NoCommentsException;
+import io.lhyz.android.dribbble.exception.NoShotsException;
 import io.lhyz.android.dribbble.util.TagHelper;
 import rx.Observable;
 import rx.Subscriber;
@@ -87,8 +89,12 @@ public class LocalDataSource implements DataSource {
                 try {
                     QueryBuilder<ShotModel, Long> queryBuilder = mShotDao.queryBuilder();
                     queryBuilder.where().eq("type", type);
-                    PreparedQuery<ShotModel> preparedQuery = queryBuilder.prepare();
+                    PreparedQuery<ShotModel> preparedQuery = queryBuilder.limit(12L).orderBy("createdTime", false).prepare();
                     List<ShotModel> shotModels = mShotDao.query(preparedQuery);
+                    if (shotModels.size() == 0) {
+                        subscriber.onError(new NoShotsException());
+                        return;
+                    }
                     subscriber.onNext(ShotMapper.getInstance().convert(shotModels));
                     subscriber.onCompleted();
                 } catch (SQLException e) {
@@ -123,8 +129,12 @@ public class LocalDataSource implements DataSource {
                 try {
                     QueryBuilder<CommentModel, Long> queryBuilder = mCommentDao.queryBuilder();
                     queryBuilder.where().eq("shotId", shotId);
-                    PreparedQuery<CommentModel> preparedQuery = queryBuilder.prepare();
+                    PreparedQuery<CommentModel> preparedQuery = queryBuilder.limit(12L).orderBy("createdTime", false).prepare();
                     List<CommentModel> commentModels = mCommentDao.query(preparedQuery);
+                    if (commentModels.size() == 0) {
+                        subscriber.onError(new NoCommentsException());
+                        return;
+                    }
                     subscriber.onNext(CommentMapper.getInstance().convert(commentModels));
                     subscriber.onCompleted();
                 } catch (SQLException e) {
@@ -150,7 +160,7 @@ public class LocalDataSource implements DataSource {
 
     /**
      * 本地添加一条comment（远程添加完毕之后再调用本地保存）
-     * <p>
+     * <p/>
      * 回调用不上
      */
     @Override
@@ -191,6 +201,9 @@ public class LocalDataSource implements DataSource {
     @Override
     public void saveShotList(int type, List<Shot> shots) {
         Collection<ShotModel> shotModels = ShotMapper.getInstance().transform(shots);
+        for (ShotModel model : shotModels) {
+            model.setType(type);
+        }
         try {
             mShotDao.create(shotModels);
         } catch (SQLException e) {

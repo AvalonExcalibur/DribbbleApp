@@ -67,7 +67,14 @@ public class FollowingFragment extends BaseFragment implements FollowingContract
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.loadFollowing();
+                mPresenter.loadFollowing(true);
+            }
+        });
+
+        mEmptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.loadFollowing(true);
             }
         });
 

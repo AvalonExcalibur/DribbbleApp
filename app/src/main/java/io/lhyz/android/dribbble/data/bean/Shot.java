@@ -38,12 +38,12 @@ public class Shot implements Serializable {
     int commentsCount;
     User user;
     List<String> tags;
-    @SerializedName("updated_at")
-    String updatedTime;
+    @SerializedName("created_at")
+    String createdTime;
 
     public Shot(int type, long id, String title, String description, Image images,
                 int viewsCount, int commentsCount, User user, List<String> tags,
-                String updatedTime) {
+                String createdTime) {
         this.type = type;
         this.id = id;
         this.title = title;
@@ -53,7 +53,7 @@ public class Shot implements Serializable {
         this.commentsCount = commentsCount;
         this.user = user;
         this.tags = tags;
-        this.updatedTime = updatedTime;
+        this.createdTime = createdTime;
     }
 
     public int getType() {
@@ -92,8 +92,8 @@ public class Shot implements Serializable {
         return tags;
     }
 
-    public String getUpdatedTime() {
-        return updatedTime;
+    public String getCreatedTime() {
+        return createdTime;
     }
 
     public static class Image implements Serializable {

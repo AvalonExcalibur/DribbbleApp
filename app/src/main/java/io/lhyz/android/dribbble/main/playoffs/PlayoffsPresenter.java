@@ -23,7 +23,7 @@ import io.lhyz.android.dribbble.DribbbleApp;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DataSource;
 import io.lhyz.android.dribbble.data.source.DribbbleRepository;
-import io.lhyz.android.dribbble.data.source.ShotType;
+import io.lhyz.android.dribbble.data.ShotType;
 
 /**
  * hello,android
@@ -44,9 +44,9 @@ public class PlayoffsPresenter implements PlayoffsContract.Presenter {
     }
 
     @Override
-    public void loadPlayoffs() {
+    public void loadPlayoffs(boolean force) {
         mView.showLoading();
-        mRepository.getShotList(ShotType.PLAYOFFS, true, new DataSource.LoadShotsCallback() {
+        mRepository.getShotList(ShotType.PLAYOFFS, force, new DataSource.LoadShotsCallback() {
             @Override
             public void onShotsLoaded(List<Shot> shots) {
                 mView.hideLoading();
@@ -63,7 +63,7 @@ public class PlayoffsPresenter implements PlayoffsContract.Presenter {
 
     @Override
     public void start() {
-        loadPlayoffs();
+        loadPlayoffs(false);
     }
 
     @Override

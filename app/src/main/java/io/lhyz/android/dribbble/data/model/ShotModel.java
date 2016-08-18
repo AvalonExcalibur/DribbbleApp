@@ -29,6 +29,7 @@ public class ShotModel implements Serializable {
     private static final long serialVersionUID = -6504143955460827956L;
 
     //自动生成主键（取了id的全拼作为区别）
+    @SuppressWarnings("unused")
     @DatabaseField(generatedId = true)
     long identity;
 
@@ -60,7 +61,7 @@ public class ShotModel implements Serializable {
     @DatabaseField
     String tags;
     @DatabaseField
-    String updatedTime;
+    String createdTime;
 
     public ShotModel() {
         //For OrmLite
@@ -114,16 +115,12 @@ public class ShotModel implements Serializable {
         this.tags = tags;
     }
 
-    public void setUpdatedTime(String updatedTime) {
-        this.updatedTime = updatedTime;
+    public void setCreatedTime(String createdTime) {
+        this.createdTime = createdTime;
     }
 
     public int getType() {
         return type;
-    }
-
-    public long getIdentity() {
-        return identity;
     }
 
     public long getId() {
@@ -170,7 +167,7 @@ public class ShotModel implements Serializable {
         return tags;
     }
 
-    public String getUpdatedTime() {
-        return updatedTime;
+    public String getCreatedTime() {
+        return createdTime;
     }
 }

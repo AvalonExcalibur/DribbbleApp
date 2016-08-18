@@ -16,7 +16,7 @@
 package io.lhyz.android.dribbble.net;
 
 import io.lhyz.android.dribbble.AppPreference;
-import io.lhyz.android.dribbble.data.source.DribbbleService;
+import io.lhyz.android.dribbble.data.DribbbleService;
 
 /**
  * hello,android
@@ -33,7 +33,7 @@ public class DribbbleServiceCreator {
         this.token = AppPreference.getInstance().readToken();
     }
 
-    public static DribbbleServiceCreator getInstance() {
+    public static DribbbleServiceCreator newInstance() {
         return Holder.creator;
     }
 

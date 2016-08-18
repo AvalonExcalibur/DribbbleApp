@@ -15,6 +15,8 @@
  */
 package io.lhyz.android.dribbble.data.mapper;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,8 +64,13 @@ public class ShotMapper implements Mapper<ShotModel, Shot> {
                 tags += tag + '|';
             }
         }
-        shotModel.setTags(tags);
-        shotModel.setUpdatedTime(model.getUpdatedTime());
+        if (TextUtils.isEmpty(tags)) {
+            shotModel.setTags("");
+        } else {
+            tags = tags.substring(0, tags.length() - 1);
+            shotModel.setTags(tags);
+        }
+        shotModel.setCreatedTime(model.getCreatedTime());
         return shotModel;
     }
 
@@ -83,8 +90,14 @@ public class ShotMapper implements Mapper<ShotModel, Shot> {
 
     @Override
     public Shot convert(ShotModel type) {
-        List<String> tags = new ArrayList<>(20);
-        tags.addAll(Arrays.asList(type.getTags().split("|")));
+        List<String> tags;
+        if (TextUtils.isEmpty(type.getTags())) {
+            tags = Collections.emptyList();
+        } else {
+            tags = new ArrayList<>(20);
+            List<String> tag_list = Arrays.asList(type.getTags().split("\\|"));
+            tags.addAll(tag_list);
+        }
         return new Shot(
                 type.getType(),
                 type.getId(),
@@ -95,7 +108,7 @@ public class ShotMapper implements Mapper<ShotModel, Shot> {
                 type.getCommentsCount(),
                 new User(type.getUserName(), type.getUserAvatar()),
                 tags,
-                type.getUpdatedTime()
+                type.getCreatedTime()
         );
     }
 

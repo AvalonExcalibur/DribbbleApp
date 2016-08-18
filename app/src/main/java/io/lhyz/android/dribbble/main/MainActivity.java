@@ -20,13 +20,13 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import io.lhyz.android.dribbble.base.DefaultSubscriber;
 import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.AppStart;
 import io.lhyz.android.dribbble.R;
+import io.lhyz.android.dribbble.base.DefaultSubscriber;
 import io.lhyz.android.dribbble.base.app.BaseActivity;
 import io.lhyz.android.dribbble.data.bean.User;
-import io.lhyz.android.dribbble.data.source.DribbbleService;
+import io.lhyz.android.dribbble.data.DribbbleService;
 import io.lhyz.android.dribbble.main.debut.DebutFragment;
 import io.lhyz.android.dribbble.main.debut.DebutPresenter;
 import io.lhyz.android.dribbble.main.following.FollowingFragment;
@@ -109,8 +109,6 @@ public class MainActivity extends BaseActivity
 
         final int pos = AppPreference.getInstance().readTabPosition();
         mViewPager.setAdapter(adapter);
-        //不设置预加载的个数的话，就必须对异步操作（Presenter）和Fragment（View）生命周期关联控制的比较详细
-        //这里设置预加载个数知识为了方便查看，去掉亦可（我已经完成了生命周期管理）
         mViewPager.setOffscreenPageLimit(6);
         mViewPager.setCurrentItem(pos);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -157,7 +155,7 @@ public class MainActivity extends BaseActivity
             startActivity(new Intent(this, AppStart.class));
             finish();
         } else {
-            mDribbbleService = DribbbleServiceCreator.getInstance()
+            mDribbbleService = DribbbleServiceCreator.newInstance()
                     .createService();
         }
     }
