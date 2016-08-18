@@ -13,8 +13,6 @@ android {
         versionCode 1
         versionName "0.1a"
 
-        vectorDrawables.useSupportLibrary = true
-
         if (project.hasProperty("client_id")) {
             buildConfigField("String", "Client_ID", project.property("client_id"))
         } else {
@@ -52,7 +50,7 @@ android {
     }
 
     dexOptions {
-        javaMaxHeapSize "4g"
+        javaMaxHeapSize "8g"
     }
 }
 

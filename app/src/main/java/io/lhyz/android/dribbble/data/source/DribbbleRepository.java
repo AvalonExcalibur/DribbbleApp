@@ -44,8 +44,8 @@ public class DribbbleRepository implements DataSource {
             mRemoteDataSource.getShotList(type, true, new LoadShotsCallback() {
                 @Override
                 public void onShotsLoaded(List<Shot> shots) {
-                    mLocalDataSource.saveShotList(type, shots);
                     callback.onShotsLoaded(shots);
+                    mLocalDataSource.saveShotList(type, shots);
                 }
 
                 @Override
@@ -74,8 +74,8 @@ public class DribbbleRepository implements DataSource {
             mRemoteDataSource.getCommentList(shotId, true, new LoadCommentsCallback() {
                 @Override
                 public void onCommentsLoaded(List<Comment> comments) {
-                    mLocalDataSource.saveCommentList(shotId, comments);
                     callback.onCommentsLoaded(comments);
+                    mLocalDataSource.saveCommentList(shotId, comments);
                 }
 
                 @Override
