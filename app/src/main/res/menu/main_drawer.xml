@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_shots"
-            android:icon="@drawable/ic_camera_black_24dp"
-            android:title="@string/nav_shots"/>
-        <item
-            android:id="@+id/nav_buckets"
-            android:icon="@drawable/ic_folder_black_24dp"
-            android:title="@string/nav_buckets"/>
-        <item
-            android:id="@+id/nav_projects"
-            android:icon="@drawable/ic_photo_library_black_24dp"
-            android:title="@string/nav_projects"/>
-        <item
-            android:id="@+id/nav_teams"
-            android:icon="@drawable/ic_group_black_24dp"
-            android:title="@string/nav_teams"/>
-    </group>
+    <!--<group android:checkableBehavior="single">-->
+        <!--<item-->
+            <!--android:id="@+id/nav_shots"-->
+            <!--android:icon="@drawable/ic_camera_black_24dp"-->
+            <!--android:title="@string/nav_shots"/>-->
+        <!--<item-->
+            <!--android:id="@+id/nav_buckets"-->
+            <!--android:icon="@drawable/ic_folder_black_24dp"-->
+            <!--android:title="@string/nav_buckets"/>-->
+        <!--<item-->
+            <!--android:id="@+id/nav_projects"-->
+            <!--android:icon="@drawable/ic_photo_library_black_24dp"-->
+            <!--android:title="@string/nav_projects"/>-->
+        <!--<item-->
+            <!--android:id="@+id/nav_teams"-->
+            <!--android:icon="@drawable/ic_group_black_24dp"-->
+            <!--android:title="@string/nav_teams"/>-->
+    <!--</group>-->
 
-    <item android:title="@string/category_settings">
-        <menu>
-            <item
-                android:id="@+id/nav_theme"
-                android:icon="@drawable/ic_color_lens_black_24dp"
-                android:title="@string/nav_theme"/>
-            <item
-                android:id="@+id/nav_setting"
-                android:icon="@drawable/ic_settings_black_24dp"
-                android:title="@string/nav_setting"/>
-        </menu>
-    </item>
+    <!--<item android:title="@string/category_settings">-->
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/nav_theme"-->
+                <!--android:icon="@drawable/ic_color_lens_black_24dp"-->
+                <!--android:title="@string/nav_theme"/>-->
+            <!--<item-->
+                <!--android:id="@+id/nav_setting"-->
+                <!--android:icon="@drawable/ic_settings_black_24dp"-->
+                <!--android:title="@string/nav_setting"/>-->
+        <!--</menu>-->
+    <!--</item>-->
 
 </menu>
