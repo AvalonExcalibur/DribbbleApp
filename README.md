@@ -1,4 +1,6 @@
 # Dribbble Android App
+[![Build Status](https://travis-ci.org/wylhyz/DribbbleApp.svg?branch=master)](https://travis-ci.org/wylhyz/DribbbleApp)
+[![Dev Build Status](https://gitlab.com/wylhyz/DribbbleApp/badges/develope/build.svg)](https://gitlab.com/wylhyz/DribbbleApp)
 [![Apache Licence](https://img.shields.io/hexpm/l/plug.svg?maxAge=2592000)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 使用Dribbble API 设计的一个Dribbble客户端
